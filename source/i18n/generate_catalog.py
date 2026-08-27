@@ -33,7 +33,7 @@ REQUIRED_TOKENS = {
         "shadowmount.run": ("ShadowMount+",),
         "shadowmount.autoload": ("ShadowMount+",),
         "plugin.shadowmount.title": ("ShadowMount+",),
-        "plugins.link.sub": ("Kstuff", "FTP", "ShadowMount+"),
+        "plugins.link.sub": (),
     },
         "notifications": {
         "notify.kstuff.loading": ("Kstuff",),
