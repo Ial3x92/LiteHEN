@@ -534,8 +534,6 @@ void append_toolbox_payloads_group(ps5ui::Group& g) {
 
 
 void append_toolbox_game_group(ps5ui::Group& g) {
-  g.link("id_cheats", toolbox_i18n::tr("cheats.link"), "cheats.xml",
-         toolbox_i18n::tr("cheats.link.sub"), kIconCheats);
 }
 
 void append_toolbox_network_group(ps5ui::Group& g) {
@@ -632,13 +630,11 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                          toolbox_val("id_fan_speed", ""));
        },
        toolbox_i18n::tr("fan.group.sub"), kIconFan, "id_enable_fan_speed")
-      .link("id_external_hdd", toolbox_i18n::tr("hdd.external"),
-            "DebugSettings/data/debug_settings_external_hdd.xml",
-            toolbox_i18n::tr("hdd.external.sub"), kIconHardDrive)
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
             toolbox_i18n::tr("license.bd.sub"), kIconDiscLicense);
 }
+
 
 void append_toolbox_preferences_group(ps5ui::Group& g) {
   g.list("id_start_opt", toolbox_i18n::tr("startup.open_after_load"),
@@ -701,148 +697,12 @@ void append_toolbox_preferences_group(ps5ui::Group& g) {
 
 
 void append_toolbox_debug_group(ps5ui::Group& g) {
-  g.list("id_log_level", toolbox_i18n::tr("log.level"),
-         [](ps5ui::ListBuilder& L) {
-           L.item("id_log_level_off", toolbox_i18n::tr("log.off"), "0")
-               .item("id_log_level_error", toolbox_i18n::tr("log.error"), "1")
-               .item("id_log_level_warn", toolbox_i18n::tr("log.warn"), "2")
-               .item("id_log_level_info", toolbox_i18n::tr("log.info"), "3");
-           if constexpr (ONION_LOG_COMPILE_LEVEL >= ONION_LOG_DEBUG) {
-             L.item("id_log_level_debug", toolbox_i18n::tr("log.debug"), "4");
-           }
-           if constexpr (ONION_LOG_COMPILE_LEVEL >= ONION_LOG_TRACE) {
-             L.item("id_log_level_trace", toolbox_i18n::tr("log.trace"), "5");
-           }
-         },
-         toolbox_i18n::tr("log.level.sub"), toolbox_val("id_log_level", "3"))
-      .toggle("id_app_jailbreak_enabled",
-              toolbox_i18n::tr("app_jailbreak.enabled"),
-              toolbox_on("id_app_jailbreak_enabled"),
-              toolbox_i18n::tr("app_jailbreak.enabled.sub"))
-      .toggle("id_debug_jb", toolbox_i18n::tr("debug.jb"),
-              toolbox_on("id_debug_jb"), toolbox_i18n::tr("debug.jb.sub"))
-      .text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
+  g.text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
                   toolbox_i18n::tr("debug.np_env.sub"), "basic_latin", "1",
                   "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
                   toolbox_i18n::tr("debug.np_env.confirm_phrase"));
 }
 
-void append_toolbox_about_group(ps5ui::Group& g) {
-  /* About page top: same ONIONHEN_VERSION as welcome toast / beta banner. */
-  const std::string build_line =
-      toolbox_i18n::format("about.build", ONIONHEN_VERSION);
-
-  g.label("id_about_build", build_line, ps5ui::Style::Center)
-      .group(
-       "id_donation_methods", toolbox_i18n::tr("about.donate"),
-       [](ps5ui::Group& d) {
-         d.label("id_method_info", toolbox_i18n::tr("about.donate.methods"),
-                    ps5ui::Style::Center)
-             .label("id_method_1",
-                    "- Ko-fi  | https://ko-fi.com/0xp0co",
-                    ps5ui::Style::Center)
-             .label("id_method_2", toolbox_i18n::tr("about.wechat"),
-                    ps5ui::Style::Center)
-             .button("id_author_0xp0co", "麒麟/0xp0co", std::nullopt, "@0xp0co",
-                     kIconAuthorAvatar)
-             .label("id_author_donor_spacer", "　", ps5ui::Style::Center)
-             .label("id_donor_info", toolbox_i18n::tr("about.donors"),
-                    ps5ui::Style::Center)
-             .button("id_donator_aglx", "爱过流星", std::nullopt,
-                     std::nullopt, kIconDonatorAglx)
-             .button("id_donator_ljf", "狂爱龙卷風", std::nullopt,
-                     std::nullopt, kIconDonatorLjf)
-             .button("id_donator_szx", "石之心", std::nullopt,
-                     std::nullopt, kIconDonatorSzx);
-       },
-       toolbox_i18n::tr("about.donate.sub"), kIconDonations)
-      .group(
-          "id_onionhen_credits", toolbox_i18n::tr("about.credits"),
-          [](ps5ui::Group& c) {
-            const std::string ver =
-                std::string("★ OnionHEN ") + ONIONHEN_VERSION;
-            c.label("id_about_version", ver, ps5ui::Style::Center)
-                .label("id_about_lineage", toolbox_i18n::tr("about.lineage"),
-                       ps5ui::Style::Center)
-                .label("id_about_lineage_1",
-                       toolbox_i18n::tr("about.lineage.etahen"),
-                       ps5ui::Style::Center)
-                .label("id_about_lineage_2",
-                       toolbox_i18n::tr("about.lineage.goldhen"),
-                       ps5ui::Style::Center)
-                .label("id_about_maintainer",
-                       toolbox_i18n::tr("about.maintainer"),
-                       ps5ui::Style::Center)
-                .label("id_about_testers", toolbox_i18n::tr("about.testers"),
-                       ps5ui::Style::Center)
-                .label("id_about_testers_intro",
-                       toolbox_i18n::tr("about.testers.intro"),
-                       ps5ui::Style::Center)
-                .label("id_about_tester_1",
-                       "即食面 · 雨之声 · 大饼电玩",
-                       ps5ui::Style::Center)
-                .label("id_about_tester_2",
-                       "安定区 · 随风 · 麒麟",
-                       ps5ui::Style::Center)
-                .label("id_about_tester_3",
-                       "尼克库尔曼 · 云 · 啊烦",
-                       ps5ui::Style::Center)
-                .label("id_about_tester_4",
-                       "小小蔡 · B站谢锡榆 · 荆枫",
-                       ps5ui::Style::Center)
-                .label("id_about_more", toolbox_i18n::tr("about.more"),
-                       ps5ui::Style::Center);
-          },
-          toolbox_i18n::tr("about.credits.sub"), kIconThanks)
-      .group(
-          "id_inc_project", toolbox_i18n::tr("about.projects"),
-          [](ps5ui::Group& p) {
-            p.label("id_project_info", toolbox_i18n::tr("about.projects.info"),
-                    ps5ui::Style::Center)
-                .label("id_project_1",
-                       "etaHEN — https://github.com/LightningMods/etaHEN",
-                       ps5ui::Style::Center)
-                .label("id_project_2",
-                       "PS5 Payload Dev SDK — "
-                       "https://github.com/ps5-payload-dev/sdk",
-                       ps5ui::Style::Center)
-                .label("id_project_3",
-                       "PS5 Payload Dev elfldr — "
-                       "https://github.com/ps5-payload-dev/elfldr",
-                       ps5ui::Style::Center)
-                .label("id_project_4",
-                       "libhijacker (astrelsky) — "
-                       "https://github.com/astrelsky/libhijacker",
-                       ps5ui::Style::Center)
-                .label("id_project_5",
-                       "NineS (buzzer-re) — "
-                       "https://github.com/buzzer-re/NineS",
-                       ps5ui::Style::Center)
-                .label("id_project_6",
-                       "kstuff (sleirsgoevy / EchoStretch)",
-                       ps5ui::Style::Center)
-                .label("id_project_7",
-                       "cJSON — https://github.com/DaveGamble/cJSON",
-                       ps5ui::Style::Center)
-                .label("id_project_8",
-                       "7-Zip LZMA SDK — https://www.7-zip.org/sdk.html",
-                       ps5ui::Style::Center)
-                .label("id_project_9",
-                       "miniz / Keystone (cheats engine)",
-                    ps5ui::Style::Center)
-                  .label("id_project_10",
-                    "ftpsrv (drakmor) — "
-                    "https://github.com/drakmor/ftpsrv/tree/nexgen",
-                    ps5ui::Style::Center)
-                  .label("id_project_11",
-                    "ShadowMountPlus (Drakmor / VoidWhisper) — "
-                    "https://github.com/drakmor/ShadowMountPlus",
-                    ps5ui::Style::Center);
-          },
-          toolbox_i18n::tr("about.projects.sub"), kIconProject);
-}
-
-} // namespace
 
 void generate_toolbox_xml(std::string& new_xml) {
   ps5ui::Page page("id_debug_settings", toolbox_i18n::tr("root.title"));
@@ -888,12 +748,8 @@ void generate_toolbox_xml(std::string& new_xml) {
           "id_group_debug", toolbox_i18n::tr("group.debug"),
           [](ps5ui::Group& g) { append_toolbox_debug_group(g); },
           toolbox_i18n::tr("group.debug.sub"), kIconDebug,
-          "id_app_jailbreak_enabled")
-      .group(
-          "id_onionhen_credit_options", toolbox_i18n::tr("group.about"),
-          [](ps5ui::Group& g) { append_toolbox_about_group(g); },
-          toolbox_i18n::tr("group.about.sub"), kIconAbout, std::nullopt,
-          ps5ui::Style::Center);
+          "id_app_jailbreak_enabled");
+          // La voce id_onionhen_credit_options (About) è stata rimossa completamente da qui
 
   new_xml = page.build();
 }
