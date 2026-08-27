@@ -8,7 +8,7 @@
     "root.title": "LiteHEN",
     "group.pkg": "內容安裝與管理",
     "group.pkg.sub": "安裝 PKG 並管理附加內容",
-    "group.payloads": "Payload 與核心",
+    "group.payloads": "Payload",
     "group.payloads.sub": "使用者與自動啟動 Payload；Kstuff、FTP、ShadowMount+ 外掛",
     "group.game": "遊戲輔助",
     "group.game.sub": "管理遊戲金手指與下載金手指合集",

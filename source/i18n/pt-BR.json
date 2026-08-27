@@ -8,7 +8,7 @@
     "root.title": "LiteHEN",
     "group.pkg": "Instalação e gerenciamento de conteúdo",
     "group.pkg.sub": "Instalar PKGs e gerenciar conteúdo adicional",
-    "group.payloads": "Payloads e kernel",
+    "group.payloads": "Payloads",
     "group.payloads.sub": "Payloads do usuário e de início automático; plugins Kstuff, FTP e ShadowMount+",
     "group.game": "Ferramentas de jogo",
     "group.game.sub": "Gerenciar cheats e baixar a coleção de cheats",
