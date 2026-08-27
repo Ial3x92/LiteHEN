@@ -4,21 +4,35 @@
 
 # LiteHEN
 
-LiteHEN is a streamlined modification of [aydencharles/onionHEN](https://github.com), focusing on a cleaner user experience, an improved overlay position, and essential functionality based on the **GNU General Public License v3**.
+LiteHEN is a streamlined, lightweight modification of **OnionHEN**, designed for users who want a cleaner experience without unnecessary clutter.
+
+This project is a derivative work based on [aydencharles/onionHEN](https://github.com) and is fully compliant with the **GNU General Public License v3**.
 
 ## 🚀 Key Modifications & Changes
-* **Repositioned Overlay:** HUD moved to the top-left for less obstruction.
-* **Streamlined UI:** Simplified menus focusing on core sections: Installazione, Payload, Sistema, and Informazioni.
-* **Performance Focus:** Essential components for payload injection and homebrew.
+
+Compared to the original OnionHEN, this version introduces the following changes:
+* **Repositioned Overlay:** Moved the main overlay/HUD to the **top-left** corner of the screen for better visibility and less gameplay obstruction.
+* **Streamlined UI:** Removed all cluttered debug entries and options from the menus to focus exclusively on four clean sections: **Installazione e gestione dei contenuti**, **Payload**, **Sistema e hardware**, and **Informazioni**.
+* **Performance Focus:** Kept only the essential components required for payload injection and homebrew launching.
 
 ## 🛠️ Credits & Acknowledgments
-LiteHEN is built upon the work of the PS5 homebrew community.
-* **Core:** Based on [aydencharles/onionHEN](https://github.com), [kvnhrt](https://github.com), [LightningMods/etaHEN](https://github.com), and [SiSTR0/GoldHEN](https://github.com).
-* **Key Components:** Utilizes work from [EchoStretch/kstuff-lite](https://github.com), [itsPLK/ps5-payload-manager](https://github.com), [TeeKay87/HEN-Cheats-Collection](https://github.com), and [ArkSama/PHU-Games-Tools](https://github.com).
-* **Embedded/Used:** [JohnTornado/ps5-payload-sdk](https://github.com), [sleirsgoevy/ps5-elfldr](https://github.com), [drakmor/ftpsrv](https://github.com), [astrelsky/libhijacker](https://github.com), [buzzer-re/NineS](https://github.com), [DaveGamble/cJSON](https://github.com), and other open-source libraries.
+
+LiteHEN and OnionHEN exist because of the PS5 homebrew and reverse-engineering community.
+
+### Contributors
+* **aydencharles:** Creator of the original [aydencharles/onionHEN](https://github.com) ecosystem.
+* **kvnhrt:** Core contributor and developer [kvnhrt](https://github.com).
+* OnionHEN contributors.
+
+### Based on
+* **etaHEN:** Developed by [LightningMods](https://github.com) and contributors; source base of this tree.
+* **GoldHEN:** Created by [SiSTR0](https://github.com) and contributors; the PS4 all-in-one HEN this project takes after.
+
+### Referenced & Used Components
+This project utilizes work from various developers, including **kstuff-lite** ([EchoStretch](https://github.com)), **ps5-payload-manager** ([itsplk](https://github.com)), and **libhijacker** ([astrelsky](https://github.com)). Other key components include **ftpsrv** ([drakmor](https://github.com)) and **NineS** ([buzzer-re](https://github.com)). A full list of dependencies and contributors can be found in the original source documents.
 
 ### Testers
-即食面, 雨之声, 大饼电玩, 安定区, 随风, 麒麟, 尼克库尔曼, 云, 啊烦, 小小蔡, B站谢锡榆, 荆枫.
+Special thanks to the testing team: 即食面, 雨之声, 大饼电玩, 安定区, 随风, 麒麟, 尼克库尔曼, 云, 啊烦, 小小蔡, B站谢锡榆, 荆枫.
 
 ## ⚖️ License & Disclaimer
-Licensed under **GPL-3.0**. LiteHEN is unofficial and unaffiliated with Sony Interactive Entertainment. Use at your own risk.
+This project is licensed under the GNU General Public License v3.0. LiteHEN is an unofficial project not affiliated with Sony Interactive Entertainment. Use at your own risk.
