@@ -26,25 +26,17 @@ DUPLICATED_INTERNAL_SPACE = re.compile(r"\S {2,}\S")
 
 REQUIRED_TOKENS = {
     "toolbox": {
+        "pkg.installer": (),
         "group.payloads.sub": (),
-        "ftp.group": (),
-        "ftp.run": (),
-        "ftp.autoload": (),
-        "shadowmount.run": (),
-        "shadowmount.autoload": (),
-        "plugin.shadowmount.title": (),
-        "plugins.link.sub": (),
+        "plugins.link.sub": (), # <-- Tienilo qui se serve come sottotitolo dei payload
     },
     "notifications": {
-        "notify.kstuff.loading": (),
-        "notify.kstuff.load_failed": (),
-        "notify.kstuff.load_elfldr_failed": (),
-        "notify.kstuff.deleted": (),
-        "notify.shadowmount.enabled": (),
-        "notify.shadowmount.disabled": (),
+        "notify.boot.made_by": (),
+        "notify.boot.welcome": (),
         "notify.crash.main": (),
     },
 }
+
 
 FILENAME_IDS = {
     "en-US.json": ("en", True),
