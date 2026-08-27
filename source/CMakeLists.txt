@@ -17,22 +17,21 @@ set(ONIONHEN_VERSION_HEADER
 	"${ONIONHEN_GENERATED_INCLUDE_DIR}/onion/version.h")
 
 # ---------------------------------------------------------------------------
-# 🚀 ADVANCED COMPRESSION OPTIMIZATIONS (LTO Global Slimming)
+# 🚀 SAFE EXTREME COMPRESSION OPTIMIZATIONS (Senza LTO per evitare errori PIC)
 # ---------------------------------------------------------------------------
-# Attiva l'ottimizzazione globale interprocedurale (LTO / IPO) senza tagliare moduli
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+# Rimosso CMAKE_INTERPROCEDURAL_OPTIMIZATION per correggere l'errore ld.lld
 
-# Forza l'ottimizzazione aggressiva sulla dimensione (-Oz) e abilita LTO sul compilatore
-set(CMAKE_C_FLAGS_RELEASE "-Oz -DNDEBUG -flto")
-set(CMAKE_CXX_FLAGS_RELEASE "-Oz -DNDEBUG -flto")
+# Forza l'ottimizzazione aggressiva sulla dimensione (-Oz) per ogni singolo modulo
+set(CMAKE_C_FLAGS_RELEASE "-Oz -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "-Oz -DNDEBUG")
 
-# Mantiene la separazione delle funzioni per un'organizzazione ottimale del linker
+# Separa rigorosamente le funzioni per permettere il Garbage Collection mirato
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffunction-sections -fdata-sections")
 
-# Esegue lo STRIP dei simboli e applica LTO in fase di collegamento finale
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections -flto")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections -flto")
+# Mantiene lo STRIP dei simboli (-s) e la rimozione del codice morto (--gc-sections)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections")
 # ---------------------------------------------------------------------------
 
 # Re-evaluate Git state on every build. The script preserves the header mtime
