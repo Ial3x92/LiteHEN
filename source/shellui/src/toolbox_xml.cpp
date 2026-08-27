@@ -528,7 +528,10 @@ void append_toolbox_pkg_group(ps5ui::Group& g) {
 }
 
 void append_toolbox_payloads_group(ps5ui::Group& g) {
+  g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml", ""); 
+  // La descrizione è stata svuotata ("") e l'icona kIconPlugins è stata rimossa
 }
+
 
 void append_toolbox_system_group(ps5ui::Group& g) {
   // 1. Controllo Ventola e Attivazione BD
