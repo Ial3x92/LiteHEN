@@ -697,11 +697,14 @@ void append_toolbox_preferences_group(ps5ui::Group& g) {
 
 
 void append_toolbox_debug_group(ps5ui::Group& g) {
-  g.text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
+  g.text_field("id_np_env", "Ambiente NP",
                   toolbox_i18n::tr("debug.np_env.sub"), "basic_latin", "1",
-                  "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
+                  "16", "/NP/env", "Conferma Ambiente NP",
                   toolbox_i18n::tr("debug.np_env.confirm_phrase"));
 }
+
+} // namespace
+
 
 
 void generate_toolbox_xml(std::string& new_xml) {
