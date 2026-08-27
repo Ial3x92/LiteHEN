@@ -521,10 +521,10 @@ std::string toolbox_val(const char* id, const char* fallback = "0") {
 void append_toolbox_pkg_group(ps5ui::Group& g) {
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
          "PkgInstaller/data/pkginstaller.xml",
-         toolbox_i18n::tr("pkg.installer.sub"))
+         "") // Cancellata descrizione PKG installer
       .link("id_game_add_content_manager", toolbox_i18n::tr("pkg.add_content"),
             "Addcontent/data/addcontent.xml",
-            toolbox_i18n::tr("pkg.add_content.sub"));
+            ""); // Cancellata descrizione Content manager
 }
 
 void append_toolbox_payloads_group(ps5ui::Group& g) {
@@ -537,16 +537,16 @@ void append_toolbox_system_group(ps5ui::Group& g) {
        [](ps5ui::Group& f) {
          f.toggle("id_enable_fan_speed", toolbox_i18n::tr("fan.enable"),
                   toolbox_on("id_enable_fan_speed"),
-                  toolbox_i18n::tr("fan.enable.sub"))
+                  std::nullopt) // Cancellata descrizione toggle ventola
              .text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
-                         toolbox_i18n::tr("fan.threshold.sub"), "number", "2",
+                         std::nullopt, "number", "2", // Cancellata descrizione soglia ventola
                          "2", std::nullopt, std::nullopt, std::nullopt,
                          toolbox_val("id_fan_speed", ""));
        },
-       toolbox_i18n::tr("fan.group.sub"), std::nullopt, "id_enable_fan_speed")
+       std::nullopt, std::nullopt, "id_enable_fan_speed") // Cancellata descrizione gruppo ventola
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
-            toolbox_i18n::tr("license.bd.sub"))
+            "") // Cancellata descrizione licenza BD
 
       // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
       .group(
@@ -554,11 +554,11 @@ void append_toolbox_system_group(ps5ui::Group& g) {
        [](ps5ui::Group& o) {
          o.toggle("id_overlay_enabled", toolbox_i18n::tr("overlay.enabled"),
                   toolbox_on("id_overlay_enabled"), std::nullopt,
-                  toolbox_i18n::tr("overlay.enabled.desc"))
+                  std::nullopt) // Cancellata descrizione overlay abilitato
              .toggle("id_overlay_background",
                      toolbox_i18n::tr("overlay.background"),
                      toolbox_on("id_overlay_background"), std::nullopt,
-                     toolbox_i18n::tr("overlay.background.desc"))
+                     std::nullopt) // Cancellata descrizione sfondo overlay
              .list("id_overlay_change_pos", toolbox_i18n::tr("overlay.pos"),
                    [](ps5ui::ListBuilder& L) {
                      L.item("id_overlay_pos_1",
@@ -566,31 +566,31 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                          .item("id_overlay_pos_3",
                                toolbox_i18n::tr("overlay.pos.bottom"), "2");
                    },
-                   toolbox_i18n::tr("overlay.pos.sub"),
+                   std::nullopt, // Cancellata descrizione posizione overlay
                    toolbox_val("id_overlay_change_pos"))
              .toggle("id_overlay_gpu", toolbox_i18n::tr("overlay.gpu"),
                      toolbox_on("id_overlay_gpu"), std::nullopt,
-                     toolbox_i18n::tr("overlay.gpu.desc"))
+                     std::nullopt) // Cancellata descrizione GPU overlay
              .toggle("id_overlay_fps", toolbox_i18n::tr("overlay.fps"),
                      toolbox_on("id_overlay_fps"), std::nullopt,
-                     toolbox_i18n::tr("overlay.fps.desc"))
+                     std::nullopt) // Cancellata descrizione FPS overlay
              .toggle("id_overlay_cpu", toolbox_i18n::tr("overlay.cpu"),
                      toolbox_on("id_overlay_cpu"), std::nullopt,
-                     toolbox_i18n::tr("overlay.cpu.desc"))
+                     std::nullopt) // Cancellata descrizione CPU overlay
              .toggle("id_all_cpu_usage", toolbox_i18n::tr("overlay.cpu_all"),
                      toolbox_on("id_all_cpu_usage"), std::nullopt,
-                     toolbox_i18n::tr("overlay.cpu_all.desc"))
+                     std::nullopt) // Cancellata descrizione All CPU overlay
              .toggle("id_overlay_ram", toolbox_i18n::tr("overlay.ram"),
                      toolbox_on("id_overlay_ram"), std::nullopt,
-                     toolbox_i18n::tr("overlay.ram.desc"))
+                     std::nullopt) // Cancellata descrizione RAM overlay
              .toggle("id_overlay_ip", toolbox_i18n::tr("overlay.ip"),
                      toolbox_on("id_overlay_ip"), std::nullopt,
-                     toolbox_i18n::tr("overlay.ip.desc"));
+                     std::nullopt); // Cancellata descrizione IP overlay
        },
-       toolbox_i18n::tr("overlay.group.sub"), std::nullopt, "id_overlay_enabled") // Rimosso kIconOverlay (Cancellata icona Overlay)
+       std::nullopt, std::nullopt, "id_overlay_enabled") // Cancellata descrizione gruppo overlay
       .toggle("id_disp_titleids", toolbox_i18n::tr("disp_tids"),
-              toolbox_on("id_disp_titleids"), toolbox_i18n::tr("disp_tids.sub"),
-              std::nullopt, kIconTitleId) // Mantenuto kIconTitleId (Mostra l'icona del Title ID)
+              toolbox_on("id_disp_titleids"), std::nullopt, // Cancellata descrizione Title ID
+              std::nullopt, kIconTitleId)
 
       // 3. Integrazione Gioco a Distanza (Remote Play)
       .group(
@@ -610,19 +610,19 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 
          if (remote_play_alert) {
            rg.button("id_remote_play", toolbox_i18n::tr("remote_play.title"),
-                    toolbox_i18n::tr("remote_play.sub"), std::nullopt, std::nullopt,
+                    std::nullopt, std::nullopt, std::nullopt, // Cancellata descrizione pulsante Remote Play
                     ps5ui::Style::None, std::move(remote_play_alert),
                     toolbox_i18n::tr("account.activate.confirm_phrase"));
          } else {
            rg.link("id_remote_play", toolbox_i18n::tr("remote_play.title"),
-                  "remote_play.xml", toolbox_i18n::tr("remote_play.sub"));
+                  "remote_play.xml", std::nullopt); // Cancellata descrizione link Remote Play
          }
        },
-       toolbox_i18n::tr("remote_play.sub"), std::nullopt, "id_remote_play")
+       std::nullopt, std::nullopt, "id_remote_play") // Cancellata descrizione sottomenu Remote Play
 
       // 4. Integrazione Attivazione Account Offline
       .link("id_account_activation", toolbox_i18n::tr("account.link"),
-            "account.xml", toolbox_i18n::tr("account.link.sub"))
+            "account.xml", std::nullopt) // Cancellata descrizione attivazione account
 
       // 5. Configurazione Lingue, Scorciatoie e Ambiente NP
       .list("id_ui_lang", toolbox_i18n::tr("lang.list"),
@@ -643,7 +643,7 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                .item("id_ui_lang_ar", toolbox_i18n::tr("lang.ar"), "3")
                .item("id_ui_lang_th", toolbox_i18n::tr("lang.th"), "14");
          },
-         toolbox_i18n::tr("lang.list.sub"), toolbox_val("id_ui_lang", "0"))
+         std::nullopt, toolbox_val("id_ui_lang", "0")) // Cancellata descrizione lista lingue
       .list("id_cheats_shortcut", toolbox_i18n::tr("sc.cheats"),
             [](ps5ui::ListBuilder& L) {
               L.item("id_cheats_shortcut_0", toolbox_i18n::tr("sc.off"), "0")
@@ -658,9 +658,9 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                   .item("id_cheats_shortcut_5", toolbox_i18n::tr("sc.share"),
                         "5");
             },
-            toolbox_i18n::tr("sc.cheats.sub"), toolbox_val("id_cheats_shortcut"))
+            std::nullopt, toolbox_val("id_cheats_shortcut")) // Cancellata descrizione scorciatoie trucchi
       .text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
-                  toolbox_i18n::tr("debug.np_env.sub"), "basic_latin", "1",
+                  std::nullopt, "basic_latin", "1", // Cancellata descrizione ambiente NP
                   "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
                   toolbox_i18n::tr("debug.np_env.confirm_phrase"));
 }
@@ -674,16 +674,16 @@ void generate_toolbox_xml(std::string& new_xml) {
   new_xml = page.group(
           "id_group_pkg", toolbox_i18n::tr("group.pkg"),
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
-          toolbox_i18n::tr("group.pkg.sub"), kIconPkg,
+          std::nullopt, kIconPkg, // Cancellata descrizione menu principale pacchetti PKG
           "id_game_package_installer")
       .group(
           "id_group_payloads", toolbox_i18n::tr("group.payloads"),
           [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
-          toolbox_i18n::tr("group.payloads.sub"), std::nullopt, "id_payloads")
+          std::nullopt, std::nullopt, "id_payloads") // Cancellata descrizione menu principale payload
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
-          toolbox_i18n::tr("group.system.sub"), kIconSettings,
+          std::nullopt, kIconSettings, // Cancellata descrizione menu principale Sistema e hardware
           "id_group_fan")
       .build();
 }
