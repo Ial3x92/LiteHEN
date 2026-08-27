@@ -13,7 +13,7 @@ This project is a derivative work based on [aydencharles/onionHEN](https://githu
 Compared to the original OnionHEN, this version introduces the following changes:
 * **Repositioned Overlay:** Moved the main overlay/HUD to the **top-left** corner of the screen for better visibility and less gameplay obstruction.
 * **Streamlined UI:** Focus on four clean sections: **Content installation and management**, **Payload**, **System and hardware**, and **Information**.
-* **Performance Focus:** Kept only the essential components required for payload injection and homebrew launching.
+* **Performance Focus:** Section
 
 ## 🛠️ Credits & Acknowledgments
 
