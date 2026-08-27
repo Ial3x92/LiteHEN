@@ -626,10 +626,10 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                          "2", std::nullopt, std::nullopt, std::nullopt,
                          toolbox_val("id_fan_speed", ""));
        },
-       toolbox_i18n::tr("fan.group.sub"), kIconFan, "id_enable_fan_speed")
+       toolbox_i18n::tr("fan.group.sub"), std::nullopt, "id_enable_fan_speed") // Rimosso kIconFan
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
-            toolbox_i18n::tr("license.bd.sub"), kIconDiscLicense)
+            toolbox_i18n::tr("license.bd.sub")) // Rimosso kIconDiscLicense
       // Voci delle preferenze integrate direttamente qui
       .list("id_ui_lang", toolbox_i18n::tr("lang.list"),
          [](ps5ui::ListBuilder& L) {
@@ -672,6 +672,7 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 }
 
 } // namespace
+
 
 void generate_toolbox_xml(std::string& new_xml) {
   ps5ui::Page page("id_debug_settings", toolbox_i18n::tr("root.title"));
