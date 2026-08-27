@@ -123,19 +123,19 @@ struct Settings {
   AppJailbreakAllowlist app_jailbreak_allowlist{};
 
   // [home_screen], [game_menu]
-  bool display_tids = false;
-  bool onionhen_game_opts = true;
+  bool display_tids = true;
+  bool onionhen_game_opts = false;
 
   // [cooling]
-  bool enable_fan_speed = false;
+  bool enable_fan_speed = true;
   int fan_threshold = kFanAutomaticThresholdCelsius;
 
   // [overlay]
   /** Master visibility switch for the complete ShellUI game monitor bar. */
   bool overlay_enabled = true;
   /** Show the translucent background panel behind the game monitor bar. */
-  bool overlay_background = true;
-  bool overlay_ram = true;
+  bool overlay_background = false;
+  bool overlay_ram = false;
   bool overlay_cpu = true;
   bool overlay_gpu = true;
   bool overlay_fps = true;
@@ -150,7 +150,7 @@ struct Settings {
 
   // [kstuff]
   // Load the embedded/override kstuff payload when OnionHEN starts.
-  bool kstuff_autoload = true;
+  bool kstuff_autoload = false;
 
   // [ftp]
   // Start the built-in FTP server the next time OnionHEN launches.
