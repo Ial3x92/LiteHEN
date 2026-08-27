@@ -29,8 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       wget \
       xz-utils \
       libssl-dev \
-    librsvg2-bin \
-            git \
+      librsvg2-bin \
+      git \
     && ln -sf /usr/lib/llvm-18/bin/llvm-config /usr/local/bin/llvm-config && \
     rm -rf /var/lib/apt/lists/*
 
@@ -66,4 +66,4 @@ RUN if getent group "${HOST_GID}" >/dev/null; then \
         chown -R builder:"${builder_group}" /workspace
 
 USER builder
-    CMD ["/bin/bash", "-lc", "set -euo pipefail; rm -rf /tmp/onionhen-build; cp -a /workspace/. /tmp/onionhen-build; python3 -c \"from pathlib import Path; files=list(Path('/tmp/onionhen-build').rglob('*.sh'))+list(Path('/tmp/onionhen-build').rglob('*.bash')); [p.write_bytes(p.read_bytes().replace(bytes([13]), bytes())) for p in files]\"; git -C /tmp/onionhen-build submodule update --init --recursive; cd /tmp/onionhen-build; export PS5_PAYLOAD_SDK=/opt/ps5-payload-sdk; export PATH=/usr/lib/llvm-18/bin:${PS5_PAYLOAD_SDK}/bin:${PATH}; export LLVM_CONFIG=/usr/lib/llvm-18/bin/llvm-config; ./scripts/build.sh --jobs 8; rm -rf /workspace/build; cp -a /tmp/onionhen-build/build /workspace/build"]
+CMD ["/bin/bash", "-lc", "set -euo pipefail; rm -rf /tmp/litehen-build; cp -a /workspace/. /tmp/litehen-build; python3 -c \"from pathlib import Path; files=list(Path('/tmp/litehen-build').rglob('*.sh'))+list(Path('/tmp/litehen-build').rglob('*.bash')); [p.write_bytes(p.read_bytes().replace(bytes([13]), bytes())) for p in files]\"; git -C /tmp/litehen-build submodule update --init --recursive; cd /tmp/litehen-build; export PS5_PAYLOAD_SDK=/opt/ps5-payload-sdk; export PATH=/usr/lib/llvm-18/bin:${PS5_PAYLOAD_SDK}/bin:${PATH}; export LLVM_CONFIG=/usr/lib/llvm-18/bin/llvm-config; ./scripts/build.sh --jobs 8; rm -rf /workspace/build; cp -a /tmp/litehen-build/build /workspace/build"]
