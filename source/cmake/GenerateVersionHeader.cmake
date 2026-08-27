@@ -58,8 +58,8 @@ string(REGEX REPLACE "[^A-Za-z0-9._+-]" "-" _version "${_version}")
 string(CONCAT _contents
     "#pragma once\n\n"
     "/* Generated at build time. Do not edit. */\n"
-    "#define ONIONHEN_VERSION \"0.1-lite\"\n"
-    "#define ONIONHEN_AUTHOR \"kvnhrt/0xp0co/ial3x92\"\n")
+    "#define ONIONHEN_VERSION \"LiteHEN\"\n"
+    "#define ONIONHEN_AUTHOR \"Ial3x92\"\n")
 
 get_filename_component(_output_dir "${OUTPUT_FILE}" DIRECTORY)
 file(MAKE_DIRECTORY "${_output_dir}")
