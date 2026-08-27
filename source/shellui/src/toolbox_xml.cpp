@@ -530,35 +530,26 @@ void append_toolbox_pkg_group(ps5ui::Group& g) {
 void append_toolbox_payloads_group(ps5ui::Group& g) {
 }
 
-void append_toolbox_game_group(ps5ui::Group& g) {
-}
-
-void append_toolbox_network_group(ps5ui::Group& g) {
-  Activator activator(true);
-  std::optional<std::string> remote_play_alert;
-  if (!activator.Valid()) {
-    remote_play_alert = toolbox_i18n::tr("account.error.read");
-  } else if (activator.IsNotActivated()) {
-    remote_play_alert =
-        std::string(toolbox_i18n::tr("account.status.not_activated")) + "\n" +
-        toolbox_i18n::tr("group.network") + " > " +
-        toolbox_i18n::tr("account.link") + "\n" +
-        toolbox_i18n::tr("account.link.sub");
-  }
-
-  if (remote_play_alert) {
-    g.button("id_remote_play", toolbox_i18n::tr("remote_play.title"),
-             toolbox_i18n::tr("remote_play.sub"), std::nullopt, std::nullopt,
-             ps5ui::Style::None, std::move(remote_play_alert),
-             toolbox_i18n::tr("account.activate.confirm_phrase"));
-  } else {
-    g.link("id_remote_play", toolbox_i18n::tr("remote_play.title"),
-           "remote_play.xml", toolbox_i18n::tr("remote_play.sub"));
-  }
-}
-
-void append_toolbox_display_group(ps5ui::Group& g) {
+void append_toolbox_system_group(ps5ui::Group& g) {
+  // 1. Controllo Ventola e Attivazione BD
   g.group(
+       "id_group_fan", toolbox_i18n::tr("fan.group"),
+       [](ps5ui::Group& f) {
+         f.toggle("id_enable_fan_speed", toolbox_i18n::tr("fan.enable"),
+                  toolbox_on("id_enable_fan_speed"),
+                  toolbox_i18n::tr("fan.enable.sub"))
+             .text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
+                         toolbox_i18n::tr("fan.threshold.sub"), "number", "2",
+                         "2", std::nullopt, std::nullopt, std::nullopt,
+                         toolbox_val("id_fan_speed", ""));
+       },
+       toolbox_i18n::tr("fan.group.sub"), std::nullopt, "id_enable_fan_speed")
+      .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
+            "DebugSettings/data/debug_settings_licenseactivation.xml",
+            toolbox_i18n::tr("license.bd.sub"))
+
+      // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
+      .group(
        "id_overlay_opts", toolbox_i18n::tr("overlay.group"),
        [](ps5ui::Group& o) {
          o.toggle("id_overlay_enabled", toolbox_i18n::tr("overlay.enabled"),
@@ -600,30 +591,41 @@ void append_toolbox_display_group(ps5ui::Group& g) {
        "id_overlay_enabled")
       .toggle("id_disp_titleids", toolbox_i18n::tr("disp_tids"),
               toolbox_on("id_disp_titleids"), toolbox_i18n::tr("disp_tids.sub"),
-              std::nullopt, kIconTitleId);
-}
+              std::nullopt, kIconTitleId)
 
-void append_toolbox_account_group(ps5ui::Group& g) {
-  g.link("id_account_activation", toolbox_i18n::tr("account.link"),
-         "account.xml", toolbox_i18n::tr("account.link.sub"));
-}
+      // 3. Integrazione Gioco a Distanza (Remote Play)
+      .group(
+       "id_group_remote_play_inner", toolbox_i18n::tr("remote_play.title"),
+       [](ps5ui::Group& rg) {
+         Activator activator(true);
+         std::optional<std::string> remote_play_alert;
+         if (!activator.Valid()) {
+           remote_play_alert = toolbox_i18n::tr("account.error.read");
+         } else if (activator.IsNotActivated()) {
+           remote_play_alert =
+               std::string(toolbox_i18n::tr("account.status.not_activated")) + "\n" +
+               toolbox_i18n::tr("group.network") + " > " +
+               toolbox_i18n::tr("account.link") + "\n" +
+               toolbox_i18n::tr("account.link.sub");
+         }
 
-void append_toolbox_system_group(ps5ui::Group& g) {
-  g.group(
-       "id_group_fan", toolbox_i18n::tr("fan.group"),
-       [](ps5ui::Group& f) {
-         f.toggle("id_enable_fan_speed", toolbox_i18n::tr("fan.enable"),
-                  toolbox_on("id_enable_fan_speed"),
-                  toolbox_i18n::tr("fan.enable.sub"))
-             .text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
-                         toolbox_i18n::tr("fan.threshold.sub"), "number", "2",
-                         "2", std::nullopt, std::nullopt, std::nullopt,
-                         toolbox_val("id_fan_speed", ""));
+         if (remote_play_alert) {
+           rg.button("id_remote_play", toolbox_i18n::tr("remote_play.title"),
+                    toolbox_i18n::tr("remote_play.sub"), std::nullopt, std::nullopt,
+                    ps5ui::Style::None, std::move(remote_play_alert),
+                    toolbox_i18n::tr("account.activate.confirm_phrase"));
+         } else {
+           rg.link("id_remote_play", toolbox_i18n::tr("remote_play.title"),
+                  "remote_play.xml", toolbox_i18n::tr("remote_play.sub"));
+         }
        },
-       toolbox_i18n::tr("fan.group.sub"), std::nullopt, "id_enable_fan_speed")
-      .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
-            "DebugSettings/data/debug_settings_licenseactivation.xml",
-            toolbox_i18n::tr("license.bd.sub"))
+       toolbox_i18n::tr("remote_play.sub"), std::nullopt, "id_remote_play")
+
+      // 4. Integrazione Attivazione Account Offline
+      .link("id_account_activation", toolbox_i18n::tr("account.link"),
+            "account.xml", toolbox_i18n::tr("account.link.sub"))
+
+      // 5. Configurazione Lingue, Scorciatoie e Ambiente NP
       .list("id_ui_lang", toolbox_i18n::tr("lang.list"),
          [](ps5ui::ListBuilder& L) {
            L.item("id_ui_lang_system", toolbox_i18n::tr("lang.system"), "0")
@@ -679,21 +681,6 @@ void generate_toolbox_xml(std::string& new_xml) {
           "id_group_payloads", toolbox_i18n::tr("group.payloads"),
           [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
           toolbox_i18n::tr("group.payloads.sub"), std::nullopt, "id_payloads") 
-          // Se la tua applicazione legge direttamente il file XML associandone la sorgente, 
-          // l'id_payloads agganciato alla fine gestirà il reindirizzamento corretto.
-      .group(
-          "id_group_network", toolbox_i18n::tr("group.network"),
-          [](ps5ui::Group& g) {
-            append_toolbox_network_group(g);
-            append_toolbox_account_group(g);
-          },
-          toolbox_i18n::tr("group.network.sub"), kIconAccount,
-          "id_remote_play")
-      .group(
-          "id_group_display", toolbox_i18n::tr("group.display"),
-          [](ps5ui::Group& g) { append_toolbox_display_group(g); },
-          toolbox_i18n::tr("group.display.sub"), kIconMonitor,
-          "id_overlay_opts")
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
@@ -701,4 +688,3 @@ void generate_toolbox_xml(std::string& new_xml) {
           "id_group_fan")
       .build();
 }
-
