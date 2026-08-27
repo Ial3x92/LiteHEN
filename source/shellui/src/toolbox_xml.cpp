@@ -668,6 +668,24 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                   toolbox_i18n::tr("debug.np_env.confirm_phrase"));
 }
 
+void append_toolbox_about_group(ps5ui::Group& g) {
+  g.label("id_credit_ial3x92", "ial3x92", ps5ui::Style::Center)
+   .label("id_credit_kvnhrt", "kvnhrt", ps5ui::Style::Center)
+   .label("id_credit_aydencharles", "aydencharles", ps5ui::Style::Center)
+   .label("id_credit_lightningmods", "LightningMods", ps5ui::Style::Center)
+   .label("id_credit_sistr0", "SiSTR0", ps5ui::Style::Center)
+   .label("id_credit_echostretch", "EchoStretch", ps5ui::Style::Center)
+   .label("id_credit_sleirsgoevy", "sleirsgoevy", ps5ui::Style::Center)
+   .label("id_credit_itsplk", "itsplk", ps5ui::Style::Center)
+   .label("id_credit_teekay87", "TeeKay87", ps5ui::Style::Center)
+   .label("id_credit_arksama", "ArkSama", ps5ui::Style::Center)
+   .label("id_credit_drakmor", "drakmor", ps5ui::Style::Center)
+   .label("id_credit_astrelsky", "astrelsky", ps5ui::Style::Center)
+   .label("id_credit_buzzer_re", "buzzer-re", ps5ui::Style::Center)
+   .label("id_credit_cjson", "cJSON", ps5ui::Style::Center)
+   .label("id_credit_miniz", "miniz", ps5ui::Style::Center);
+}
+
 } // namespace
 
 void generate_toolbox_xml(std::string& new_xml) {
@@ -688,5 +706,11 @@ void generate_toolbox_xml(std::string& new_xml) {
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
           std::nullopt, std::nullopt, // Rimosso logo kIconSettings
           "id_group_fan")
+      // Aggiunto qui il gruppo per i crediti (About) senza loghi e senza sotto-descrizioni
+      .group(
+          "id_onionhen_credit_options", toolbox_i18n::tr("group.about"),
+          [](ps5ui::Group& g) { append_toolbox_about_group(g); },
+          std::nullopt, std::nullopt, std::nullopt,
+          ps5ui::Style::Center)
       .build();
 }
