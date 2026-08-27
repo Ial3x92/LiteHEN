@@ -35,17 +35,14 @@ REQUIRED_TOKENS = {
         "plugin.shadowmount.title": ("ShadowMount+",),
         "plugins.link.sub": ("Kstuff", "FTP", "ShadowMount+"),
     },
-    "notifications": {
+        "notifications": {
         "notify.kstuff.loading": ("Kstuff",),
         "notify.kstuff.load_failed": ("Kstuff",),
         "notify.kstuff.load_elfldr_failed": ("Kstuff",),
         "notify.kstuff.deleted": ("Kstuff",),
         "notify.shadowmount.enabled": ("ShadowMount+",),
         "notify.shadowmount.disabled": ("ShadowMount+",),
-        "notify.crash.main": (
-            "OnionHEN_crash.log",
-            "https://github.com/kvnhrt/onionHEN/issues",
-        ),
+        "notify.crash.main": (),
     },
 }
 
