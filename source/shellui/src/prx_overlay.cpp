@@ -326,7 +326,7 @@ void layout_bar_labels(const char *fps_str, const char *cpu_temp,
   const float screen_w = g_overlay_layout.bar_w;
   if (screen_w <= 1.0f)
     return;
-  float x = (screen_w - total) * 0.5f;
+  float x = (screen_w - total) * 0.025f;
   const float margin_top = g_overlay_layout.label_margin_top;
 
   static const char *kAll[] = {
