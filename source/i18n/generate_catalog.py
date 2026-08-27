@@ -48,19 +48,10 @@ REQUIRED_TOKENS = {
 
 FILENAME_IDS = {
     "en-US.json": ("en", True),
-    "zh-CN.json": ("zh-Hans", False),
-    "zh-TW.json": ("zh-Hant", False),
-    "ja-JP.json": ("ja", False),
-    "ko-KR.json": ("ko", False),
-    "fr-FR.json": ("fr", False),
     "de-DE.json": ("de", False),
+    "fr-FR.json": ("fr", False),
     "it-IT.json": ("it", False),
     "es-ES.json": ("es", False),
-    "pt-BR.json": ("pt-BR", False),
-    "pl-PL.json": ("pl", False),
-    "ru-RU.json": ("ru", False),
-    "ar-SA.json": ("ar", False),
-    "th-TH.json": ("th", False),
 }
 
 
