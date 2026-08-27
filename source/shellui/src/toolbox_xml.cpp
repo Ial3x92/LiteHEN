@@ -528,10 +528,7 @@ void append_toolbox_pkg_group(ps5ui::Group& g) {
 }
 
 void append_toolbox_payloads_group(ps5ui::Group& g) {
-  g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml",
-         toolbox_i18n::tr("payloads.link.sub"), kIconPlugins);
 }
-
 
 void append_toolbox_game_group(ps5ui::Group& g) {
 }
@@ -550,8 +547,6 @@ void append_toolbox_network_group(ps5ui::Group& g) {
   }
 
   if (remote_play_alert) {
-    // Legacy Settings only drives its confirm Alert flow for button elements.
-    // The handler consumes this non-navigating entry after confirmation.
     g.button("id_remote_play", toolbox_i18n::tr("remote_play.title"),
              toolbox_i18n::tr("remote_play.sub"), std::nullopt, std::nullopt,
              ps5ui::Style::None, std::move(remote_play_alert),
@@ -608,7 +603,6 @@ void append_toolbox_display_group(ps5ui::Group& g) {
               std::nullopt, kIconTitleId);
 }
 
-
 void append_toolbox_account_group(ps5ui::Group& g) {
   g.link("id_account_activation", toolbox_i18n::tr("account.link"),
          "account.xml", toolbox_i18n::tr("account.link.sub"));
@@ -626,11 +620,10 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                          "2", std::nullopt, std::nullopt, std::nullopt,
                          toolbox_val("id_fan_speed", ""));
        },
-       toolbox_i18n::tr("fan.group.sub"), std::nullopt, "id_enable_fan_speed") // Rimosso kIconFan
+       toolbox_i18n::tr("fan.group.sub"), std::nullopt, "id_enable_fan_speed")
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
-            toolbox_i18n::tr("license.bd.sub")) // Rimosso kIconDiscLicense
-      // Voci delle preferenze integrate direttamente qui
+            toolbox_i18n::tr("license.bd.sub"))
       .list("id_ui_lang", toolbox_i18n::tr("lang.list"),
          [](ps5ui::ListBuilder& L) {
            L.item("id_ui_lang_system", toolbox_i18n::tr("lang.system"), "0")
@@ -673,7 +666,6 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 
 } // namespace
 
-
 void generate_toolbox_xml(std::string& new_xml) {
   ps5ui::Page page("id_debug_settings", toolbox_i18n::tr("root.title"));
   page.root_focus("id_group_pkg");
@@ -686,7 +678,9 @@ void generate_toolbox_xml(std::string& new_xml) {
       .group(
           "id_group_payloads", toolbox_i18n::tr("group.payloads"),
           [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
-          toolbox_i18n::tr("group.payloads.sub"), kIconPlugins, "id_payloads")
+          toolbox_i18n::tr("group.payloads.sub"), std::nullopt, "id_payloads") 
+          // Se la tua applicazione legge direttamente il file XML associandone la sorgente, 
+          // l'id_payloads agganciato alla fine gestirà il reindirizzamento corretto.
       .group(
           "id_group_network", toolbox_i18n::tr("group.network"),
           [](ps5ui::Group& g) {
@@ -706,5 +700,5 @@ void generate_toolbox_xml(std::string& new_xml) {
           toolbox_i18n::tr("group.system.sub"), kIconSettings,
           "id_group_fan")
       .build();
-      // Gruppo preferenze rimosso e catena chiusa correttamente con .build()
 }
+
