@@ -4,42 +4,52 @@
 
 # LiteHEN
 
-LiteHEN è una modifica snella e leggera di **OnionHEN**, progettata per offrire un'esperienza utente pulita e priva di elementi superflui. 
+LiteHEN is a streamlined, lightweight modification of **OnionHEN**, designed for users who want a cleaner experience without unnecessary clutter.
 
-Questo progetto è un'opera derivata basata su [aydencharles/onionHEN](https://github.com/aydencharles/onionHEN) ed è pienamente conforme alla licenza **GNU General Public License v3**.
+This project is a derivative work based on [aydencharles/onionHEN](https://github.com) and is fully compliant with the **GNU General Public License v3**.
 
-## 🚀 Modifiche Principali & Cambiamenti
+## 🚀 Key Modifications & Changes
 
-Rispetto all'originale OnionHEN, questa versione introduce le seguenti modifiche:
-* **Overlay Riposizionato:** L'overlay principale/HUD è stato spostato nell'angolo **in alto a sinistra** dello schermo per una migliore visibilità e una minore ostruzione durante il gioco.
-* **UI Semplificata:** Tutte le voci di debug e le opzioni ridondanti sono stato rimosse dai menu per focalizzare l'interfaccia utente esclusivamente su quattro sezioni pulite: **Installazione e gestione dei contenuti**, **Payload**, **Sistema e hardware** e **Informazioni**.
-* **Focus sulle Prestazioni:** Sono stati mantenuti solo i componenti essenziali richiesti per l'iniezione dei payload e l'avvio degli homebrew.
+Compared to the original OnionHEN, this version introduces the following changes:
+* **Repositioned Overlay:** Moved the main overlay/HUD to the **top-left** corner of the screen for better visibility and less gameplay obstruction.
+* **Streamlined UI:** Removed all cluttered debug entries and options from the menus to focus exclusively on four clean sections: **Installazione e gestione dei contenuti**, **Payload**, **Sistema e hardware**, and **Informazioni**.
+* **Performance Focus:** Kept only the essential components required for payload injection and homebrew launching.
 
-## 🛠️ Crediti e Riconoscimenti
+## 🛠️ Credits & Acknowledgments
 
-LiteHEN e OnionHEN esistono grazie al duro lavoro e alla dedizione della comunità di homebrew e reverse-engineering di PlayStation 5.
+LiteHEN and OnionHEN exist because of the hard work and dedication of the PlayStation 5 homebrew and reverse-engineering community.
 
-### Fondamenta Upstream & Ispirazione
-* **aydencharles:** Per lo stack e codice di riferimento originale [aydencharles/onionHEN](https://github.com/aydencharles/onionHEN).
-* **LightningMods:** Sviluppatore capo dell'ecosistema e del payload AIO [LightningMods/etaHEN](https://github.com).
-* **SiSTR0:** Sviluppatore del celebre [SiSTR0/GoldHEN](https://github.com) per PS4, che ha ispirato l'ecosistema di questo progetto.
+### Contributors
+* **aydencharles:** Creator of the original [aydencharles/onionHEN](https://github.com) ecosystem.
+* **kvnhrt:** Core contributor and developer [kvnhrt](https://github.com).
+* OnionHEN contributors.
 
-### Progetti di Riferimento
-* **EchoStretch & sleirsgoevy:** Sviluppatori del nucleo kstuff e del caricamento dinamico disponibili su [EchoStretch/kstuff-lite](https://github.com). Utilizzato per il ripristino in Rest Mode (tramite monitoraggio `SceSysCore NOTE_EXEC` per `NPXS40087` e attendendo `libSceNpTrophy.sprx` / `libSceNpTrophy2.sprx`).
-* **itsplk:** Sviluppatore di [itsPLK/ps5-payload-manager](https://github.com), da cui è mutuata la logica di rebind del listen-socket dopo la Rest Mode.
-* **TeeKay87:** Curatore e gestore della raccolta globale di trucchi [TeeKay87/HEN-Cheats-Collection](https://github.com).
-* **ArkSama:** Sviluppatore di [ArkSama/PHU-Games-Tools](https://github.com), le cui logiche di skip-hook e scansione `/dev/dce` hanno permesso l'implementazione del contatore FPS.
+### Based on
+* **etaHEN:** Developed by [LightningMods](https://github.com) and contributors; source base of this tree.
+* **GoldHEN:** Created by [SiSTR0](https://github.com) and contributors; the PS4 all-in-one HEN this project takes after.
 
-### Componenti Utilizzati o Incorporati
-* **PS5 Payload SDK:** La toolchain Prospero e librerie di collegamento gestite su [JohnTornado/ps5-payload-sdk](https://github.com).
-* **elfldr:** Caricatore di primo livello sulla porta **9021** ospitato su [sleirsgoevy/ps5-elfldr](https://github.com) (non incluso direttamente nel payload).
-* **drakmor:** Sviluppatore della versione ottimizzata del server FTP integrato disponibile su [drakmor/ftpsrv](https://github.com).
-* **astrelsky:** Creatore della libreria nativa per il patching dei processi e R/W [astrelsky/libhijacker](https://github.com/astrelsky/libhijacker).
-* **buzzer-re:** Sviluppatore dello strumento di iniezione dei binari ELF nella ShellUI [buzzer-re/NineS](https://github.com/buzzer-re/NineS).
-* **cJSON:** Libreria di parsing JSON ultraleggera disponibile su [DaveGamble/cJSON](https://github.com).
-* **miniz:** Libreria a file singolo per la decompressione zip recuperabile su [richgel999/miniz](https://github.com).
-* **7-Zip LZMA SDK:** SDK ufficiale per l'algoritmo di decompressione LZMA dell'unpacker.
+### Referenced
+* **kstuff-lite:** Developed by [EchoStretch](https://github.com), [sleirsgoevy](https://github.com), and contributors. Rest Mode Toolbox recovery follows its `SceSysCore NOTE_EXEC` watch for `NPXS40087` and waits for `libSceNpTrophy.sprx` / `libSceNpTrophy2.sprx`.
+* **ps5-payload-manager:** Created by [itsplk](https://github.com); listen-socket rebind after Rest Mode (Unix IPC and TCP accept-fail self-heal) follows this project.
+* **HEN-Cheats-Collection:** Maintained by [TeeKay87](https://github.com); the community cheat collection downloaded by the built-in cheat sync.
+* **PHU Games Tools:** Developed by [ArkSama](https://github.com); the in-game FPS counter follows PHU Games Tools skip-hook sampling (`/dev/dce` scanout and DMAP reads of `libSceAgcDriver`).
 
-## ⚖️ Licenza
+### Used or embedded
+* **PS5 Payload SDK:** Prospero toolchain and headers hosted on [JohnTornado/ps5-payload-sdk](https://github.com).
+* **elfldr:** First-hop loader on port **9021** hosted on [sleirsgoevy/ps5-elfldr](https://github.com/ps5-elfldr) (not shipped in the payload).
+* **kstuff-lite:** Optional `kstuff.elf` payload components by [EchoStretch](https://github.com).
+* **ftpsrv:** Built-in PS5 FTP server module from nexgen by [drakmor](https://github.com) and upstream contributors.
+* **libhijacker:** Process hijack and kernel R/W library by [astrelsky](https://github.com).
+* **NineS:** ShellUI injection utility developed by [buzzer-re](https://github.com).
+* **cJSON:** JSON parsing framework from [DaveGamble/cJSON](https://github.com).
+* **7-Zip LZMA SDK:** Unpacker decompression mechanisms.
+* **miniz:** Single-file zip decompression headers from [richgel999/miniz](https://github.com).
 
-Questo progetto è rilasciato sotto licenza **GNU General Public License v3 (GPL-3.0)** - consulta il file [LICENSE](LICENSE) per tutti i dettagli. I componenti di terze parti mantengono le rispettive licenze e note informative dei canali ufficiali.
+### Testers
+即食面, 雨之声, 大饼电玩, 安定区, 随风, 麒麟, 尼克库尔曼, 云, 啊烦, 小小蔡, B站谢锡榆, 荆枫
+
+*Thanks as well to everyone else who tested, researched, or sent usable feedback.*
+
+## ⚖️ License
+
+This project is licensed under the **GNU General Public License v3 (GPL-3.0)** - see the [LICENSE](LICENSE) file for full details. Third-party components retain their respective licenses and notices.
