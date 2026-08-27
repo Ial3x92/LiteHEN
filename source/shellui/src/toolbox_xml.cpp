@@ -720,11 +720,8 @@ void generate_toolbox_xml(std::string& new_xml) {
           "id_group_payloads", toolbox_i18n::tr("group.payloads"),
           [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
           toolbox_i18n::tr("group.payloads.sub"), kIconPlugins, "id_payloads")
+      // La voce id_group_game (Strumenti di gioco) è stata rimossa completamente da qui
       .group(
-          "id_group_game", toolbox_i18n::tr("group.game"),
-          [](ps5ui::Group& g) { append_toolbox_game_group(g); },
-          toolbox_i18n::tr("group.game.sub"), kIconGame, "id_cheats")
-        .group(
           "id_group_network", toolbox_i18n::tr("group.network"),
           [](ps5ui::Group& g) {
             append_toolbox_network_group(g);
