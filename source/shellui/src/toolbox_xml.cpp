@@ -518,14 +518,13 @@ std::string toolbox_val(const char* id, const char* fallback = "0") {
   return v.empty() ? fallback : v;
 }
 
+
 void append_toolbox_pkg_group(ps5ui::Group& g) {
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
          "PkgInstaller/data/pkginstaller.xml",
-         "") 
-      .link("id_game_add_content_manager", toolbox_i18n::tr("pkg.add_content"),
-            "Addcontent/data/addcontent.xml",
-            ""); 
+         ""); 
 }
+
 
 void append_toolbox_payloads_group(ps5ui::Group& g) {
   g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml", ""); 
@@ -538,13 +537,10 @@ void append_toolbox_system_group(ps5ui::Group& g) {
   g.group(
        "id_group_fan", toolbox_i18n::tr("fan.group"),
        [](ps5ui::Group& f) {
-         f.toggle("id_enable_fan_speed", toolbox_i18n::tr("fan.enable"),
-                  toolbox_on("id_enable_fan_speed"),
-                  std::nullopt) 
-             .text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
-                         std::nullopt, "number", "2", 
-                         "2", std::nullopt, std::nullopt, std::nullopt,
-                         toolbox_val("id_fan_speed", ""));
+         f.text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
+                      std::nullopt, "number", "2", 
+                      "2", std::nullopt, std::nullopt, std::nullopt,
+                      toolbox_val("id_fan_speed", "")); 
        },
        std::nullopt, std::nullopt, "id_enable_fan_speed") // Rimosso logo ventola
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
