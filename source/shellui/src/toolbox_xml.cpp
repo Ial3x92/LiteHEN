@@ -528,6 +528,8 @@ void append_toolbox_pkg_group(ps5ui::Group& g) {
 }
 
 void append_toolbox_payloads_group(ps5ui::Group& g) {
+  // Lasciamo la funzione vuota se l'SDK reindirizza automaticamente 
+  // tramite l'id_payloads registrato nel generate_toolbox_xml
 }
 
 void append_toolbox_system_group(ps5ui::Group& g) {
@@ -554,11 +556,11 @@ void append_toolbox_system_group(ps5ui::Group& g) {
        [](ps5ui::Group& o) {
          o.toggle("id_overlay_enabled", toolbox_i18n::tr("overlay.enabled"),
                   toolbox_on("id_overlay_enabled"), std::nullopt,
-                  std::nullopt) // Cancellata descrizione overlay abilitato
+                  std::nullopt) 
              .toggle("id_overlay_background",
                      toolbox_i18n::tr("overlay.background"),
                      toolbox_on("id_overlay_background"), std::nullopt,
-                     std::nullopt) // Cancellata descrizione sfondo overlay
+                     std::nullopt) 
              .list("id_overlay_change_pos", toolbox_i18n::tr("overlay.pos"),
                    [](ps5ui::ListBuilder& L) {
                      L.item("id_overlay_pos_1",
@@ -570,22 +572,22 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                    toolbox_val("id_overlay_change_pos"))
              .toggle("id_overlay_gpu", toolbox_i18n::tr("overlay.gpu"),
                      toolbox_on("id_overlay_gpu"), std::nullopt,
-                     std::nullopt) // Cancellata descrizione GPU overlay
+                     std::nullopt) 
              .toggle("id_overlay_fps", toolbox_i18n::tr("overlay.fps"),
                      toolbox_on("id_overlay_fps"), std::nullopt,
-                     std::nullopt) // Cancellata descrizione FPS overlay
+                     std::nullopt) 
              .toggle("id_overlay_cpu", toolbox_i18n::tr("overlay.cpu"),
                      toolbox_on("id_overlay_cpu"), std::nullopt,
-                     std::nullopt) // Cancellata descrizione CPU overlay
+                     std::nullopt) 
              .toggle("id_all_cpu_usage", toolbox_i18n::tr("overlay.cpu_all"),
                      toolbox_on("id_all_cpu_usage"), std::nullopt,
-                     std::nullopt) // Cancellata descrizione All CPU overlay
+                     std::nullopt) 
              .toggle("id_overlay_ram", toolbox_i18n::tr("overlay.ram"),
                      toolbox_on("id_overlay_ram"), std::nullopt,
-                     std::nullopt) // Cancellata descrizione RAM overlay
+                     std::nullopt) 
              .toggle("id_overlay_ip", toolbox_i18n::tr("overlay.ip"),
                      toolbox_on("id_overlay_ip"), std::nullopt,
-                     std::nullopt); // Cancellata descrizione IP overlay
+                     std::nullopt); 
        },
        std::nullopt, std::nullopt, "id_overlay_enabled") // Cancellata descrizione gruppo overlay
       .toggle("id_disp_titleids", toolbox_i18n::tr("disp_tids"),
@@ -610,12 +612,12 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 
          if (remote_play_alert) {
            rg.button("id_remote_play", toolbox_i18n::tr("remote_play.title"),
-                    std::nullopt, std::nullopt, std::nullopt, // Cancellata descrizione pulsante Remote Play
+                    std::nullopt, std::nullopt, std::nullopt, // Cancellata descrizione pulsante
                     ps5ui::Style::None, std::move(remote_play_alert),
                     toolbox_i18n::tr("account.activate.confirm_phrase"));
          } else {
            rg.link("id_remote_play", toolbox_i18n::tr("remote_play.title"),
-                  "remote_play.xml", std::nullopt); // Cancellata descrizione link Remote Play
+                  "remote_play.xml", std::nullopt); // Cancellata descrizione link
          }
        },
        std::nullopt, std::nullopt, "id_remote_play") // Cancellata descrizione sottomenu Remote Play
@@ -658,7 +660,7 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                   .item("id_cheats_shortcut_5", toolbox_i18n::tr("sc.share"),
                         "5");
             },
-            std::nullopt, toolbox_val("id_cheats_shortcut")) // Cancellata descrizione scorciatoie trucchi
+            std::nullopt, toolbox_val("id_cheats_shortcut")) // Cancellata descrizione trucchi
       .text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
                   std::nullopt, "basic_latin", "1", // Cancellata descrizione ambiente NP
                   "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
@@ -674,16 +676,16 @@ void generate_toolbox_xml(std::string& new_xml) {
   new_xml = page.group(
           "id_group_pkg", toolbox_i18n::tr("group.pkg"),
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
-          std::nullopt, kIconPkg, // Cancellata descrizione menu principale pacchetti PKG
+          std::nullopt, kIconPkg, // Cancellata descrizione principale pacchetti
           "id_game_package_installer")
       .group(
           "id_group_payloads", toolbox_i18n::tr("group.payloads"),
           [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
-          std::nullopt, std::nullopt, "id_payloads") // Cancellata descrizione menu principale payload
+          std::nullopt, std::nullopt, "id_payloads") // Ripristinato e Cancellata descrizione payload
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
-          std::nullopt, kIconSettings, // Cancellata descrizione menu principale Sistema e hardware
+          std::nullopt, kIconSettings, // Cancellata descrizione principale sistema
           "id_group_fan")
       .build();
 }
