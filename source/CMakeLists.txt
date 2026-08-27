@@ -17,19 +17,22 @@ set(ONIONHEN_VERSION_HEADER
 	"${ONIONHEN_GENERATED_INCLUDE_DIR}/onion/version.h")
 
 # ---------------------------------------------------------------------------
-# 🚀 SAFE EXTREME COMPRESSION OPTIMIZATIONS (Senza LTO per evitare errori PIC)
+# 🧠 LOW-RAM & ANTI-KERNEL PANIC FILTERS (LiteHEN Ultra Lean Footprint)
 # ---------------------------------------------------------------------------
-# Rimosso CMAKE_INTERPROCEDURAL_OPTIMIZATION per correggere l'errore ld.lld
+# 1. Usiamo -Os: Ottimizza il codice per la dimensione minima. Riduce drasticamente
+#    la dimensione dei buffer e delle istruzioni allocate nella RAM della PS5.
+set(CMAKE_C_FLAGS_RELEASE "-Os -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os -DNDEBUG")
 
-# Forza l'ottimizzazione aggressiva sulla dimensione (-Oz) per ogni singolo modulo
-set(CMAKE_C_FLAGS_RELEASE "-Oz -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE "-Oz -DNDEBUG")
+# 2. Protezione della memoria e isolamento dei blocchi di codice
+# -fstack-protector-strong: Canarini nello stack per bloccare violazioni di memoria (Anti-KP)
+# -fno-common: Impedisce l'allocazione di variabili globali non inizializzate nello spazio RAM comune
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fstack-protector-strong -fno-common -ffunction-sections -fdata-sections")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fstack-protector-strong -fno-common -ffunction-sections -fdata-sections")
 
-# Separa rigorosamente le funzioni per permettere il Garbage Collection mirato
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffunction-sections -fdata-sections")
-
-# Mantiene lo STRIP dei simboli (-s) e la rimozione del codice morto (--gc-sections)
+# 3. Elimina fisicamente i metadati inutili e pulisce la RAM da codice morto
+# --gc-sections: Butta via le funzioni non usate (come i menu di debug rimossi) in modo che non occupino RAM
+# -Wl,-s: Rade al suolo la tabella dei simboli, risparmiando centineia di KB all'allocazione iniziale
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections")
 # ---------------------------------------------------------------------------
