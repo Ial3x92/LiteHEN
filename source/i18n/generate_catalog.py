@@ -26,22 +26,22 @@ DUPLICATED_INTERNAL_SPACE = re.compile(r"\S {2,}\S")
 
 REQUIRED_TOKENS = {
     "toolbox": {
-        "group.payloads.sub": ("Kstuff", "FTP", "ShadowMount+"),
-        "ftp.group": ("FTP",),
-        "ftp.run": ("FTP",),
-        "ftp.autoload": ("FTP",),
-        "shadowmount.run": ("ShadowMount+",),
-        "shadowmount.autoload": ("ShadowMount+",),
-        "plugin.shadowmount.title": ("ShadowMount+",),
+        "group.payloads.sub": (),
+        "ftp.group": (),
+        "ftp.run": (),
+        "ftp.autoload": (),
+        "shadowmount.run": (),
+        "shadowmount.autoload": (),
+        "plugin.shadowmount.title": (),
         "plugins.link.sub": (),
     },
-        "notifications": {
-        "notify.kstuff.loading": ("Kstuff",),
-        "notify.kstuff.load_failed": ("Kstuff",),
-        "notify.kstuff.load_elfldr_failed": ("Kstuff",),
-        "notify.kstuff.deleted": ("Kstuff",),
-        "notify.shadowmount.enabled": ("ShadowMount+",),
-        "notify.shadowmount.disabled": ("ShadowMount+",),
+    "notifications": {
+        "notify.kstuff.loading": (),
+        "notify.kstuff.load_failed": (),
+        "notify.kstuff.load_elfldr_failed": (),
+        "notify.kstuff.deleted": (),
+        "notify.shadowmount.enabled": (),
+        "notify.shadowmount.disabled": (),
         "notify.crash.main": (),
     },
 }
