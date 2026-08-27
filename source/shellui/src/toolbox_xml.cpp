@@ -605,12 +605,9 @@ void append_toolbox_display_group(ps5ui::Group& g) {
        "id_overlay_enabled")
       .toggle("id_disp_titleids", toolbox_i18n::tr("disp_tids"),
               toolbox_on("id_disp_titleids"), toolbox_i18n::tr("disp_tids.sub"),
-              std::nullopt, kIconTitleId)
-      .toggle("id_custom_game_opts", toolbox_i18n::tr("game_opts.toggle"),
-              toolbox_on("id_custom_game_opts"),
-              toolbox_i18n::tr("game_opts.toggle.sub"), std::nullopt,
-              kIconMenuOption);
+              std::nullopt, kIconTitleId);
 }
+
 
 void append_toolbox_account_group(ps5ui::Group& g) {
   g.link("id_account_activation", toolbox_i18n::tr("account.link"),
@@ -637,17 +634,7 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 
 
 void append_toolbox_preferences_group(ps5ui::Group& g) {
-  g.list("id_start_opt", toolbox_i18n::tr("startup.open_after_load"),
-         [](ps5ui::ListBuilder& L) {
-           L.item("id_start_opt_none", toolbox_i18n::tr("startup.none"), "0")
-               .item("id_start_opt_home_menu",
-                     toolbox_i18n::tr("startup.home_menu"), "1");
-         },
-         toolbox_i18n::tr("startup.open_after_load.sub"),
-         toolbox_val("id_start_opt", "0"),
-         toolbox_i18n::tr("startup.open_after_load.confirm"),
-         toolbox_i18n::tr("startup.open_after_load.confirm_phrase"))
-      .list("id_ui_lang", toolbox_i18n::tr("lang.list"),
+  g.list("id_ui_lang", toolbox_i18n::tr("lang.list"),
          [](ps5ui::ListBuilder& L) {
            L.item("id_ui_lang_system", toolbox_i18n::tr("lang.system"), "0")
                .item("id_ui_lang_zh", toolbox_i18n::tr("lang.zh"), "1")
@@ -666,18 +653,6 @@ void append_toolbox_preferences_group(ps5ui::Group& g) {
                .item("id_ui_lang_th", toolbox_i18n::tr("lang.th"), "14");
          },
          toolbox_i18n::tr("lang.list.sub"), toolbox_val("id_ui_lang", "0"))
-      .list("id_toolbox_shortcut", toolbox_i18n::tr("sc.toolbox"),
-            [](ps5ui::ListBuilder& L) {
-              L.item("id_toolbox_shortcut_0", toolbox_i18n::tr("sc.off"), "0")
-                  .item("id_toolbox_shortcut_1", toolbox_i18n::tr("sc.l2_r3"),
-                        "1")
-                  .item("id_toolbox_shortcut_2",
-                        toolbox_i18n::tr("sc.long_share"), "2")
-                  .item("id_toolbox_shortcut_3", toolbox_i18n::tr("sc.share"),
-                        "3");
-            },
-            toolbox_i18n::tr("sc.toolbox.sub"),
-            toolbox_val("id_toolbox_shortcut"))
       .list("id_cheats_shortcut", toolbox_i18n::tr("sc.cheats"),
             [](ps5ui::ListBuilder& L) {
               L.item("id_cheats_shortcut_0", toolbox_i18n::tr("sc.off"), "0")
@@ -694,6 +669,7 @@ void append_toolbox_preferences_group(ps5ui::Group& g) {
             },
             toolbox_i18n::tr("sc.cheats.sub"), toolbox_val("id_cheats_shortcut"));
 }
+
 
 
 void append_toolbox_debug_group(ps5ui::Group& g) {
