@@ -629,12 +629,9 @@ void append_toolbox_system_group(ps5ui::Group& g) {
        toolbox_i18n::tr("fan.group.sub"), kIconFan, "id_enable_fan_speed")
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
-            toolbox_i18n::tr("license.bd.sub"), kIconDiscLicense);
-}
-
-
-void append_toolbox_preferences_group(ps5ui::Group& g) {
-  g.list("id_ui_lang", toolbox_i18n::tr("lang.list"),
+            toolbox_i18n::tr("license.bd.sub"), kIconDiscLicense)
+      // Voci delle preferenze integrate direttamente qui
+      .list("id_ui_lang", toolbox_i18n::tr("lang.list"),
          [](ps5ui::ListBuilder& L) {
            L.item("id_ui_lang_system", toolbox_i18n::tr("lang.system"), "0")
                .item("id_ui_lang_zh", toolbox_i18n::tr("lang.zh"), "1")
@@ -667,13 +664,8 @@ void append_toolbox_preferences_group(ps5ui::Group& g) {
                   .item("id_cheats_shortcut_5", toolbox_i18n::tr("sc.share"),
                         "5");
             },
-            toolbox_i18n::tr("sc.cheats.sub"), toolbox_val("id_cheats_shortcut"));
-}
-
-
-
-void append_toolbox_debug_group(ps5ui::Group& g) {
-  g.text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
+            toolbox_i18n::tr("sc.cheats.sub"), toolbox_val("id_cheats_shortcut"))
+      .text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
                   toolbox_i18n::tr("debug.np_env.sub"), "basic_latin", "1",
                   "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
                   toolbox_i18n::tr("debug.np_env.confirm_phrase"));
@@ -685,7 +677,7 @@ void generate_toolbox_xml(std::string& new_xml) {
   ps5ui::Page page("id_debug_settings", toolbox_i18n::tr("root.title"));
   page.root_focus("id_group_pkg");
 
-  page.group(
+  new_xml = page.group(
           "id_group_pkg", toolbox_i18n::tr("group.pkg"),
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
           toolbox_i18n::tr("group.pkg.sub"), kIconPkg,
@@ -694,7 +686,6 @@ void generate_toolbox_xml(std::string& new_xml) {
           "id_group_payloads", toolbox_i18n::tr("group.payloads"),
           [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
           toolbox_i18n::tr("group.payloads.sub"), kIconPlugins, "id_payloads")
-      // La voce id_group_game (Strumenti di gioco) è stata rimossa completamente da qui
       .group(
           "id_group_network", toolbox_i18n::tr("group.network"),
           [](ps5ui::Group& g) {
@@ -713,17 +704,6 @@ void generate_toolbox_xml(std::string& new_xml) {
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
           toolbox_i18n::tr("group.system.sub"), kIconSettings,
           "id_group_fan")
-      .group(
-          "id_group_preferences", toolbox_i18n::tr("group.preferences"),
-          [](ps5ui::Group& g) { append_toolbox_preferences_group(g); },
-          toolbox_i18n::tr("group.preferences.sub"), kIconShortcuts,
-          "id_start_opt")
-      .group(
-          "id_group_debug", toolbox_i18n::tr("group.debug"),
-          [](ps5ui::Group& g) { append_toolbox_debug_group(g); },
-          toolbox_i18n::tr("group.debug.sub"), kIconDebug,
-          "id_app_jailbreak_enabled");
-          // La voce id_onionhen_credit_options (About) è stata rimossa completamente da qui
-
-  new_xml = page.build();
+      .build();
+      // Gruppo preferenze rimosso e catena chiusa correttamente con .build()
 }
