@@ -76,4 +76,4 @@ if(_write_header)
   file(WRITE "${OUTPUT_FILE}" "${_contents}")
 endif()
 
-message(STATUS "OnionHEN version: ${_version}")
+message(STATUS "LiteHEN version: LiteHEN")
