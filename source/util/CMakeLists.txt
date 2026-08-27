@@ -112,15 +112,18 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 # CBC for MC4 / ShnExt AES
 target_compile_definitions(${PROJECT_NAME} PRIVATE CBC=1)
-set(ONION_CURL_ROOT "${PS5_PAYLOAD_SDK}/target/user/homebrew")
-set(ONION_CURL_CA_BUNDLE "${ONION_CURL_ROOT}/etc/ca-bundle.crt")
-if(NOT EXISTS "${ONION_CURL_ROOT}/include/curl/curl.h" OR
-   NOT EXISTS "${ONION_CURL_ROOT}/lib/libcurl.a" OR
-   NOT EXISTS "${ONION_CURL_CA_BUNDLE}")
-	message(FATAL_ERROR
-		"PS5 payload SDK libcurl and CA bundle are required for cheat catalog HTTP "
-		"(looked in ${ONION_CURL_ROOT}).")
-endif()
+
+# DISABILITATO: Rimosso il controllo di libcurl per il catalogo online
+# set(ONION_CURL_ROOT "${PS5_PAYLOAD_SDK}/target/user/homebrew")
+# set(ONION_CURL_CA_BUNDLE "${ONION_CURL_ROOT}/etc/ca-bundle.crt")
+# if(NOT EXISTS "${ONION_CURL_ROOT}/include/curl/curl.h" OR
+#    NOT EXISTS "${ONION_CURL_ROOT}/lib/libcurl.a" OR
+#    NOT EXISTS "${ONION_CURL_CA_BUNDLE}")
+# 	message(FATAL_ERROR
+# 		"PS5 payload SDK libcurl and CA bundle are required for cheat catalog HTTP "
+# 		"(looked in ${ONION_CURL_ROOT}).")
+# endif()
+
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	CURL_STATICLIB
 	ONION_CURL_CA_BUNDLE="${ONION_CURL_CA_BUNDLE}"
@@ -136,12 +139,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE
   "${SHADOWMOUNT_SOURCE_DIR}"
   "${SHADOWMOUNT_SOURCE_DIR}/include"
   "${ONIONHEN_THIRD_PARTY_DIR}/sqlite")
-# The CA bundle is embedded with .incbin, which is invisible to the compiler's
-# normal dependency scanner.
-set_source_files_properties(
-	"${D_SRC}/cheats/sync/http_transport_ps5.cpp"
-	PROPERTIES OBJECT_DEPENDS "${ONION_CURL_CA_BUNDLE}"
-)
+
+# DISABILITATO: Dipendenza dal file del certificato CA rimossa
+# set_source_files_properties(
+# 	"${D_SRC}/cheats/sync/http_transport_ps5.cpp"
+# 	PROPERTIES OBJECT_DEPENDS "${ONION_CURL_CA_BUNDLE}"
+# )
+
 # Upstream ftpsrv is compiled with a less strict warning profile than the
 # OnionHEN util sources.  Keep the shared target's -Werror for our code while
 # allowing the pinned third-party modules to retain their upstream
@@ -176,10 +180,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     SceNetCtl
     SceNet
     kernel_sys
-    curl
-    psl
-    ssl
-    crypto
     zstd
     z
 )
