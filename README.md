@@ -12,26 +12,45 @@ This project is a derivative work based on [aydencharles/onionHEN](https://githu
 
 Compared to the original OnionHEN, this version introduces the following changes:
 * **Repositioned Overlay:** Moved the main overlay/HUD to the **top-left** corner of the screen for better visibility and less gameplay obstruction.
-* **Streamlined UI:** Focus on four clean sections: Content installation and management, Payload, System and hardware, and Information.
+* **Streamlined UI:** Focus on four clean sections: **Content installation and management**, **Payload**, **System and hardware**, and **Information**.
+* **Performance Focus:** Kept only the essential components required for payload injection and homebrew launching.
 
 ## 🛠️ Credits & Acknowledgments
 
-LiteHEN and OnionHEN exist because of the PS5 homebrew and reverse-engineering community.
+OnionHEN exists because of the PS5 homebrew and reverse-engineering community.
 
 ### Contributors
-* **aydencharles:** Creator of the original [aydencharles/onionHEN](https://github.com) ecosystem.
-* **kvnhrt:** Core contributor and developer [kvnhrt](https://github.com).
-* OnionHEN contributors.
+* **kvnhrt**
+* OnionHEN contributors
 
 ### Based on
-* **etaHEN:** Developed by [LightningMods](https://github.com) and contributors; source base of this tree.
-* **GoldHEN:** Created by [SiSTR0](https://github.com) and contributors; the PS4 all-in-one HEN this project takes after.
+* **etaHEN** — LightningMods and contributors; source base of this tree
+* **GoldHEN** — SiSTR0 and contributors; the PS4 all-in-one HEN this project takes after
 
-### Referenced & Used Components
-This project utilizes work from various developers, including **kstuff-lite** ([EchoStretch](https://github.com)), **ps5-payload-manager** ([itsplk](https://github.com)), and **libhijacker** ([astrelsky](https://github.com)). Other key components include **ftpsrv** ([drakmor](https://github.com)) and **NineS** ([buzzer-re](https://github.com)). A full list of dependencies and contributors can be found in the original source documents.
+### Referenced
+* **kstuff-lite** — EchoStretch, sleirsgoevy, and contributors; Rest Mode Toolbox recovery follows its SceSysCore NOTE_EXEC watch for NPXS40087 and wait for libSceNpTrophy.sprx / libSceNpTrophy2.sprx
+* **ps5-payload-manager** — itsplk; listen-socket rebind after Rest Mode (Unix IPC and TCP accept-fail self-heal) follows this project
+* **HEN-Cheats-Collection** — TeeKay87; the community cheat collection downloaded by the built-in cheat sync
+* **PHU Games Tools** — ArkSama; the in-game FPS counter follows PHU Games Tools skip-hook sampling (/dev/dce scanout and DMAP reads of libSceAgcDriver)
+
+### Used or embedded
+* **PS5 Payload SDK** — Prospero toolchain and headers
+* **elfldr** — first-hop loader on port 9021; not shipped in the payload
+* **kstuff-lite** — EchoStretch, sleirsgoevy, and contributors; optional kstuff.elf
+* **ftpsrv** — drakmor and upstream contributors; in-process PS5 FTP server from nexgen
+* **libhijacker** — astrelsky; process hijack and kernel R/W
+* **NineS** — buzzer-re; ShellUI injection
+* **cJSON** — JSON parsing
+* **7-Zip LZMA SDK** — unpacker decompression
+* **miniz** — cheat-file decompression
 
 ### Testers
-Special thanks to the testing team: 即食面, 雨之声, 大饼电玩, 安定区, 随风, 麒麟, 尼克库尔曼, 云, 啊烦, 小小蔡, B站谢锡榆, 荆枫.
+即食面, 雨之声, 大饼电玩, 安定区, 随风, 麒麟, 尼克库尔曼, 云, 啊烦, 小小蔡, B站谢锡榆, 荆枫
+
+Thanks as well to everyone else who tested, researched, or sent usable feedback.
 
 ## ⚖️ License & Disclaimer
-This project is licensed under the GNU General Public License v3.0. LiteHEN is an unofficial project not affiliated with Sony Interactive Entertainment. Use at your own risk.
+
+This project is licensed under the GNU General Public License v3.0. Third-party components retain their respective licenses and notices.
+
+OnionHEN is an unofficial homebrew project and is not affiliated with Sony Interactive Entertainment. Use it only on hardware you own and at your own risk. No warranty is provided.
