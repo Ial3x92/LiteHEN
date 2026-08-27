@@ -179,8 +179,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     SceNetCtl
     SceNet
     kernel_sys
-    zstd
-    z
+    # MODIFICA: Rimosse le librerie zstd e z che causavano l'errore del linker
 )
 set_source_files_properties(
   ${ONIONHEN_THIRD_PARTY_DIR}/cheat_support/aes.c
