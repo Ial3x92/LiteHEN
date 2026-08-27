@@ -20,15 +20,15 @@ Compared to the original OnionHEN, this version introduces the following changes
 OnionHEN exists because of the PS5 homebrew and reverse-engineering community.
 
 ### Contributors
+* **aydencharles**
 * **kvnhrt**
-* OnionHEN contributors
 
 ### Based on
 * **etaHEN** — LightningMods and contributors; source base of this tree
 * **GoldHEN** — SiSTR0 and contributors; the PS4 all-in-one HEN this project takes after
 
 ### Referenced
-* **kstuff-lite** — EchoStretch, sleirsgoevy, and contributors; Rest Mode Toolbox recovery follows its SceSysCore NOTE_EXEC watch for NPXS40087 and wait for libSceNpTrophy.sprx / libSceNpTrophy2.sprx
+* **kstuff-lite** — EchoStretch, sle contributors; Rest Mode Toolbox recovery follows its SceSysCore NOTE_EXEC watch for NPXS40087 and wait for libSceNpTrophy.sprx / libSceNpTrophy2.sprx
 * **ps5-payload-manager** — itsplk; listen-socket rebind after Rest Mode (Unix IPC and TCP accept-fail self-heal) follows this project
 * **HEN-Cheats-Collection** — TeeKay87; the community cheat collection downloaded by the built-in cheat sync
 * **PHU Games Tools** — ArkSama; the in-game FPS counter follows PHU Games Tools skip-hook sampling (/dev/dce scanout and DMAP reads of libSceAgcDriver)
