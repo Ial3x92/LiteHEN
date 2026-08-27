@@ -16,6 +16,22 @@ set(ONIONHEN_GENERATED_INCLUDE_DIR "${CMAKE_BINARY_DIR}/generated/include")
 set(ONIONHEN_VERSION_HEADER
 	"${ONIONHEN_GENERATED_INCLUDE_DIR}/onion/version.h")
 
+# ---------------------------------------------------------------------------
+# 🚀 STRIP & COMPRESSION OPTIMIZATIONS (LiteHEN Extreme Slimming)
+# ---------------------------------------------------------------------------
+# Forza l'ottimizzazione aggressiva basata sulla dimensione del file (-Oz)
+set(CMAKE_C_FLAGS_RELEASE "-Oz -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "-Oz -DNDEBUG")
+
+# Separa le funzioni e i dati per consentire al linker di scartare il codice inutilizzato
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffunction-sections -fdata-sections")
+
+# Esegue lo STRIP dei simboli di debug e attiva la Garbage Collection delle sezioni isolate
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections")
+# ---------------------------------------------------------------------------
+
 # Re-evaluate Git state on every build. The script preserves the header mtime
 # when the version is unchanged, so incremental compilation remains cheap.
 add_custom_target(onion_version
