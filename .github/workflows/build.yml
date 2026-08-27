@@ -1,4 +1,4 @@
-name: Build OnionHEN
+name: Build LiteHEN
 on:
   workflow_dispatch:
 
