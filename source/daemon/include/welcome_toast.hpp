@@ -12,8 +12,9 @@
 namespace onion::daemon {
 
 inline std::string make_welcome_toast_json(std::string_view toolbox_uri) {
-  const std::string message = std::string(ONIONHEN_VERSION) +
-                              onion_notify_tr("notify.boot.made_by") + ONIONHEN_AUTHOR;
+  // Allineato con le nuove macro LiteHEN e aggiunti spazi per la formattazione del testo
+  const std::string message = std::string(LITEHEN_VERSION) + " " +
+                              onion_notify_tr("notify.boot.made_by") + " " + LITEHEN_AUTHOR;
   const char *sub_message = onion_notify_tr("notify.boot.welcome");
   const char *action_name = onion_notify_tr("notify.boot.goto_toolbox");
   const std::string_view action_url =
@@ -71,7 +72,7 @@ inline std::string make_welcome_toast_json(std::string_view toolbox_uri) {
       cJSON_AddNumberToObject(raw, "priority", 100) &&
       cJSON_AddStringToObject(icon, "type", "Url") &&
       cJSON_AddStringToObject(icon_params, "url",
-                             "/user/data/OnionHEN/onionhen.png") &&
+                             "/user/data/LiteHEN/litehen.png") && // Aggiornato il percorso dell'immagine di boot
       cJSON_AddStringToObject(message_obj, "body", message.c_str()) &&
       cJSON_AddStringToObject(sub_message_obj, "body", sub_message) &&
       cJSON_AddStringToObject(action_obj, "actionName", action_name) &&
