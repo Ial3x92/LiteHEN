@@ -50,6 +50,9 @@ jobs:
 
           ./scripts/build.sh --release
 
+          # Copiamo e rinominiamo direttamente l'eseguibile finale
+          cp build/bin/OnionHEN.elf build/bin/LiteHEN.elf
+
       - name: Upload LiteHEN.elf
         uses: actions/upload-artifact@v4
         with:
