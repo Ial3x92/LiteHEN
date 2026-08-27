@@ -19,19 +19,18 @@ target_compile_options(${PROJECT_NAME} PUBLIC
 	$<$<COMPILE_LANGUAGE:ASM>:${ASM_FLAGS}>
 )
 
+# MODIFICA: Rimossa la cartella 'sync' per escludere i file di download online
 file(GLOB SrcFiles CONFIGURE_DEPENDS
   ${D_SRC}/*.c
   ${D_SRC}/*.cpp
   ${D_SRC}/cheats/*.c
   ${D_SRC}/cheats/*.cpp
-  ${D_SRC}/cheats/sync/*.cpp
   ${ONIONHEN_THIRD_PARTY_DIR}/cheat_support/*.c
   ${D_SRC}/../include/*.h
   ${D_SRC}/../include/*.hpp
   ${D_SRC}/*.s
   ${ONIONHEN_THIRD_PARTY_DIR}/cjson/*.cpp
   ${ONIONHEN_THIRD_PARTY_DIR}/cjson/*.hpp
- 
 )
 
 # ftpsrv is linked into util as a library-style module.  Its standalone main
@@ -190,11 +189,13 @@ set_source_files_properties(
   ${ONIONHEN_THIRD_PARTY_DIR}/cheat_support/sha256.c
   PROPERTIES COMPILE_FLAGS "-Wno-error -Wno-unused-function -Wno-sign-compare -Wno-unused-parameter"
 )
-# miniz.h ships static-inline helpers that trip PS5's global -Werror in C++.
-set_source_files_properties(
-  ${D_SRC}/cheats/sync/zip_archive.cpp
-  PROPERTIES COMPILE_FLAGS "-Wno-error -Wno-unused-function -Wno-sign-compare -Wno-unused-parameter"
-)
+
+# DISABILITATO: Rimosso il file zip_archive poiché legato alle funzioni sync
+# set_source_files_properties(
+#   ${D_SRC}/cheats/sync/zip_archive.cpp
+#   PROPERTIES COMPILE_FLAGS "-Wno-error -Wno-unused-function -Wno-sign-compare -Wno-unused-parameter"
+# )
+
 file(GLOB CHEAT_ENGINE_SRCS CONFIGURE_DEPENDS ${D_SRC}/cheats/*.c)
 set_source_files_properties(${CHEAT_ENGINE_SRCS} PROPERTIES
   COMPILE_FLAGS "-Wno-error -Wno-unused-parameter -Wno-sign-compare"
