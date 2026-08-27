@@ -703,7 +703,7 @@ void append_toolbox_debug_group(ps5ui::Group& g) {
                   toolbox_i18n::tr("debug.np_env.confirm_phrase"));
 }
 
-
+} // namespace
 
 void generate_toolbox_xml(std::string& new_xml) {
   ps5ui::Page page("id_debug_settings", toolbox_i18n::tr("root.title"));
