@@ -529,21 +529,13 @@ void append_toolbox_pkg_group(ps5ui::Group& g) {
 
 void append_toolbox_payloads_group(ps5ui::Group& g) {
   g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml",
-         toolbox_i18n::tr("payloads.link.sub"), kIconPlugins)
-      .link("id_auto_payloads", toolbox_i18n::tr("payload.auto.link"),
-            "auto_payloads.xml", toolbox_i18n::tr("payload.auto.sub"), kIconPlugins)
-      .link("id_plugins", toolbox_i18n::tr("plugins.link"), "plugins.xml",
-            toolbox_i18n::tr("plugins.link.sub"), kIconPlugins);
+         toolbox_i18n::tr("payloads.link.sub"), kIconPlugins);
 }
+
 
 void append_toolbox_game_group(ps5ui::Group& g) {
   g.link("id_cheats", toolbox_i18n::tr("cheats.link"), "cheats.xml",
-         toolbox_i18n::tr("cheats.link.sub"), kIconCheats)
-      .button("id_download_cheats", toolbox_i18n::tr("cheats.repo.download"),
-              toolbox_i18n::tr("cheats.repo.download.desc"), std::nullopt,
-              kIconDownload, ps5ui::Style::None,
-              toolbox_i18n::tr("cheats.repo.download.confirm"),
-              toolbox_i18n::tr("cheats.repo.download.confirm_phrase"));
+         toolbox_i18n::tr("cheats.link.sub"), kIconCheats);
 }
 
 void append_toolbox_network_group(ps5ui::Group& g) {
@@ -704,19 +696,9 @@ void append_toolbox_preferences_group(ps5ui::Group& g) {
                   .item("id_cheats_shortcut_5", toolbox_i18n::tr("sc.share"),
                         "5");
             },
-            toolbox_i18n::tr("sc.cheats.sub"), toolbox_val("id_cheats_shortcut"))
-      .list("id_cheats_mirror", toolbox_i18n::tr("cheats.repo.mirror"),
-            [](ps5ui::ListBuilder& L) {
-              L.item("id_cheats_mirror_auto",
-                     toolbox_i18n::tr("cheats.repo.mirror.auto"), "0")
-                  .item("id_cheats_mirror_github",
-                        toolbox_i18n::tr("cheats.repo.mirror.github"), "1")
-                  .item("id_cheats_mirror_cnb",
-                        toolbox_i18n::tr("cheats.repo.mirror.cnb"), "2");
-            },
-            toolbox_i18n::tr("cheats.repo.mirror.sub"),
-            toolbox_val("id_cheats_mirror"));
+            toolbox_i18n::tr("sc.cheats.sub"), toolbox_val("id_cheats_shortcut"));
 }
+
 
 void append_toolbox_debug_group(ps5ui::Group& g) {
   g.list("id_log_level", toolbox_i18n::tr("log.level"),
