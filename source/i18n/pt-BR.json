@@ -5,7 +5,7 @@
     "fallback": false
   },
   "toolbox": {
-    "root.title": "★Caixa de ferramentas LiteHEN",
+    "root.title": "LiteHEN",
     "group.pkg": "Instalação e gerenciamento de conteúdo",
     "group.pkg.sub": "Instalar PKGs e gerenciar conteúdo adicional",
     "group.payloads": "Payloads e kernel",

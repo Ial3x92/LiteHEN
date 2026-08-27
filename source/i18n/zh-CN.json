@@ -5,7 +5,7 @@
     "fallback": false
   },
   "toolbox": {
-    "root.title": "★LiteHEN 工具箱",
+    "root.title": "LiteHEN",
     "group.pkg": "内容安装与管理",
     "group.pkg.sub": "安装 PKG 与管理附加内容",
     "group.payloads": "Payload 与内核",

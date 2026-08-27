@@ -5,7 +5,7 @@
     "fallback": false
   },
   "toolbox": {
-    "root.title": "★صندوق أدوات LiteHEN",
+    "root.title": "LiteHEN",
     "group.pkg": "تثبيت المحتوى وإدارته",
     "group.pkg.sub": "تثبيت ملفات PKG وإدارة المحتوى الإضافي",
     "group.payloads": "الحمولات والنواة",

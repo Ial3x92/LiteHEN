@@ -5,7 +5,7 @@
     "fallback": false
   },
   "toolbox": {
-    "root.title": "★LiteHEN ツールボックス",
+    "root.title": "LiteHEN",
     "group.pkg": "コンテンツのインストールと管理",
     "group.pkg.sub": "PKG のインストールと追加コンテンツの管理",
     "group.payloads": "ペイロードとカーネル",

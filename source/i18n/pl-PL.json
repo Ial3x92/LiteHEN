@@ -5,7 +5,7 @@
     "fallback": false
   },
   "toolbox": {
-    "root.title": "★Narzędzia LiteHEN",
+    "root.title": "LiteHEN",
     "group.pkg": "Instalacja i zarządzanie zawartością",
     "group.pkg.sub": "Instalacja PKG i zarządzanie zawartością dodatkową",
     "group.payloads": "Payloady i jądro",

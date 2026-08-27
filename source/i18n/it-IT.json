@@ -5,7 +5,7 @@
     "fallback": false
   },
   "toolbox": {
-    "root.title": "★Debug LiteHEN",
+    "root.title": "LiteHEN",
     "group.pkg": "Installazione e gestione dei contenuti",
     "group.pkg.sub": "Installare PKG e gestire i contenuti aggiuntivi",
     "group.payloads": "Payload e kernel",

@@ -5,7 +5,7 @@
     "fallback": false
   },
   "toolbox": {
-    "root.title": "★LiteHEN Toolbox",
+    "root.title": "LiteHEN",
     "group.pkg": "ติดตั้งและจัดการคอนเทนต์",
     "group.pkg.sub": "ติดตั้ง PKG และจัดการคอนเทนต์เสริม",
     "group.payloads": "Payload และเคอร์เนล",
