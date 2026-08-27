@@ -8,8 +8,9 @@ LiteHEN è una modifica snella e leggera di **OnionHEN**, progettata per un'espe
 
 ## 🚀 Modifiche Principali
 * **Overlay Riposizionato:** HUD spostato nell'angolo **alto a sinistra** per una migliore visibilità.
-* **UI Semplificata:** Rimossi i menu di debug, focalizzando l'interfaccia su: **Installazione e gestione dei contenuti**, **Payload**, **Sistema e hardware** e **Informazioni**.
-* **Focus sulle prestazioni:** Componenti essenziali per payload injection e homebrew.
+* **UI Semplificata:** L'interfaccia si focalizza su: **Installazione e gestione dei contenuti**, **Payload**, **Sistema e hardware** e **Informazioni**.
+* **Nei sottomenu sono presenti:**
+* 
 
 ## 🛠️ Crediti e Riconoscimenti
 Basato sul lavoro della comunità PS5, in particolare:
