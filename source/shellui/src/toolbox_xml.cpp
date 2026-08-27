@@ -587,11 +587,10 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                      toolbox_on("id_overlay_ip"), std::nullopt,
                      toolbox_i18n::tr("overlay.ip.desc"));
        },
-       toolbox_i18n::tr("overlay.group.sub"), kIconOverlay,
-       "id_overlay_enabled")
+       toolbox_i18n::tr("overlay.group.sub"), std::nullopt, "id_overlay_enabled") // Rimosso kIconOverlay (Cancellata icona Overlay)
       .toggle("id_disp_titleids", toolbox_i18n::tr("disp_tids"),
               toolbox_on("id_disp_titleids"), toolbox_i18n::tr("disp_tids.sub"),
-              std::nullopt, kIconTitleId)
+              std::nullopt, kIconTitleId) // Mantenuto kIconTitleId (Mostra l'icona del Title ID)
 
       // 3. Integrazione Gioco a Distanza (Remote Play)
       .group(
@@ -680,7 +679,7 @@ void generate_toolbox_xml(std::string& new_xml) {
       .group(
           "id_group_payloads", toolbox_i18n::tr("group.payloads"),
           [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
-          toolbox_i18n::tr("group.payloads.sub"), std::nullopt, "id_payloads") 
+          toolbox_i18n::tr("group.payloads.sub"), std::nullopt, "id_payloads")
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
