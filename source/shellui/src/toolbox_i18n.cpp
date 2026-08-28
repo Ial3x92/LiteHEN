@@ -27,32 +27,14 @@ const Entry *find_entry(const char *key) {
 
 Lang lang_from_notify(onion_notify_language_t language) {
   switch (language) {
-  case ONION_NOTIFY_LANG_ZH_HANS:
-    return Lang::ZhHans;
-  case ONION_NOTIFY_LANG_AR:
-    return Lang::Ar;
-  case ONION_NOTIFY_LANG_ZH_HANT:
-    return Lang::ZhHant;
-  case ONION_NOTIFY_LANG_JA:
-    return Lang::Ja;
-  case ONION_NOTIFY_LANG_FR:
-    return Lang::Fr;
   case ONION_NOTIFY_LANG_DE:
     return Lang::De;
-  case ONION_NOTIFY_LANG_KO:
-    return Lang::Ko;
   case ONION_NOTIFY_LANG_ES:
     return Lang::Es;
-  case ONION_NOTIFY_LANG_PT_BR:
-    return Lang::PtBr;
+  case ONION_NOTIFY_LANG_FR:
+    return Lang::Fr;
   case ONION_NOTIFY_LANG_IT:
     return Lang::It;
-  case ONION_NOTIFY_LANG_RU:
-    return Lang::Ru;
-  case ONION_NOTIFY_LANG_PL:
-    return Lang::Pl;
-  case ONION_NOTIFY_LANG_TH:
-    return Lang::Th;
   case ONION_NOTIFY_LANG_EN:
   default:
     return Lang::En;
@@ -61,32 +43,14 @@ Lang lang_from_notify(onion_notify_language_t language) {
 
 onion_notify_language_t notify_from_lang(Lang lang) {
   switch (lang) {
-  case Lang::ZhHans:
-    return ONION_NOTIFY_LANG_ZH_HANS;
-  case Lang::Ar:
-    return ONION_NOTIFY_LANG_AR;
-  case Lang::ZhHant:
-    return ONION_NOTIFY_LANG_ZH_HANT;
-  case Lang::Ja:
-    return ONION_NOTIFY_LANG_JA;
-  case Lang::Fr:
-    return ONION_NOTIFY_LANG_FR;
   case Lang::De:
     return ONION_NOTIFY_LANG_DE;
-  case Lang::Ko:
-    return ONION_NOTIFY_LANG_KO;
   case Lang::Es:
     return ONION_NOTIFY_LANG_ES;
-  case Lang::PtBr:
-    return ONION_NOTIFY_LANG_PT_BR;
+  case Lang::Fr:
+    return ONION_NOTIFY_LANG_FR;
   case Lang::It:
     return ONION_NOTIFY_LANG_IT;
-  case Lang::Ru:
-    return ONION_NOTIFY_LANG_RU;
-  case Lang::Pl:
-    return ONION_NOTIFY_LANG_PL;
-  case Lang::Th:
-    return ONION_NOTIFY_LANG_TH;
   case Lang::En:
   default:
     return ONION_NOTIFY_LANG_EN;
@@ -95,66 +59,31 @@ onion_notify_language_t notify_from_lang(Lang lang) {
 
 Lang lang_from_ui_value(int ui_lang) {
   switch (ui_lang) {
+  case 1:
+    return Lang::De;
   case 2:
     return Lang::En;
   case 3:
-    return Lang::Ar;
-  case 4:
-    return Lang::ZhHant;
-  case 5:
-    return Lang::Ja;
-  case 6:
-    return Lang::Fr;
-  case 7:
-    return Lang::De;
-  case 8:
-    return Lang::Ko;
-  case 9:
     return Lang::Es;
-  case 10:
-    return Lang::PtBr;
-  case 11:
+  case 4:
+    return Lang::Fr;
+  case 5:
     return Lang::It;
-  case 12:
-    return Lang::Ru;
-  case 13:
-    return Lang::Pl;
-  case 14:
-    return Lang::Th;
-  case 1:
   default:
-    return Lang::ZhHans;
+    return Lang::En;
   }
 }
 
 const char *locale_id_for_lang(Lang lang) {
   switch (lang) {
-  case Lang::ZhHans:
-    return "zh-Hans";
-  case Lang::Ar:
-    return "ar";
-  case Lang::ZhHant:
-    return "zh-Hant";
-  case Lang::Ja:
-    return "ja";
-  case Lang::Fr:
-    return "fr";
   case Lang::De:
     return "de";
-  case Lang::Ko:
-    return "ko";
   case Lang::Es:
     return "es";
-  case Lang::PtBr:
-    return "pt-BR";
+  case Lang::Fr:
+    return "fr";
   case Lang::It:
     return "it";
-  case Lang::Ru:
-    return "ru";
-  case Lang::Pl:
-    return "pl";
-  case Lang::Th:
-    return "th";
   case Lang::En:
   default:
     return "en";
@@ -176,42 +105,25 @@ Lang active_lang() { return lang_from_notify(onion_notify_get_language()); }
 
 int active_ui_lang_value() {
   switch (active_lang()) {
+  case Lang::De:
+    return 1;
   case Lang::En:
     return 2;
-  case Lang::Ar:
-    return 3;
-  case Lang::ZhHant:
-    return 4;
-  case Lang::Ja:
-    return 5;
-  case Lang::Fr:
-    return 6;
-  case Lang::De:
-    return 7;
-  case Lang::Ko:
-    return 8;
   case Lang::Es:
-    return 9;
-  case Lang::PtBr:
-    return 10;
+    return 3;
+  case Lang::Fr:
+    return 4;
   case Lang::It:
-    return 11;
-  case Lang::Ru:
-    return 12;
-  case Lang::Pl:
-    return 13;
-  case Lang::Th:
-    return 14;
-  case Lang::ZhHans:
+    return 5;
   default:
-    return 1;
+    return 2; // Ritorna l'inglese come fallback di sicurezza
   }
 }
 
 void set_lang(Lang lang) {
-  if (static_cast<int>(lang) < static_cast<int>(Lang::ZhHans) ||
-      lang > Lang::Th)
-    lang = Lang::ZhHans;
+  // Controlla che il range rispetti solo le 5 lingue valide (da De a It)
+  if (lang < Lang::De || lang > Lang::It)
+    lang = Lang::En;
   onion_notify_set_language(notify_from_lang(lang));
 }
 
