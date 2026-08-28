@@ -522,14 +522,9 @@ void append_toolbox_pkg_group(ps5ui::Group& g) {
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
          "PkgInstaller/data/pkginstaller.xml",
          "") 
-      .link("id_game_add_content_manager", toolbox_i18n::tr("pkg.add_content"),
-            "Addcontent/data/addcontent.xml",
-            ""); 
-}
-
-void append_toolbox_payloads_group(ps5ui::Group& g) {
-  g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml", ""); 
-  // La descrizione è stata svuotata ("") e l'icona kIconPlugins è stata rimossa
+   .link("id_payloads", toolbox_i18n::tr("payloads.link"), 
+         "payloads.xml", 
+         ""); 
 }
 
 
@@ -538,18 +533,17 @@ void append_toolbox_system_group(ps5ui::Group& g) {
   g.group(
        "id_group_fan", toolbox_i18n::tr("fan.group"),
        [](ps5ui::Group& f) {
-         f.toggle("id_enable_fan_speed", toolbox_i18n::tr("fan.enable"),
-                  toolbox_on("id_enable_fan_speed"),
-                  std::nullopt) 
-             .text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
-                         std::nullopt, "number", "2", 
-                         "2", std::nullopt, std::nullopt, std::nullopt,
-                         toolbox_val("id_fan_speed", ""));
+         f.text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
+                      std::nullopt, "number", "2", 
+                      "2", std::nullopt, std::nullopt, std::nullopt,
+                      toolbox_val("id_fan_speed", ""));
        },
-       std::nullopt, std::nullopt, "id_enable_fan_speed") // Rimosso logo ventola
+       std::nullopt, std::nullopt, std::nullopt) // Rimosso riferimento a id_enable_fan_speed
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
-            "") 
+            "");
+}
+
 
       // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
       .group(
@@ -697,16 +691,13 @@ void generate_toolbox_xml(std::string& new_xml) {
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
           std::nullopt, std::nullopt, // Rimosso logo kIconPkg
           "id_game_package_installer")
-      .group(
-          "id_group_payloads", toolbox_i18n::tr("group.payloads"),
-          [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
-          std::nullopt, std::nullopt, "id_payloads") 
+      // Il gruppo dei payload è stato rimosso da qui perché ora è integrato nel gruppo PKG
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
           std::nullopt, std::nullopt, // Rimosso logo kIconSettings
           "id_group_fan")
-      // Aggiunto qui il gruppo per i crediti (About) senza loghi e senza sotto-descrizioni
+      // Gruppo per i crediti (About) senza loghi e senza sotto-descrizioni
       .group(
           "id_onionhen_credit_options", toolbox_i18n::tr("group.about"),
           [](ps5ui::Group& g) { append_toolbox_about_group(g); },
