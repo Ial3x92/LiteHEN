@@ -52,8 +52,7 @@ jobs:
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
           fi
 
-          # 🔄 CAMBIO PERCORSO IN MODO SELETTIVO (SOLO NEI FILE DI CONFIGURAZIONE INTERNI) 🔄
-          # Modifica solo le stringhe dei percorsi senza intaccare i file CMake o i sottomoduli critici
+          # 🔄 CAMBIO PERCORSO SELETTIVO (SOLO NEI FILE DI CONFIGURAZIONE INTERNI) 🔄
           find source/ -type f -name "*settings*" -exec sed -i 's/OnionHEN/LiteHEN /g' {} + 2>/dev/null || true
           find source/ -type f -name "*settings*" -exec sed -i 's/onionHEN/LiteHEN /g' {} + 2>/dev/null || true
           if [ -f "source/shellui/src/toolbox_xml.cpp" ]; then
@@ -62,9 +61,18 @@ jobs:
 
           ./scripts/build.sh --release
 
-          # Copia e rinomina l'eseguibile finale trovandolo in modo flessibile
+          # 🔍 RICERCA GLOBALE DELL'ESEGUIBILE 🔍
+          # Crea la cartella di destinazione e cerca in tutto il workspace l'ELF finale generato
           mkdir -p build/bin
-          cp build/bin/*.elf build/bin/LiteHEN.elf 2>/dev/null || true
+          FOUND_ELF=$(find . -type f -name "*.elf" ! -name "test.elf" ! -name "bootstrapper.elf" | head -n 1)
+          
+          if [ -n "$FOUND_ELF" ]; then
+            echo "Trovato eseguibile in: $FOUND_ELF"
+            cp "$FOUND_ELF" build/bin/LiteHEN.elf
+          else
+            echo "ATTENZIONE: Nessun file .elf trovato! Provo a cercare file generati di recente..."
+            find . -type f -executable -mmin -5 -exec cp {} build/bin/LiteHEN.elf \; 2>/dev/null || true
+          fi
 
       - name: Upload LiteHEN.elf
         uses: actions/upload-artifact@v4
