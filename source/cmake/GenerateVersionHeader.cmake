@@ -58,8 +58,8 @@ string(REGEX REPLACE "[^A-Za-z0-9._+-]" "-" _version "${_version}")
 string(CONCAT _contents
     "#pragma once\n\n"
     "/* Generated at build time. Do not edit. */\n"
-    "#define LITEHEN_VERSION \"LiteHEN - Ial3x92\"\n"
-    "#define LITEHEN_AUTHOR \"Ial3x92\"\n")
+    "#define LITEHEN_VERSION \"LiteHEN - Ial3x\"\n"
+    "#define LITEHEN_AUTHOR \"Ial3x\"\n")
 
 
 get_filename_component(_output_dir "${OUTPUT_FILE}" DIRECTORY)
