@@ -690,18 +690,16 @@ void generate_toolbox_xml(std::string& new_xml) {
           "id_group_pkg", toolbox_i18n::tr("group.pkg"),
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
           std::nullopt, std::nullopt, // Rimosso logo kIconPkg
-          "id_game_package_installer")
-      // Il gruppo dei payload è stato rimosso da qui perché ora è integrato nel gruppo PKG
+          "id_game_package_installer") // <-- Assicurati che NON ci sia un punto e virgola o parentesi tonde extra qui
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
           std::nullopt, std::nullopt, // Rimosso logo kIconSettings
           "id_group_fan")
-      // Gruppo per i crediti (About) senza loghi e senza sotto-descrizioni
       .group(
           "id_onionhen_credit_options", toolbox_i18n::tr("group.about"),
           [](ps5ui::Group& g) { append_toolbox_about_group(g); },
           std::nullopt, std::nullopt, std::nullopt,
           ps5ui::Style::Center)
-      .build();
+      .build(); // <-- Il punto e virgola deve stare SOLO qui alla fine di tutta la catena
 }
