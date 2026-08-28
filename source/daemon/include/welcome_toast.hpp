@@ -12,6 +12,13 @@
 namespace onion::daemon {
 
 inline std::string make_welcome_toast_json(std::string_view toolbox_uri) {
+  // Impedisce al secondo messaggio di benvenuto di essere mostrato a schermo
+  static bool already_shown = false;
+  if (already_shown) {
+    return "{}";
+  }
+  already_shown = true;
+
   // Allineato con le nuove macro LiteHEN e aggiunti spazi per la formattazione del testo
   const std::string message = std::string(LITEHEN_VERSION) + " " +
                               onion_notify_tr("notify.boot.made_by") + " " + LITEHEN_AUTHOR;
