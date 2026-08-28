@@ -518,21 +518,19 @@ std::string toolbox_val(const char* id, const char* fallback = "0") {
   return v.empty() ? fallback : v;
 }
 
-
 void append_toolbox_pkg_group(ps5ui::Group& g) {
-  // Mostra sia l'installatore PKG sia i Payload nello stesso gruppo principale
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
          "PkgInstaller/data/pkginstaller.xml",
-         "")
-   .link("id_payloads", toolbox_i18n::tr("payloads.link"), 
-         "payloads.xml", 
-         ""); 
+         "") 
+      .link("id_game_add_content_manager", toolbox_i18n::tr("pkg.add_content"),
+            "Addcontent/data/addcontent.xml",
+            ""); 
 }
 
 void append_toolbox_payloads_group(ps5ui::Group& g) {
-  // Cancellata alla radice: la logica è stata fusa nel gruppo PKG
+  g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml", ""); 
+  // La descrizione è stata svuotata ("") e l'icona kIconPlugins è stata rimossa
 }
-
 
 
 void append_toolbox_system_group(ps5ui::Group& g) {
@@ -540,23 +538,30 @@ void append_toolbox_system_group(ps5ui::Group& g) {
   g.group(
        "id_group_fan", toolbox_i18n::tr("fan.group"),
        [](ps5ui::Group& f) {
-         f.text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
-                      std::nullopt, "number", "2", 
-                      "2", std::nullopt, std::nullopt, std::nullopt,
-                      toolbox_val("id_fan_speed", "")); 
+         f.toggle("id_enable_fan_speed", toolbox_i18n::tr("fan.enable"),
+                  toolbox_on("id_enable_fan_speed"),
+                  std::nullopt) 
+             .text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
+                         std::nullopt, "number", "2", 
+                         "2", std::nullopt, std::nullopt, std::nullopt,
+                         toolbox_val("id_fan_speed", ""));
        },
        std::nullopt, std::nullopt, "id_enable_fan_speed") // Rimosso logo ventola
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
             "") 
 
-          // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
+      // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
       .group(
        "id_overlay_opts", toolbox_i18n::tr("overlay.group"),
        [](ps5ui::Group& o) {
          o.toggle("id_overlay_enabled", toolbox_i18n::tr("overlay.enabled"),
                   toolbox_on("id_overlay_enabled"), std::nullopt,
                   std::nullopt) 
+             .toggle("id_overlay_background",
+                     toolbox_i18n::tr("overlay.background"),
+                     toolbox_on("id_overlay_background"), std::nullopt,
+                     std::nullopt) 
              .list("id_overlay_change_pos", toolbox_i18n::tr("overlay.pos"),
                    [](ps5ui::ListBuilder& L) {
                      L.item("id_overlay_pos_1",
@@ -574,13 +579,21 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                      std::nullopt) 
              .toggle("id_overlay_cpu", toolbox_i18n::tr("overlay.cpu"),
                      toolbox_on("id_overlay_cpu"), std::nullopt,
+                     std::nullopt) 
+             .toggle("id_all_cpu_usage", toolbox_i18n::tr("overlay.cpu_all"),
+                     toolbox_on("id_all_cpu_usage"), std::nullopt,
+                     std::nullopt) 
+             .toggle("id_overlay_ram", toolbox_i18n::tr("overlay.ram"),
+                     toolbox_on("id_overlay_ram"), std::nullopt,
+                     std::nullopt) 
+             .toggle("id_overlay_ip", toolbox_i18n::tr("overlay.ip"),
+                     toolbox_on("id_overlay_ip"), std::nullopt,
                      std::nullopt); 
        },
        std::nullopt, std::nullopt, "id_overlay_enabled") 
       .toggle("id_disp_titleids", toolbox_i18n::tr("disp_tids"),
               toolbox_on("id_disp_titleids"), std::nullopt, 
               std::nullopt, std::nullopt) // Rimosso logo kIconTitleId
-
 
       // 3. Integrazione Gioco a Distanza (Remote Play)
       .group(
@@ -614,15 +627,24 @@ void append_toolbox_system_group(ps5ui::Group& g) {
       .link("id_account_activation", toolbox_i18n::tr("account.link"),
             "account.xml", std::nullopt) 
 
-    // 5. Configurazione Lingue, Scorciatoie e Ambiente NP
+      // 5. Configurazione Lingue, Scorciatoie e Ambiente NP
       .list("id_ui_lang", toolbox_i18n::tr("lang.list"),
          [](ps5ui::ListBuilder& L) {
            L.item("id_ui_lang_system", toolbox_i18n::tr("lang.system"), "0")
-               .item("id_ui_lang_de", toolbox_i18n::tr("lang.de"), "1")
+               .item("id_ui_lang_zh", toolbox_i18n::tr("lang.zh"), "1")
+               .item("id_ui_lang_zh_hant", toolbox_i18n::tr("lang.zh_hant"), "4")
                .item("id_ui_lang_en", toolbox_i18n::tr("lang.en"), "2")
-               .item("id_ui_lang_es", toolbox_i18n::tr("lang.es"), "3")
-               .item("id_ui_lang_fr", toolbox_i18n::tr("lang.fr"), "4")
-               .item("id_ui_lang_it", toolbox_i18n::tr("lang.it"), "5");
+               .item("id_ui_lang_ja", toolbox_i18n::tr("lang.ja"), "5")
+               .item("id_ui_lang_ko", toolbox_i18n::tr("lang.ko"), "8")
+               .item("id_ui_lang_fr", toolbox_i18n::tr("lang.fr"), "6")
+               .item("id_ui_lang_de", toolbox_i18n::tr("lang.de"), "7")
+               .item("id_ui_lang_it", toolbox_i18n::tr("lang.it"), "11")
+               .item("id_ui_lang_es", toolbox_i18n::tr("lang.es"), "9")
+               .item("id_ui_lang_pt_br", toolbox_i18n::tr("lang.pt_br"), "10")
+               .item("id_ui_lang_pl", toolbox_i18n::tr("lang.pl"), "13")
+               .item("id_ui_lang_ru", toolbox_i18n::tr("lang.ru"), "12")
+               .item("id_ui_lang_ar", toolbox_i18n::tr("lang.ar"), "3")
+               .item("id_ui_lang_th", toolbox_i18n::tr("lang.th"), "14");
          },
          std::nullopt, toolbox_val("id_ui_lang", "0")) 
       .list("id_cheats_shortcut", toolbox_i18n::tr("sc.cheats"),
@@ -645,7 +667,6 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                   "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
                   toolbox_i18n::tr("debug.np_env.confirm_phrase"));
 }
-
 
 void append_toolbox_about_group(ps5ui::Group& g) {
   g.label("id_credit_ial3x92", "ial3x92", ps5ui::Style::Center)
@@ -676,13 +697,16 @@ void generate_toolbox_xml(std::string& new_xml) {
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
           std::nullopt, std::nullopt, // Rimosso logo kIconPkg
           "id_game_package_installer")
-      // Il blocco dei payload è stato cancellato da qui perché ora si trova dentro append_toolbox_pkg_group
+      .group(
+          "id_group_payloads", toolbox_i18n::tr("group.payloads"),
+          [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
+          std::nullopt, std::nullopt, "id_payloads") 
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
           std::nullopt, std::nullopt, // Rimosso logo kIconSettings
           "id_group_fan")
-      // Gruppo per i crediti (About) senza loghi e senza sotto-descrizioni
+      // Aggiunto qui il gruppo per i crediti (About) senza loghi e senza sotto-descrizioni
       .group(
           "id_onionhen_credit_options", toolbox_i18n::tr("group.about"),
           [](ps5ui::Group& g) { append_toolbox_about_group(g); },
