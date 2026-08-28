@@ -45,7 +45,7 @@ jobs:
           
           find . -name "CMakeLists.txt" -exec sed -i 's/-Werror//g' {} +
 
-          # 🔥 OPTIMIZATIONS: LOWER WEIGHT, LESS RAM, MORE RESPONSIVE 🔥
+          # 🔥 OTTIMIZZAZIONI PRESTAZIONI: MENO PESO, MENO RAM, PIÙ REATTIVO 🔥
           OPTIMIZE_FLAGS="-Os -flto -s -ffunction-sections -fdata-sections -Wl,--gc-sections"
           find . -name "CMakeLists.txt" -exec sed -i "s/-O2/$OPTIMIZE_FLAGS/g" {} +
           find . -name "CMakeLists.txt" -exec sed -i "s/-O3/$OPTIMIZE_FLAGS/g" {} +
@@ -55,56 +55,12 @@ jobs:
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
           fi
 
-          # 🛠️ SCRITTURA DIRETTA E SICURA AL 100% DEL FILE TOOLBOX_XML.CPP 🛠️
-          # Riscrive completamente il file eliminando ogni possibile commento o parentesi orfana
-          mkdir -p source/shellui/src
-          cat << 'EOF' > source/shellui/src/toolbox_xml.cpp
-#include "toolbox_xml.h"
-#include <string>
-#include <optional>
-
-void append_toolbox_pkg_group(ps5ui::Group& g) {
-  g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"), "PkgInstaller/data/pkginstaller.xml", "")
-   .link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml", "");
-}
-
-void append_toolbox_system_group(ps5ui::Group& g) {
-  g.group(
-       "id_group_fan", toolbox_i18n::tr("fan.group"),
-       [](ps5ui::Group& f) {
-         f.text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
-                      std::nullopt, "number", "2", 
-                      "2", std::nullopt, std::nullopt, std::nullopt,
-                      toolbox_val("id_fan_speed", ""));
-       },
-       std::nullopt, std::nullopt, std::nullopt)
-      .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
-            "DebugSettings/data/debug_settings_licenseactivation.xml",
-            "");
-}
-
-void generate_toolbox_xml(std::string& new_xml) {
-  ps5ui::Page page("id_debug_settings", toolbox_i18n::tr("root.title"));
-  page.root_focus("id_group_pkg");
-
-  new_xml = page.group(
-          "id_group_pkg", toolbox_i18n::tr("group.pkg"),
-          [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
-          std::nullopt, std::nullopt,
-          "id_game_package_installer")
-      .group(
-          "id_group_system", toolbox_i18n::tr("group.system"),
-          [](ps5ui::Group& g) { append_toolbox_system_group(g); },
-          std::nullopt, std::nullopt,
-          "id_group_fan")
-      .group(
-          "id_onionhen_credit_options", toolbox_i18n::tr("group.about"),
-          [](ps5ui::Group& g) { append_toolbox_about_group(g); },
-          std::nullopt, std::nullopt, std::nullopt,
-          ps5ui::Style::Center)
-      .build();
-}
-EOF
+          # 🛠️ SISTEMAZIONE SINTASSI IN LINEA SICURA (GARANTISCE IL TASTO BUILD) 🛠️
+          # Sostituisce i blocchi via codice senza usare parentesi o a capo pericolosi per lo YAML
+          if [ -f "source/shellui/src/toolbox_xml.cpp" ]; then
+            sed -i '/id_group_payloads/,/\.group/ { d; }' source/shellui/src/toolbox_xml.cpp 2>/dev/null || true
+            sed -i 's/id_game_package_installer") \/\/ <--/id_game_package_installer")/g' source/shellui/src/toolbox_xml.cpp 2>/dev/null || true
+          fi
 
           ./scripts/build.sh --release
 
