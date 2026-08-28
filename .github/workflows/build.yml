@@ -43,19 +43,6 @@ jobs:
             ./scripts/sync_dependencies.sh --init-submodules --stub-missing
           fi
           
-          # =========================================================================
-          # RIMOZIONE LINGUE EXTRA: Cancella tutti i file JSON tranne i 5 selezionati
-          # =========================================================================
-          find . -name "*.json" | while read -r file; do
-            filename=$(basename "$file")
-            if [[ "$filename" =~ ^[a-z]{2}-[A-Z]{2}\.json$ ]]; then
-              if [[ "$filename" != "de-DE.json" && "$filename" != "en-US.json" && "$filename" != "es-ES.json" && "$filename" != "fr-FR.json" && "$filename" != "it-IT.json" ]]; then
-                rm -f "$file"
-              fi
-            fi
-          done
-          # =========================================================================
-
           find . -name "CMakeLists.txt" -exec sed -i 's/-Werror//g' {} +
           if [ -f "source/util/source/ftp_server.cpp" ]; then
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
