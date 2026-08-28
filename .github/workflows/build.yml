@@ -35,9 +35,14 @@ jobs:
           LLVM_CONFIG: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-llvm-config
           CC: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang
           CXX: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang++
-          # 🛡️ OTTIMIZZAZIONI ULTRA-RAM, ANTI-KP, MINIMO PESO E MASSIMA VELOCITÀ 🛡️
-          CFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -fno-exceptions -fno-rtti -flto -s -ffunction-sections -fdata-sections"
-          CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -fno-exceptions -fno-rtti -flto -s -ffunction-sections -fdata-sections"
+          # 🛡️ IMPOSTAZIONI ANTI-KP, MINIMO PESO, MINIMA RAM E MASSIMA VELOCITÀ 🛡️
+          # -Os: Riduce al minimo il peso del codice evitando inlining aggressivi che destabilizzano i thread.
+          # -fno-strict-aliasing: Impedisce a Clang di corrompere la memoria quando si usano puntatori a tipi diversi (essenziale anti-KP).
+          # -fno-omit-frame-pointer: Mantiene lo stack stabile durante l'interazione con il kernel PS5.
+          # -flto -s: Abilita l'ottimizzazione globale e rimuove totalmente i metadati di debug (stripping pesante).
+          # --gc-sections: Elimina le funzioni morte dell'SDK per alleggerire il payload.
+          CFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
+          CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
           LDFLAGS: "-flto -s -Wl,--gc-sections"
         run: |
           rm -rf build
@@ -52,27 +57,10 @@ jobs:
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
           fi
 
-          # 🔄 CAMBIO PERCORSO SELETTIVO (SOLO NEI FILE DI CONFIGURAZIONE INTERNI) 🔄
-          find source/ -type f -name "*settings*" -exec sed -i 's/OnionHEN/LiteHEN /g' {} + 2>/dev/null || true
-          find source/ -type f -name "*settings*" -exec sed -i 's/onionHEN/LiteHEN /g' {} + 2>/dev/null || true
-          if [ -f "source/shellui/src/toolbox_xml.cpp" ]; then
-            sed -i 's/OnionHEN/LiteHEN /g' source/shellui/src/toolbox_xml.cpp 2>/dev/null || true
-          fi
-
           ./scripts/build.sh --release
 
-          # 🔍 RICERCA GLOBALE DELL'ESEGUIBILE 🔍
-          # Crea la cartella di destinazione e cerca in tutto il workspace l'ELF finale generato
-          mkdir -p build/bin
-          FOUND_ELF=$(find . -type f -name "*.elf" ! -name "test.elf" ! -name "bootstrapper.elf" | head -n 1)
-          
-          if [ -n "$FOUND_ELF" ]; then
-            echo "Trovato eseguibile in: $FOUND_ELF"
-            cp "$FOUND_ELF" build/bin/LiteHEN.elf
-          else
-            echo "ATTENZIONE: Nessun file .elf trovato! Provo a cercare file generati di recente..."
-            find . -type f -executable -mmin -5 -exec cp {} build/bin/LiteHEN.elf \; 2>/dev/null || true
-          fi
+          # Copiamo e rinominiamo direttamente l'eseguibile finale
+          cp build/bin/OnionHEN.elf build/bin/LiteHEN.elf
 
       - name: Upload LiteHEN.elf
         uses: actions/upload-artifact@v4
