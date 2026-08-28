@@ -35,14 +35,9 @@ jobs:
           LLVM_CONFIG: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-llvm-config
           CC: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang
           CXX: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang++
-          # 🛡️ IMPOSTAZIONI ANTI-KP, MINIMO PESO, MINIMA RAM E MASSIMA VELOCITÀ 🛡️
-          # -Os: Riduce al minimo il peso del codice evitando inlining aggressivi che destabilizzano i thread.
-          # -fno-strict-aliasing: Impedisce a Clang di corrompere la memoria quando si usano puntatori a tipi diversi (essenziale anti-KP).
-          # -fno-omit-frame-pointer: Mantiene lo stack stabile durante l'interazione con il kernel PS5.
-          # -flto -s: Abilita l'ottimizzazione globale e rimuove totalmente i metadati di debug (stripping pesante).
-          # --gc-sections: Elimina le funzioni morte dell'SDK per alleggerire il payload.
-          CFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
-          CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
+          # 🛡️ OTTIMIZZAZIONI ULTRA-RAM, ANTI-KP, MINIMO PESO E MASSIMA VELOCITÀ 🛡️
+          CFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -fno-exceptions -fno-rtti -flto -s -ffunction-sections -fdata-sections"
+          CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -fno-exceptions -fno-rtti -flto -s -ffunction-sections -fdata-sections"
           LDFLAGS: "-flto -s -Wl,--gc-sections"
         run: |
           rm -rf build
@@ -56,6 +51,11 @@ jobs:
           if [ -f "source/util/source/ftp_server.cpp" ]; then
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
           fi
+
+          # 🔄 SOSTITUZIONE AUTOMATICA DEI PERCORSI DA ONIONHEN A LITEHEN 🔄
+          # Cerca in tutti i file .cpp, .h e .txt e sostituisce la cartella /data/OnionHEN/ con /data/LiteHEN/
+          find source/ -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec sed -i 's/OnionHEN/LiteHEN/g' {} + 2>/dev/null || true
+          find source/ -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec sed -i 's/onionHEN/LiteHEN/g' {} + 2>/dev/null || true
 
           ./scripts/build.sh --release
 
