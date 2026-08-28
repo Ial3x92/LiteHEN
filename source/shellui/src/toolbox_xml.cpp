@@ -520,16 +520,19 @@ std::string toolbox_val(const char* id, const char* fallback = "0") {
 
 
 void append_toolbox_pkg_group(ps5ui::Group& g) {
+  // Mostra sia l'installatore PKG sia i Payload nello stesso gruppo principale
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
          "PkgInstaller/data/pkginstaller.xml",
+         "")
+   .link("id_payloads", toolbox_i18n::tr("payloads.link"), 
+         "payloads.xml", 
          ""); 
 }
 
-
 void append_toolbox_payloads_group(ps5ui::Group& g) {
-  g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml", ""); 
-  // La descrizione è stata svuotata ("") e l'icona kIconPlugins è stata rimossa
+  // Cancellata alla radice: la logica è stata fusa nel gruppo PKG
 }
+
 
 
 void append_toolbox_system_group(ps5ui::Group& g) {
@@ -693,16 +696,13 @@ void generate_toolbox_xml(std::string& new_xml) {
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
           std::nullopt, std::nullopt, // Rimosso logo kIconPkg
           "id_game_package_installer")
-      .group(
-          "id_group_payloads", toolbox_i18n::tr("group.payloads"),
-          [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
-          std::nullopt, std::nullopt, "id_payloads") 
+      // Il blocco dei payload è stato cancellato da qui perché ora si trova dentro append_toolbox_pkg_group
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
           std::nullopt, std::nullopt, // Rimosso logo kIconSettings
           "id_group_fan")
-      // Aggiunto qui il gruppo per i crediti (About) senza loghi e senza sotto-descrizioni
+      // Gruppo per i crediti (About) senza loghi e senza sotto-descrizioni
       .group(
           "id_onionhen_credit_options", toolbox_i18n::tr("group.about"),
           [](ps5ui::Group& g) { append_toolbox_about_group(g); },
