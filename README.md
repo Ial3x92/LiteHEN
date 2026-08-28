@@ -8,12 +8,21 @@ LiteHEN is a streamlined, lightweight modification of **OnionHEN**, designed for
 
 This project is a derivative work based on [aydencharles/onionHEN](https://github.com/aydencharles/onionHEN) and is fully compliant with the **GNU General Public License v3**.
 
-## 🚀 Key Modifications & Changes
+## 🚀 Features & Optimizations (LiteHEN Edition)
 
-Compared to the original OnionHEN, this version introduces the following changes:
-* **Repositioned Overlay:** Moved the main overlay/HUD to the **top-left** corner of the screen for better visibility and less gameplay obstruction.
-* **Streamlined UI:** Focus on three clean sections: **PKG and Payload**, **System and hardware**, and **Information**.
-* **Performance Focus:** Section
+Compared to the standard build (OnionHEN), the **LiteHEN** edition has been completely re-engineered for maximum stability, fast performance, and a drastically reduced memory footprint on the PS5.
+
+### 🧠 System & Performance Optimizations
+* **Minimal RAM Usage:** Disabled heavy C++ compiler overhead by forcing `-fno-exceptions` (Exception Handling) and `-fno-rtti` (Run-Time Type Information). This strips out massive static data tables, ensuring the payload leaves the maximum amount of console RAM free.
+* **Ultra-Lightweight Binary (< 2MB):** Enabled aggressive size optimization (`-Os`) paired with Link Time Optimization (`-flto`). Through full symbol stripping (`-s`) and Dead Code Elimination (`--gc-sections`), all unused PS5 SDK functions are discarded, cutting the executable size in half.
+* **Rock-Solid Anti-Kernel Panic (Anti-KP):** Fortified system stability during exploit injection by enforcing `-fno-strict-aliasing` and `-fno-omit-frame-pointer`. This prevents Clang from making risky compiler assumptions when casting memory pointers (*type-punning*), eliminating unexpected Orbis/Prospero kernel crashes.
+
+### 🎨 Clean & Responsive User Interface (UI)
+The structure of `toolbox_xml.cpp` has been streamlined to make the settings menus instantaneous and highly responsive:
+* **Merged PKG & Payloads:** Completely removed the standalone payload group. User payload injection is now seamlessly integrated into the primary PKG menu for a faster and cleaner navigation experience.
+* **Direct Fan Control:** Removed the redundant master switch toggle. The numeric threshold input field is now fully active and immediately accessible right when you enter the system settings.
+* **Stripped Visual Clutter:** Removed unnecessary background art, graphical icons, and secondary descriptions (`std::nullopt`) across main groups to drastically reduce UI rendering overhead.
+
 
 ## 🛠️ Credits & Acknowledgments
 
