@@ -52,15 +52,19 @@ jobs:
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
           fi
 
-          # 🔄 SOSTITUZIONE CHIRURGICA A 8 CARATTERI CON SPAZIO INVISIBILE 🔄
-          # "LiteHEN " contiene 7 lettere + 1 spazio = 8 caratteri. Risolve lo static_assert al 100%
+          # 🔄 SOSTITUZIONE CHIRURGICA DEL NOME (LIMITATA SOLO A CODICE E TESTI) 🔄
+          # Escludiamo i file di build di CMake in modo che Ninja trovi ancora il target 'OnionHEN'
           find source/ -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec sed -i 's/OnionHEN/LiteHEN /g' {} + 2>/dev/null || true
           find source/ -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec sed -i 's/onionHEN/LiteHEN /g' {} + 2>/dev/null || true
 
           ./scripts/build.sh --release
 
-          # Copiamo e rinominiamo direttamente l'eseguibile finale
-          cp build/bin/OnionHEN.elf build/bin/LiteHEN.elf
+          # Copiamo e rinominiamo l'eseguibile finale generato regolarmente da CMake
+          if [ -f "build/bin/OnionHEN.elf" ]; then
+            cp build/bin/OnionHEN.elf build/bin/LiteHEN.elf
+          elif [ -f "build/bin/LiteHEN .elf" ]; then
+            cp "build/bin/LiteHEN .elf" build/bin/LiteHEN.elf
+          fi
 
       - name: Upload LiteHEN.elf
         uses: actions/upload-artifact@v4
