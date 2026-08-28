@@ -52,10 +52,10 @@ jobs:
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
           fi
 
-          # 🔄 SOSTITUZIONE AUTOMATICA DEI PERCORSI DA ONIONHEN A LITEHEN 🔄
-          # Cerca in tutti i file .cpp, .h e .txt e sostituisce la cartella /data/OnionHEN/ con /data/LiteHEN/
-          find source/ -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec sed -i 's/OnionHEN/LiteHEN/g' {} + 2>/dev/null || true
-          find source/ -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec sed -i 's/onionHEN/LiteHEN/g' {} + 2>/dev/null || true
+          # 🔄 SOSTITUZIONE CHIRURGICA A 8 CARATTERI CON SPAZIO INVISIBILE 🔄
+          # "LiteHEN " contiene 7 lettere + 1 spazio = 8 caratteri. Risolve lo static_assert al 100%
+          find source/ -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec sed -i 's/OnionHEN/LiteHEN /g' {} + 2>/dev/null || true
+          find source/ -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec sed -i 's/onionHEN/LiteHEN /g' {} + 2>/dev/null || true
 
           ./scripts/build.sh --release
 
