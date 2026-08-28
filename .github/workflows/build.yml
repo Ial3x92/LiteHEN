@@ -35,6 +35,15 @@ jobs:
           LLVM_CONFIG: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-llvm-config
           CC: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang
           CXX: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang++
+          # 🛡️ IMPOSTAZIONI ANTI-KP, MINIMO PESO, MINIMA RAM E MASSIMA VELOCITÀ 🛡️
+          # -Os: Riduce al minimo il peso del codice evitando inlining aggressivi che destabilizzano i thread.
+          # -fno-strict-aliasing: Impedisce a Clang di corrompere la memoria quando si usano puntatori a tipi diversi (essenziale anti-KP).
+          # -fno-omit-frame-pointer: Mantiene lo stack stabile durante l'interazione con il kernel PS5.
+          # -flto -s: Abilita l'ottimizzazione globale e rimuove totalmente i metadati di debug (stripping pesante).
+          # --gc-sections: Elimina le funzioni morte dell'SDK per alleggerire il payload.
+          CFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
+          CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
+          LDFLAGS: "-flto -s -Wl,--gc-sections"
         run: |
           rm -rf build
           chmod +x ./scripts/*.sh
