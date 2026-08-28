@@ -533,30 +533,25 @@ void append_toolbox_system_group(ps5ui::Group& g) {
   g.group(
        "id_group_fan", toolbox_i18n::tr("fan.group"),
        [](ps5ui::Group& f) {
-         f.toggle("id_enable_fan_speed", toolbox_i18n::tr("fan.enable"),
-                  toolbox_on("id_enable_fan_speed"),
-                  std::nullopt) 
-             .text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
-                         std::nullopt, "number", "2", 
-                         "2", std::nullopt, std::nullopt, std::nullopt,
-                         toolbox_val("id_fan_speed", ""));
+         f.text_field("id_fan_speed", toolbox_i18n::tr("fan.threshold"),
+                      std::nullopt, "number", "2", 
+                      "2", std::nullopt, std::nullopt, std::nullopt,
+                      toolbox_val("id_fan_speed", ""));
        },
-       std::nullopt, std::nullopt, "id_enable_fan_speed") // Rimosso logo ventola
+       std::nullopt, std::nullopt, std::nullopt) // Rimosso il vincolo dell'interruttore
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
-            "") 
+            "");
+}
 
-      // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
+
+       // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
       .group(
        "id_overlay_opts", toolbox_i18n::tr("overlay.group"),
        [](ps5ui::Group& o) {
          o.toggle("id_overlay_enabled", toolbox_i18n::tr("overlay.enabled"),
                   toolbox_on("id_overlay_enabled"), std::nullopt,
                   std::nullopt) 
-             .toggle("id_overlay_background",
-                     toolbox_i18n::tr("overlay.background"),
-                     toolbox_on("id_overlay_background"), std::nullopt,
-                     std::nullopt) 
              .list("id_overlay_change_pos", toolbox_i18n::tr("overlay.pos"),
                    [](ps5ui::ListBuilder& L) {
                      L.item("id_overlay_pos_1",
@@ -574,21 +569,14 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                      std::nullopt) 
              .toggle("id_overlay_cpu", toolbox_i18n::tr("overlay.cpu"),
                      toolbox_on("id_overlay_cpu"), std::nullopt,
-                     std::nullopt) 
-             .toggle("id_all_cpu_usage", toolbox_i18n::tr("overlay.cpu_all"),
-                     toolbox_on("id_all_cpu_usage"), std::nullopt,
-                     std::nullopt) 
-             .toggle("id_overlay_ram", toolbox_i18n::tr("overlay.ram"),
-                     toolbox_on("id_overlay_ram"), std::nullopt,
-                     std::nullopt) 
-             .toggle("id_overlay_ip", toolbox_i18n::tr("overlay.ip"),
-                     toolbox_on("id_overlay_ip"), std::nullopt,
                      std::nullopt); 
        },
        std::nullopt, std::nullopt, "id_overlay_enabled") 
       .toggle("id_disp_titleids", toolbox_i18n::tr("disp_tids"),
               toolbox_on("id_disp_titleids"), std::nullopt, 
               std::nullopt, std::nullopt) // Rimosso logo kIconTitleId
+
+
 
       // 3. Integrazione Gioco a Distanza (Remote Play)
       .group(
