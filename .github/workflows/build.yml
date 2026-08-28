@@ -45,11 +45,7 @@ jobs:
           
           find . -name "CMakeLists.txt" -exec sed -i 's/-Werror//g' {} +
 
-          # 🔥 MODIFICHE PRESTAZIONI: MENO PESO, MENO RAM, PIÙ REATTIVO 🔥
-          # -Os: Riduce al minimo la dimensione del codice (e di conseguenza l'impronta in RAM)
-          # -flto: Ottimizzazione globale che fonde le funzioni ed elimina il codice duplicato
-          # -s: Rimuove completamente tutte le tabelle dei simboli e i dati di debug inutili
-          # -ffunction-sections -fdata-sections / -Wl,--gc-sections: Taglia via le funzioni dell'SDK mai usate
+          # 🔥 OPTIMIZATIONS: LOWER WEIGHT, LESS RAM, MORE RESPONSIVE 🔥
           OPTIMIZE_FLAGS="-Os -flto -s -ffunction-sections -fdata-sections -Wl,--gc-sections"
           find . -name "CMakeLists.txt" -exec sed -i "s/-O2/$OPTIMIZE_FLAGS/g" {} +
           find . -name "CMakeLists.txt" -exec sed -i "s/-O3/$OPTIMIZE_FLAGS/g" {} +
