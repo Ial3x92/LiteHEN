@@ -16,27 +16,6 @@ set(ONIONHEN_GENERATED_INCLUDE_DIR "${CMAKE_BINARY_DIR}/generated/include")
 set(ONIONHEN_VERSION_HEADER
 	"${ONIONHEN_GENERATED_INCLUDE_DIR}/onion/version.h")
 
-# ---------------------------------------------------------------------------
-# 🧠 LOW-RAM & ANTI-KERNEL PANIC FILTERS (LiteHEN Ultra Lean Footprint)
-# ---------------------------------------------------------------------------
-# 1. Usiamo -Os: Ottimizza il codice per la dimensione minima. Riduce drasticamente
-#    la dimensione dei buffer e delle istruzioni allocate nella RAM della PS5.
-set(CMAKE_C_FLAGS_RELEASE "-Os -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE "-Os -DNDEBUG")
-
-# 2. Protezione della memoria e isolamento dei blocchi di codice
-# -fstack-protector-strong: Canarini nello stack per bloccare violazioni di memoria (Anti-KP)
-# -fno-common: Impedisce l'allocazione di variabili globali non inizializzate nello spazio RAM comune
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fstack-protector-strong -fno-common -ffunction-sections -fdata-sections")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fstack-protector-strong -fno-common -ffunction-sections -fdata-sections")
-
-# 3. Elimina fisicamente i metadati inutili e pulisce la RAM da codice morto
-# --gc-sections: Butta via le funzioni non usate (come i menu di debug rimossi) in modo che non occupino RAM
-# -Wl,-s: Rade al suolo la tabella dei simboli, risparmiando centineia di KB all'allocazione iniziale
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-s -Wl,--gc-sections")
-# ---------------------------------------------------------------------------
-
 # Re-evaluate Git state on every build. The script preserves the header mtime
 # when the version is unchanged, so incremental compilation remains cheap.
 add_custom_target(onion_version
