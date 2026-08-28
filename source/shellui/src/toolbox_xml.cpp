@@ -527,7 +527,6 @@ void append_toolbox_pkg_group(ps5ui::Group& g) {
          ""); 
 }
 
-
 void append_toolbox_system_group(ps5ui::Group& g) {
   // 1. Controllo Ventola e Attivazione BD
   g.group(
@@ -541,11 +540,9 @@ void append_toolbox_system_group(ps5ui::Group& g) {
        std::nullopt, std::nullopt, std::nullopt) // Rimosso il vincolo dell'interruttore
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
-            "");
-}
+            "") // <-- Rimosso il punto e virgola e la graffa per continuare la catena dei metodi
 
-
-       // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
+      // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
       .group(
        "id_overlay_opts", toolbox_i18n::tr("overlay.group"),
        [](ps5ui::Group& o) {
@@ -575,8 +572,6 @@ void append_toolbox_system_group(ps5ui::Group& g) {
       .toggle("id_disp_titleids", toolbox_i18n::tr("disp_tids"),
               toolbox_on("id_disp_titleids"), std::nullopt, 
               std::nullopt, std::nullopt) // Rimosso logo kIconTitleId
-
-
 
       // 3. Integrazione Gioco a Distanza (Remote Play)
       .group(
@@ -648,7 +643,7 @@ void append_toolbox_system_group(ps5ui::Group& g) {
       .text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
                   std::nullopt, "basic_latin", "1", 
                   "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
-                  toolbox_i18n::tr("debug.np_env.confirm_phrase"));
+                  toolbox_i18n::tr("debug.np_env.confirm_phrase")); // <-- Il punto e virgola ora chiude l'\''intero blocco correttamente qui
 }
 
 void append_toolbox_about_group(ps5ui::Group& g) {
