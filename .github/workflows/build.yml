@@ -44,22 +44,8 @@ jobs:
           fi
           
           find . -name "CMakeLists.txt" -exec sed -i 's/-Werror//g' {} +
-
-          # 🔥 OTTIMIZZAZIONI PRESTAZIONI: MENO PESO, MENO RAM, PIÙ REATTIVO 🔥
-          OPTIMIZE_FLAGS="-Os -flto -s -ffunction-sections -fdata-sections -Wl,--gc-sections"
-          find . -name "CMakeLists.txt" -exec sed -i "s/-O2/$OPTIMIZE_FLAGS/g" {} +
-          find . -name "CMakeLists.txt" -exec sed -i "s/-O3/$OPTIMIZE_FLAGS/g" {} +
-          find . -name "CMakeLists.txt" -exec sed -i "s/-Ofast/$OPTIMIZE_FLAGS/g" {} +
-
           if [ -f "source/util/source/ftp_server.cpp" ]; then
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
-          fi
-
-          # 🛠️ SISTEMAZIONE SINTASSI IN LINEA SICURA (GARANTISCE IL TASTO BUILD) 🛠️
-          # Sostituisce i blocchi via codice senza usare parentesi o a capo pericolosi per lo YAML
-          if [ -f "source/shellui/src/toolbox_xml.cpp" ]; then
-            sed -i '/id_group_payloads/,/\.group/ { d; }' source/shellui/src/toolbox_xml.cpp 2>/dev/null || true
-            sed -i 's/id_game_package_installer") \/\/ <--/id_game_package_installer")/g' source/shellui/src/toolbox_xml.cpp 2>/dev/null || true
           fi
 
           ./scripts/build.sh --release
