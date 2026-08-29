@@ -77,16 +77,16 @@ static bool write_blob_file(const char *path, const void *data, size_t size) {
 }
 
 bool bootstrap_assets_write(void) {
-  mkdir("/data/OnionHEN", 0777);
-  mkdir("/data/OnionHEN/assets", 0777);
+  mkdir("/data/liteHEN", 0777);
+  mkdir("/data/liteHEN/assets", 0777);
 
   const bool startup_icon_ready = write_blob_file(
-      "/data/OnionHEN/onionhen.png", sicon_start, sicon_size);
+      "/data/liteHEN/onionhen.png", sicon_start, sicon_size);
 
   for (size_t i = 0; i < sizeof(kEmbeddedIcons) / sizeof(kEmbeddedIcons[0]);
        ++i) {
     char path[256];
-    snprintf(path, sizeof(path), "/data/OnionHEN/assets/%s.png",
+    snprintf(path, sizeof(path), "/data/liteHEN/assets/%s.png",
              kEmbeddedIcons[i].name);
     (void)write_blob_file(path, kEmbeddedIcons[i].data,
                           *kEmbeddedIcons[i].size);

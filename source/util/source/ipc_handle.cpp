@@ -262,7 +262,7 @@ void handleIPC(clientArgs *client, std::string &inputStr,
         std::string(onion_cjson::string_item(my_json.get(), "version", ""));
     int pid = onion_cjson::int_item(my_json.get(), "pid");
     int appid = onion_cjson::int_item(my_json.get(), "appid");
-    std::string shm_path = "/user/data/OnionHEN/" + title_id + "_cheats";
+    std::string shm_path = "/user/data/liteHEN/" + title_id + "_cheats";
 
     auto &cheats = onion::cheats::CheatService::instance();
     cheats.ensureDir();
