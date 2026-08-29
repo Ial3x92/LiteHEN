@@ -693,7 +693,7 @@ std::string settings_serialize(const Settings &in) {
   b += "# LiteHEN does not register either listener.\n";
   b += "# Available values: true, false\n";
   b += "enabled=" + bool_text(in.app_jailbreak_enabled) + "\n";
-  b += "# debug_notifications shows a notification when OnionHEN jailbreaks an app.\n";
+  b += "# debug_notifications shows a notification when LiteHEN jailbreaks an app.\n";
   b += "# Available values: true, false\n";
   b += "debug_notifications=" + bool_text(in.debug_app_jb_msg) + "\n";
   b += "# exact_title_ids is a comma-separated list of exact 9-character Title IDs.\n";

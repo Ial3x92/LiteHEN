@@ -111,7 +111,7 @@ These user-visible strings are **not** in the JSON catalogs on purpose:
 |---|---|
 | Settings menu label `★OnionHEN Tools` | Equal-length binary patch of `★Debug Settings`. Length is fixed. |
 | HomeUI top-nav `OnionHEN` | Brand token, same in every language. |
-| Notification watermark `[OnionHEN]` | Brand prefix in `onion_notify_format`. |
+| Notification watermark `[LiteHEN]` | Brand prefix in `onion_notify_format`. |
 | About names, handles, Ko-fi URL, project URLs | Proper nouns / addresses. |
 | Unpacker start-failure toasts | First-stage loader; no language setting and its own `notify()`. English only until it is wired to `onion_notify`. |
 | Cheat names / descriptions from cheat files | Come from the cheat JSON, not OnionHEN. |
