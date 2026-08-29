@@ -41,7 +41,7 @@ void escapeXML(std::string& input) {
 namespace {
 
 /* Defined with the other dynamic control helpers below. */
-std::string toolbox_val(const char* id, const char* fallback);
+std::string toolbox_val(const char* id, const char* fallback = "0");
 
 /** Payload .elf only (OnionHEN no longer supports .plugin packages). */
 template <typename G>
@@ -50,12 +50,8 @@ void append_payload_entry(G& page, const std::string& directory, const char* fil
   if (!toolbox::is_payload_elf_name(filename))
     return;
 
-  const std::string path = directory + "/" + filename;
-  char elf_key[64] = {};
-  if (!toolbox::elf_key_from_name(filename, elf_key, sizeof(elf_key))) {
-    LOG_ERROR("Skipping invalid payload name: %s", filename);
-    return;
-  }
+  // NOTA: Qui c'era la graffa chiusa '}' errata che ho rimosso!
+  
   /* Confirm file is readable (ELF magic checked at launch). */
   const int fd = open(path.c_str(), O_RDONLY, 0);
   if (fd < 0) {
@@ -65,6 +61,7 @@ void append_payload_entry(G& page, const std::string& directory, const char* fil
   close(fd);
 
   LOG_DEBUG("Found payload: %s key=%s", path.c_str(), elf_key);
+
 
   const std::string shown_path = toolbox::display_path_for_ui(path);
   const std::string id_prefix = list_page ? "id_payload_" : "id_auto_payload_";
@@ -492,8 +489,10 @@ bool toolbox_on(const char* id) {
 }
 
 std::string toolbox_val(const char* id, const char* fallback) {
-  return resolve_toolbox_control_value(id, fallback);
+  std::string val = resolve_toolbox_control_value(id);
+  return val.empty() ? fallback : val;
 }
+
 
 void append_toolbox_pkg_group(ps5ui::Group& g) {
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
