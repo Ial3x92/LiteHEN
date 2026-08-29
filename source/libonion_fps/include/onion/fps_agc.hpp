@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen / LightningMods
+/* Copyright (C) 2026 Lite-HEN / LightningMods
  *
  * Tier 1E DCB ring + Tier 1F AgcDriver global submit counter.
  * Follows PHU Games Tools by ArkSama (https://github.com/ArkSama).

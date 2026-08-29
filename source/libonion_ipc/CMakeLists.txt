@@ -1,5 +1,5 @@
 ###################################################################################################
-# Litehen shared IPC client (injectee-side: shellui)
+# Lite-HEN shared IPC client (injectee-side: shellui)
 ###################################################################################################
 
 cmake_minimum_required(VERSION 3.20)
@@ -26,7 +26,7 @@ target_include_directories(${PROJECT_NAME}
   PUBLIC  "${D_CWD}/include"
   PRIVATE "${D_CWD}/../include"
   PUBLIC  "${D_CWD}/../libonion_platform/include"
-  PRIVATE "${LITEHEN_THIRD_PARTY_DIR}/cjson"
+  PRIVATE "${LITE-HEN_THIRD_PARTY_DIR}/cjson"
 )
 
 # cJSON symbols are provided by the final link unit (shellui already

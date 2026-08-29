@@ -1,6 +1,6 @@
-/* Copyright (C) 2026 Litehen / LightningMods
+/* Copyright (C) 2026 Lite-HEN / LightningMods
  *
- * Litehen private ELF loader service.
+ * Lite-HEN private ELF loader service.
  *
  * This intentionally listens on 127.0.0.1:9020, leaving the historical
  * ps5-payload-dev elfldr port 9021 untouched for user-provided loaders.

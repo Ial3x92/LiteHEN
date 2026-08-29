@@ -1,4 +1,4 @@
-/* Litehen: elfldr socket launch helpers */
+/* Lite-HEN: elfldr socket launch helpers */
 
 #include "elfldr_remote.h"
 

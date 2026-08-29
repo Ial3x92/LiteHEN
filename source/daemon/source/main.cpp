@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -220,7 +220,7 @@ void sig_handler(int signo) {
         onion_log_emergency("signal handler disabled, ignoring signal %d", signo);
         return;
     }
-    onion_log_emergency("signal %d received; main Litehen has crashed", signo);
+    onion_log_emergency("signal %d received; main Lite-HEN has crashed", signo);
     onion_print_backtrace(onion_log_emergency);
     onion_notify(true, "notify.crash.main");
     _exit(128 + signo);
@@ -232,8 +232,8 @@ int main() {
   /* Raw elfldr uploads default to "payload.elf"; publish our stable name. */
   (void)syscall(SYS_thr_set_name, -1, "onion_daemon.elf");
 
-  onion_log_configure("LiteHEN", "/data/liteHEN/LiteHEN.log");
-  onion_log_configure_crash("/data/liteHEN/LiteHEN_crash.log");
+  onion_log_configure("Lite-HEN", "/data/lite-HEN/Lite-HEN.log");
+  onion_log_configure_crash("/data/lite-HEN/Lite-HEN_crash.log");
   /* Real linked kernel export (not a dlsym function-pointer variable). */
   onion_notify_set_send(reinterpret_cast<onion_notify_send_fn>(
       sceKernelSendNotificationRequest));
@@ -261,7 +261,7 @@ int main() {
   payload_args_t* args = payload_get_args();
   kernel_base = args->kdata_base_addr;
 
-  LOG_INFO("=========== starting LiteHEN (0x%X) ... ===========", fw_ver);
+  LOG_INFO("=========== starting Lite-HEN (0x%X) ... ===========", fw_ver);
   (void)sceKernelMprotect(&buz[0], 100, 0x7); // probe mprotect / kstuff state
   const bool toolbox_only = (fw_ver >= 0x10000);
   is_800 = (fw_ver >= 0x800);
@@ -295,7 +295,7 @@ int main() {
       debug_settings_route.toolbox_uri(
           onion::debug_settings_route::UriKind::Simple));
   sceNotificationSend(0xFE, true, welcome_toast_json.c_str());
-  LOG_INFO("StartUp thread created!! - welcome to LiteHEN");
+  LOG_INFO("StartUp thread created!! - welcome to Lite-HEN");
 
   onion::daemon::apply_startup_destination(boot_settings);
 

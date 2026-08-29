@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2025 Litehen / LightningMods
+﻿/* Copyright (C) 2025 Lite-HEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -138,7 +138,7 @@ MonoString *GetString_Hook(MonoObject *Instance, MonoString *str) {
       return mono_str_ui(toolbox_i18n::tr("pkg.msg.select_all"));
     }
 
-    // XML title/description literals (e.g. "LiteHEN 工具箱") are already valid
+    // XML title/description literals (e.g. "Lite-HEN 工具箱") are already valid
     // MonoStrings. Re-allocating with mono_string_new(Root_Domain, ...) on the UI
     // thread has crashed ShellUI (wrong domain / GC). Pass the original through.
     if (resourceName.rfind("msg_", 0) != 0) {
@@ -215,16 +215,16 @@ MonoString * CxmlUri_Hook(MonoObject * Instance, MonoString * uri) {
   /*
    * NPXS40008 registers its Debug Settings icon as icon_setting.png.  Do not
    * rewrite that asset on disk (or mutate the RNPS string table): the stock
-   * file must remain visible whenever Litehen is not loaded.  CxmlUri is the
+   * file must remain visible whenever Lite-HEN is not loaded.  CxmlUri is the
    * SettingsPlugin asset resolver, so redirect only this request while our
    * hooks are ready.
    */
   if (uri_string.find("icon_setting") != std::string::npos) {
 #if SHELL_DEBUG == 1
     LOG_DEBUG("CxmlUri_Hook: intercepted Settings icon -> "
-              "/system_ex/vsh_asset/litehen.png");
+              "/system_ex/vsh_asset/lite-hen.png");
 #endif
-    return mono_str_ui("/system_ex/vsh_asset/litehen.png");
+    return mono_str_ui("/system_ex/vsh_asset/lite-hen.png");
   }
   if (uri_string.rfind("tex_game_icon") != std::string::npos) {
     //LOG_DEBUG("CxmlUri_Hook: Returning store icon");

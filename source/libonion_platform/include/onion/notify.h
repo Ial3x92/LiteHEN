@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  *
  * Shared system notification toast.
  *
@@ -58,7 +58,7 @@ void onion_notify_rich(const char *message, const char *sub_message,
 
 /**
  * Format a notification body: onion_notify_tr(key) then vsnprintf.
- * show_watermark non-zero prefixes "[LiteHEN] ".
+ * show_watermark non-zero prefixes "[Lite-HEN] ".
  */
 void onion_notify_format(char *out, size_t out_sz, int show_watermark,
                          const char *fmt, va_list ap);

@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen / LightningMods */
+/* Copyright (C) 2026 Lite-HEN / LightningMods */
 
 #include "payload_autostart.h"
 
@@ -26,10 +26,10 @@ typedef struct PayloadList {
 } PayloadList;
 
 static const char *const kPayloadDirectories[] = {
-    "/mnt/usb0/litehen/payloads", "/mnt/usb0/Litehen/payloads",
-    "/mnt/usb1/litehen/payloads", "/mnt/usb2/litehen/payloads",
-    "/mnt/usb3/litehen/payloads", "/user/data/liteHEN/payloads",
-    "/user/data/litehen/payloads", "/data/liteHEN/payloads",
+    "/mnt/usb0/lite-hen/payloads", "/mnt/usb0/Lite-HEN/payloads",
+    "/mnt/usb1/lite-hen/payloads", "/mnt/usb2/lite-hen/payloads",
+    "/mnt/usb3/lite-hen/payloads", "/user/data/lite-HEN/payloads",
+    "/user/data/lite-hen/payloads", "/data/lite-HEN/payloads",
 };
 
 static void payload_list_destroy(PayloadList *list) {

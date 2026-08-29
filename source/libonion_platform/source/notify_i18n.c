@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods */
+/* Copyright (C) 2025 Lite-HEN / LightningMods */
 
 #include <onion/notify_i18n.h>
 

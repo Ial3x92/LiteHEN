@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  * ShellUI domain types / enums / settings externs (no Mono hooks).
  */
 #pragma once

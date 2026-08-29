@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  *
  * ShellUI API surface: types + Mono hooks.
  * Prefer including shellui_types.hpp alone when hooks are not needed.

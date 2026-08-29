@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods */
+/* Copyright (C) 2025 Lite-HEN / LightningMods */
 
 #include "daemon_ops.hpp"
 #include <onion/platform.h>
@@ -304,7 +304,7 @@ static void shutdown_restart_shellui(void) {
 }
 
 /**
- * Tear down userland Litehen only.
+ * Tear down userland Lite-HEN only.
  *
  * Never SIGKILL kstuff: unloading HV/kernel patches from userland leaves
  * half-torn fd/budget state (fdescfree BUDGET_FD_FILE) and panics. kstuff

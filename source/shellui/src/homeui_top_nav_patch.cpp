@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -49,8 +49,8 @@ constexpr size_t kHbcSourceHashOffset = 0x0c;
 constexpr size_t kHbcSourceHashSize = 20;
 constexpr size_t kHbcFileLengthOffset = 0x20;
 constexpr size_t kHbcFooterSha1Size = 20;
-constexpr const char *kLitehenTopNavIconPath =
-    "/system_ex/vsh_asset/litehen.png";
+constexpr const char *kLite-HENTopNavIconPath =
+    "/system_ex/vsh_asset/lite-hen.png";
 
 static const unsigned char kLegacyOldIconOrder[] = {
     '[', '"', 'F', 'p', 's', '"', ',', '"', 'S', 'e', 'a', 'r', 'c', 'h',
@@ -68,21 +68,21 @@ static const char kLegacyOldAppErrorSource[] =
     "var h=(0,u().memo)((function(){var e=(0,m.default)().sendClientApplicationErrorEvent;return u().default.createElement(d.default,{iconId:\"download_error\",onPress:function(){var t=new Error(\"homeui ApplicationErrorEvent test\");e({errorMessage:t.message,stack:t.stack,severity:\"info\"})},title:\"Trigger AppError\",__source:{fileName:_,lineNumber:80}})}));t.ApplicationErrorEventTrigger=h;";
 /* Module 231 forwards iconId directly to PUI Button.icon. */
 static const char kLegacyNewAppErrorSourcePrefix[] =
-    "var h=(0,u().memo)((function(){var e=(0,f.useInteractivePress)({link:\"Litehen?NavUI=1\"});return u().default.createElement(d.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\",__source:{fileName:_,lineNumber:80}})}));t.ApplicationErrorEventTrigger=h;";
+    "var h=(0,u().memo)((function(){var e=(0,f.useInteractivePress)({link:\"Lite-HEN?NavUI=1\"});return u().default.createElement(d.default,{iconId:{uri:\"/system_ex/vsh_asset/lite-hen.png\"},onPress:e,title:\"\",__source:{fileName:_,lineNumber:80}})}));t.ApplicationErrorEventTrigger=h;";
 /* 2.30/2.50 predate Fps/AppError system icons; reuse a debug-only Startup slot. */
 static const unsigned char kLegacy2xOldIconOrder[] =
     "[\"StartupAnimation\",\"HiddenStartupAnimation\",\"Search\",\"Settings\",\"Profile\"]";
 static const unsigned char kLegacy2xNewIconOrder[] =
-    "[\"Litehen\",\"Search\",\"Settings\",\"Profile\"]"
+    "[\"Lite-HEN\",\"Search\",\"Settings\",\"Profile\"]"
     "                                 ";
 static const unsigned char kLegacy2xOldExportAlias[] =
     "t.StartupAnimation=_;";
 static const unsigned char kLegacy2xNewExportAlias[] =
-    "t.Litehen=_        ;";
+    "t.Lite-HEN=_        ;";
 static const char kLegacy2xOldButtonSource[] =
     "var _=(0,s().memo)((function(){var e=(0,s().useContext)(o().AppConfigContext).appConfig,t=(0,c.useInteractivePress)({action:\"click ani\",link:\"pshomeui:navigateToHome?intro=login\"});return e.isEnabled(\"showStartupButton\")?s().default.createElement(l.default,{iconId:\"trophy_rarity1_ultrarare\",onPress:function(){t()},title:\"Trigger Startup\",__source:{fileName:f,lineNumber:48}}):null}));";
 static const char kLegacy2xNewButtonSourcePrefix[] =
-    "var _=(0,s().memo)((function(){var e=(0,c.useInteractivePress)({link:\"Litehen?NavUI=1\"});return s().default.createElement(l.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\",__source:{fileName:f,lineNumber:48}})}));";
+    "var _=(0,s().memo)((function(){var e=(0,c.useInteractivePress)({link:\"Lite-HEN?NavUI=1\"});return s().default.createElement(l.default,{iconId:{uri:\"/system_ex/vsh_asset/lite-hen.png\"},onPress:e,title:\"\",__source:{fileName:f,lineNumber:48}})}));";
 /* 3.00 through 3.21 use different minified identifiers than 4.x. */
 static const unsigned char kLegacy3xOldExportAlias[] = {
     't', '.', 'F', 'p', 's', '=', 'S'};
@@ -91,7 +91,7 @@ static const unsigned char kLegacy3xNewExportAlias[] = {
 static const char kLegacy3xOldAppErrorSource[] =
     "var E=(0,s().memo)((function(){var e=(0,c.default)().sendClientApplicationErrorEvent;return s().default.createElement(f.default,{iconId:\"download_error\",onPress:function(){var t=new Error(\"homeui ApplicationErrorEvent test\");e({errorMessage:t.message,stack:t.stack,severity:\"info\"})},title:\"Trigger AppError\",__source:{fileName:d,lineNumber:77}})}));t.ApplicationErrorEventTrigger=E;";
 static const char kLegacy3xNewAppErrorSourcePrefix[] =
-    "var E=(0,s().memo)((function(){var e=(0,l.useInteractivePress)({link:\"Litehen?NavUI=1\"});return s().default.createElement(f.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\",__source:{fileName:d,lineNumber:77}})}));t.ApplicationErrorEventTrigger=E;";
+    "var E=(0,s().memo)((function(){var e=(0,l.useInteractivePress)({link:\"Lite-HEN?NavUI=1\"});return s().default.createElement(f.default,{iconId:{uri:\"/system_ex/vsh_asset/lite-hen.png\"},onPress:e,title:\"\",__source:{fileName:d,lineNumber:77}})}));t.ApplicationErrorEventTrigger=E;";
 /* 5.10 through 7.61 share this minified SystemIcon module shape. */
 static const unsigned char kLegacy5x7xOldExportAlias[] = {
     't', '.', 'F', 'p', 's', '=', 'h'};
@@ -100,7 +100,7 @@ static const unsigned char kLegacy5x7xNewExportAlias[] = {
 static const char kLegacy5x7xOldAppErrorSource[] =
     "var b=(0,u().memo)((function(){var e=(0,f.default)().sendClientApplicationErrorEvent;return u().default.createElement(p.default,{iconId:\"download_error\",onPress:function(){var t=new Error(\"homeui ApplicationErrorEvent test\");e({errorMessage:t.message,stack:t.stack,severity:\"info\"})},title:\"Trigger AppError\",__source:{fileName:v,lineNumber:80,columnNumber:10}})}));t.ApplicationErrorEventTrigger=b;";
 static const char kLegacy5x7xNewAppErrorSourcePrefix[] =
-    "var b=(0,u().memo)((function(){var e=(0,c.useInteractivePress)({link:\"Litehen?NavUI=1\"});return u().default.createElement(p.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\",__source:{fileName:v,lineNumber:80,columnNumber:10}})}));t.ApplicationErrorEventTrigger=b;";
+    "var b=(0,u().memo)((function(){var e=(0,c.useInteractivePress)({link:\"Lite-HEN?NavUI=1\"});return u().default.createElement(p.default,{iconId:{uri:\"/system_ex/vsh_asset/lite-hen.png\"},onPress:e,title:\"\",__source:{fileName:v,lineNumber:80,columnNumber:10}})}));t.ApplicationErrorEventTrigger=b;";
 
 static const unsigned char kPlainJsOldExportAlias[] = {
     't', '.', 'F', 'p', 's', '=', 'I'};
@@ -109,7 +109,7 @@ static const unsigned char kPlainJsNewExportAlias[] = {
 static const char kPlainJsOldAppErrorSource[] =
     "var b=(0,a.memo)((function(){var e=(0,l.default)().sendClientApplicationErrorEvent;return(0,f.jsx)(m.default,{iconId:\"download_error\",onPress:function(){var t=new Error(\"homeui ApplicationErrorEvent test\");e({errorMessage:t.message,stack:t.stack,severity:\"info\"})},title:\"Trigger AppError\"})}));t.ApplicationErrorEventTrigger=b;";
 static const char kPlainJsNewAppErrorSourcePrefix[] =
-    "var b=(0,a.memo)((function(){var e=(0,d.useInteractivePress)({link:\"Litehen?NavUI=1\"});return(0,f.jsx)(m.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\"})}));t.ApplicationErrorEventTrigger=b;";
+    "var b=(0,a.memo)((function(){var e=(0,d.useInteractivePress)({link:\"Lite-HEN?NavUI=1\"});return(0,f.jsx)(m.default,{iconId:{uri:\"/system_ex/vsh_asset/lite-hen.png\"},onPress:e,title:\"\"})}));t.ApplicationErrorEventTrigger=b;";
 
 enum class SourceBundleKind {
   LegacyRnps,
@@ -474,7 +474,7 @@ static const unsigned char kNewCustomTitleValue[] = {0xff, 0x00};
  * a raw icon path. Reusing the adjacent AppError onPress function changes a
  * second executable function and must only be enabled after device validation.
  */
-static const unsigned char kImageSourceLitehenButtonBody[] = {
+static const unsigned char kImageSourceLite-HENButtonBody[] = {
     0x29, 0x00, 0x00, 0x2e, 0x01, 0x00, 0x09, 0x34, 0x02, 0x01, 0x02,
     0x9d, 0x2e, 0x01, 0x00, 0x08, 0x34, 0x01, 0x01, 0x01, 0x6f, 0x62,
     0x04, 0x00, 0x9a, 0x18, 0x74, 0x03, 0x4f, 0x00, 0x04, 0x03, 0x52,
@@ -499,7 +499,7 @@ static const unsigned char kImageSourceIconPropsHelperBody[] = {
     0x3d, 0x01, 0x02, 0x2b, 0x5a, 0x01, 0x60, 0x74, 0x00, 0x74, 0x00,
     0x74, 0x00, 0x74, 0x00, 0x74, 0x00, 0x74, 0x00, 0x74, 0x00};
 
-static_assert(sizeof(kImageSourceLitehenButtonBody) == kButtonBodySize);
+static_assert(sizeof(kImageSourceLite-HENButtonBody) == kButtonBodySize);
 static_assert(sizeof(kStockAppErrorOnPressBody) == kAppErrorHelperBodySize);
 static_assert(sizeof(kImageSourceIconPropsHelperBody) ==
               kAppErrorHelperBodySize);
@@ -904,7 +904,7 @@ static bool is_homeui_top_nav_icon_source(MonoObject *source) {
     return false;
   }
 
-  return Mono_to_String(text).find(kLitehenTopNavIconPath) !=
+  return Mono_to_String(text).find(kLite-HENTopNavIconPath) !=
          std::string::npos;
 }
 
@@ -926,7 +926,7 @@ static void ReactButtonShadowNode_SetIconSource_Hook(MonoObject *instance,
   g_react_button_set_inverted_icon_source(instance, source);
   --depth;
 #if SHELL_DEBUG == 1
-  LOG_DEBUG("homeui_top_nav_patch: mirrored Litehen icon to invertedIcon");
+  LOG_DEBUG("homeui_top_nav_patch: mirrored Lite-HEN icon to invertedIcon");
 #endif
 }
 
@@ -1055,7 +1055,7 @@ void install_homeui_top_nav_hooks(MonoImage *react_pui) {
       reinterpret_cast<void *>(&ReactButtonShadowNode_SetIconSource_Hook),
       reinterpret_cast<void **>(&g_react_button_set_icon_source_orig));
   LOG_DEBUG(installed ? "homeui_top_nav_patch: SetIconSource hooked "
-                          "(invertedIcon mirror for Litehen)"
+                          "(invertedIcon mirror for Lite-HEN)"
                         : "homeui_top_nav_patch: SetIconSource detour failed");
 #else
   (void)react_pui;
@@ -1161,14 +1161,14 @@ void patch_homeui_top_nav(unsigned char *buffer, int *size_ptr,
    *
    *   top-nav order: [Search, ApplicationErrorEventTrigger, Settings, Profile]
    *   host function: ApplicationErrorEventTrigger (already a 77-byte button)
-   *   body:          full 77-byte useInteractivePress Litehen button
+   *   body:          full 77-byte useInteractivePress Lite-HEN button
    *   Fps:           restore/leave stock showFps implementation
-   *   focus icon:    SetIconSource hook mirrors litehen.png → invertedIcon
+   *   focus icon:    SetIconSource hook mirrors lite-hen.png → invertedIcon
    *
    * Object table still retargets:
-   *   iconId string → /system_ex/vsh_asset/litehen.png
+   *   iconId string → /system_ex/vsh_asset/lite-hen.png
    *   title id      → empty
-   *   Trigger AppError string slot → Litehen?NavUI=1 (hook_boot → toolbox)
+   *   Trigger AppError string slot → Lite-HEN?NavUI=1 (hook_boot → toolbox)
    *
    * Accept prior in-memory shapes (Fps-in-array + Fps body rewrite, factory
    * alias) and repair them toward this layout.
@@ -1179,7 +1179,7 @@ void patch_homeui_top_nav(unsigned char *buffer, int *size_ptr,
       bytes.has_legacy_button_body ? bytes.legacy_onion_hen_button_body
                                    : nullptr;
   const unsigned char *onion_hen_button_body =
-      bytes.requires_image_source_object ? kImageSourceLitehenButtonBody
+      bytes.requires_image_source_object ? kImageSourceLite-HENButtonBody
                                          : bytes.onion_hen_button_body;
 
   const BytePatch kPatches[] = {
@@ -1217,9 +1217,9 @@ void patch_homeui_top_nav(unsigned char *buffer, int *size_ptr,
        bytes.onion_hen_button_body, legacy_button_body,
        nullptr, bytes.old_fps_body_prefix, kButtonBodySize},
       /*
-       * Host Litehen on ApplicationErrorEventTrigger (exact 77-byte replace).
+       * Host Lite-HEN on ApplicationErrorEventTrigger (exact 77-byte replace).
        */
-      {"AppError Litehen body", profile->offsets.app_error_body,
+      {"AppError Lite-HEN body", profile->offsets.app_error_body,
        bytes.stock_app_error_body, bytes.onion_hen_button_body,
        legacy_button_body, onion_hen_button_body,
        kButtonBodySize},
@@ -1272,7 +1272,7 @@ void patch_homeui_top_nav(unsigned char *buffer, int *size_ptr,
   update_hbc_footer_sha1(hbc, hbc_file_length);
 
 #if SHELL_DEBUG == 1
-  LOG_DEBUG("homeui_top_nav_patch: activated Litehen top-nav slot "
+  LOG_DEBUG("homeui_top_nav_patch: activated Lite-HEN top-nav slot "
               "profile='%s' "
               "(hbc_base=0x%llx)",
               profile->name, (unsigned long long)hbc.base_offset);

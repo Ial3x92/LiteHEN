@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen / LightningMods */
+/* Copyright (C) 2026 Lite-HEN / LightningMods */
 
 #include "bootstrap_notify.h"
 
@@ -21,6 +21,6 @@ void bootstrap_notify_starting(bool custom_icon_ready) {
     return;
   }
   onion_notify_rich("notify.brand", "notify.boot.starting",
-                    "/user/data/liteHEN/litehen.png", "download",
+                    "/user/data/lite-HEN/lite-hen.png", "download",
                     "588193128");
 }

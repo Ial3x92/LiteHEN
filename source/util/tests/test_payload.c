@@ -30,7 +30,7 @@ static int test_is_elf(void) {
 static int test_pid_path(void) {
   char path[128];
   onion_payload_pid_path(path, sizeof(path), "mytool");
-  TEST_ASSERT_STREQ("/tmp/litehen/pid/mytool.PID", path);
+  TEST_ASSERT_STREQ("/tmp/lite-hen/pid/mytool.PID", path);
   return 0;
 }
 
@@ -39,7 +39,7 @@ static int test_elf_key_from_name(void) {
   TEST_ASSERT_TRUE(onion_payload_elf_key_from_name("foo.elf", key, sizeof(key)));
   TEST_ASSERT_STREQ("foo", key);
   TEST_ASSERT_TRUE(
-      onion_payload_elf_key_from_name("/data/liteHEN/payloads/bar.elf", key,
+      onion_payload_elf_key_from_name("/data/lite-HEN/payloads/bar.elf", key,
                                      sizeof(key)));
   TEST_ASSERT_STREQ("bar", key);
   TEST_ASSERT_TRUE(onion_payload_elf_key_from_name("noext", key, sizeof(key)));

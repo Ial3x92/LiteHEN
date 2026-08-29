@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods */
+/* Copyright (C) 2025 Lite-HEN / LightningMods */
 
 #include <onion/fs.h>
 #include <onion/log.h>

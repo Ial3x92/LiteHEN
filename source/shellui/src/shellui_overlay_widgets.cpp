@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods — P0 split.
+/* Copyright (C) 2025 Lite-HEN / LightningMods — P0 split.
  *
  * Horizontal monitor bar:
  *   font_size=18, font_style=1 (Bold), font_weight=900

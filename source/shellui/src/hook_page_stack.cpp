@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  *
  * Legacy Settings' normal back-button path pops through SettingPageStack
  * directly. UIManager.Pop is only a public wrapper and does not observe that

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  *
  * Pure resource-name → toolbox page routing (host-testable, no Mono/PS5).
  * Used by GetManifestResourceStream_Hook.

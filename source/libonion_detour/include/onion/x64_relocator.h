@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen
+/* Copyright (C) 2026 Lite-HEN
  *
  * Allocation-free x86-64 trampoline relocator. The caller owns the output
  * buffer and supplies the virtual source/destination execution addresses.

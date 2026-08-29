@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods — P0 split. */
+/* Copyright (C) 2025 Lite-HEN / LightningMods — P0 split. */
 
 #include "hooked_funcs.hpp"
 #include "ipc.hpp"

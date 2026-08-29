@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  *
  * Fluent builder for PS5 Debug Settings (system_settings) XML.
  * Business code describes widgets; build() returns the full document string.

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods */
+/* Copyright (C) 2025 Lite-HEN / LightningMods */
 
 #include <onion/notify.h>
 #include <onion/notify_i18n.h>
@@ -54,7 +54,7 @@ void onion_notify_format(char *out, size_t out_sz, int show_watermark,
   /* notify.* key → onion_notify_tr → printf-style body. */
   vsnprintf(buff, sizeof(buff), onion_notify_tr(fmt), ap);
   if (show_watermark) {
-    snprintf(out, out_sz, "[LiteHEN] %s", buff);
+    snprintf(out, out_sz, "[Lite-HEN] %s", buff);
   } else {
     snprintf(out, out_sz, "%s", buff);
   }
@@ -127,7 +127,7 @@ void onion_notify_rich(const char *message, const char *sub_message,
   const char *msg = onion_notify_tr(message ? message : "notify.brand");
   const char *sub = onion_notify_tr(sub_message ? sub_message : "");
   const char *icon_url_value =
-      icon_url ? icon_url : "/user/data/liteHEN/litehen.png";
+      icon_url ? icon_url : "/user/data/lite-HEN/lite-hen.png";
   const char *preview_icon_value = preview_icon ? preview_icon : "download";
   const char *notification_id_value =
       notification_id ? notification_id : "588193127";

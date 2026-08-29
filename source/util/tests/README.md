@@ -1,4 +1,4 @@
-# Litehen host unit tests
+# Lite-HEN host unit tests
 
 Host-side unit tests for shared libraries and util cheat **file parsing**
 (no PS5 SDK). Modeled after `kylin-core/tests`.

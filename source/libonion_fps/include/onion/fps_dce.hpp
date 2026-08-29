@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen / LightningMods
+/* Copyright (C) 2026 Lite-HEN / LightningMods
  *
  * Tier 1A: /dev/dce scanout counter (V-sync capped).
  * Follows PHU Games Tools by ArkSama (https://github.com/ArkSama).

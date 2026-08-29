@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -20,8 +20,8 @@ along with this program; see the file COPYING. If not, see
 // Single product config schema for daemon / util / shellui.
 //
 // Paths:
-//   primary  /data/liteHEN/config.ini          (elevated daemons)
-//   shellui  /user/data/liteHEN/config.ini     (SceShellUI sandbox view)
+//   primary  /data/lite-HEN/config.ini          (elevated daemons)
+//   shellui  /user/data/lite-HEN/config.ini     (SceShellUI sandbox view)
 // Load tries both; save writes all writable targets so the files stay twins.
 //
 // Process-local store: use SettingsStore for multi-threaded daemons (snapshot
@@ -45,8 +45,8 @@ extern "C++" {
 namespace onion {
 
 // Canonical filesystem paths.
-inline constexpr const char *kConfigPathPrimary = "/data/liteHEN/config.ini";
-inline constexpr const char *kConfigPathShellui = "/user/data/liteHEN/config.ini";
+inline constexpr const char *kConfigPathPrimary = "/data/lite-HEN/config.ini";
+inline constexpr const char *kConfigPathShellui = "/user/data/lite-HEN/config.ini";
 
 // Semantic config schema. This schema starts at version 1.
 inline constexpr int kSettingsSchemaVersion = 1;
@@ -112,7 +112,7 @@ struct AppJailbreakAllowlist {
 
 struct Settings {
   // [startup]
-  // Page to open after LiteHEN finishes loading.
+  // Page to open after Lite-HEN finishes loading.
   int startup_open_after_load = kStartupOpenNone;
 
   // [cheats], [app_jailbreak]
@@ -124,7 +124,7 @@ struct Settings {
 
   // [home_screen], [game_menu]
   bool display_tids = true;
-  bool litehen_game_opts = false;
+  bool lite-hen_game_opts = false;
 
   // [cooling]
   bool enable_fan_speed = true;
@@ -149,17 +149,17 @@ struct Settings {
   int toolbox_shortcut_opt = 0;
 
   // [kstuff]
-  // Load the embedded/override kstuff payload when LiteHEN starts.
+  // Load the embedded/override kstuff payload when Lite-HEN starts.
   bool kstuff_autoload = false;
 
   // [ftp]
-  // Start the built-in FTP server the next time LiteHEN launches.
+  // Start the built-in FTP server the next time Lite-HEN launches.
   bool ftp_autoload = false;
   // TCP listen port for the built-in FTP server (1..65535).
   int ftp_port = kFtpPortDefault;
 
   // [shadowmount]
-  // Start the built-in ShadowMount+ module the next time LiteHEN launches.
+  // Start the built-in ShadowMount+ module the next time Lite-HEN launches.
   bool shadowmount_autoload = false;
 
   // [toolbox]

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  *
  * Per-firmware HomeUI top-nav patch data. Generated-by-hand table: adding a
  * new firmware is a data-only change here, no edits to the patch logic in

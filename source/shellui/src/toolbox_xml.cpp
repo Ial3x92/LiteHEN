@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  *
  * Extracted from mono_utils.cpp for module locality.
  * Dynamic settings pages are built via ps5ui::Page (fluent XML builder).
@@ -43,7 +43,7 @@ namespace {
 /* Defined with the other dynamic control helpers below. */
 std::string toolbox_val(const char* id, const char* fallback);
 
-/** Payload .elf only (Litehen no longer supports .plugin packages). */
+/** Payload .elf only (Lite-HEN no longer supports .plugin packages). */
 template <typename G>
 void append_payload_entry(G& page, const std::string& directory, const char* filename,
                           bool list_page, int& next_id) {
@@ -113,7 +113,7 @@ void append_homebrew_game(G& page, const std::string& game_dir, const char* dir_
   game.path = shown_path;
   game.dir_name = dir_name;
   game.icon_path = icon_path;
-  game.id = "id_litehen_pl_loader_" + title_id + "_" + std::to_string(random_num);
+  game.id = "id_lite-hen_pl_loader_" + title_id + "_" + std::to_string(random_num);
   g_ui.games_list.push_back(game);
 
   page.button(game.id, "(" + title_id + ") " + title,
@@ -243,12 +243,12 @@ void generate_account_xml(std::string& xml_buffer) {
 
 void generate_payload_xml(std::string& xml_buffer, bool list_page) {
   static const std::vector<std::string> kPayloadDirs = {
-      "/user/data/Litehen/payloads",
-      "/data/Litehen/payloads",
-      "/usb0/Litehen/payloads",
-      "/usb1/Litehen/payloads",
-      "/usb2/Litehen/payloads",
-      "/usb3/Litehen/payloads",
+      "/user/data/Lite-HEN/payloads",
+      "/data/Lite-HEN/payloads",
+      "/usb0/Lite-HEN/payloads",
+      "/usb1/Lite-HEN/payloads",
+      "/usb2/Lite-HEN/payloads",
+      "/usb3/Lite-HEN/payloads",
   };
 
   const char* root_id = list_page ? "id_payload" : "id_auto_payloads";
@@ -462,52 +462,52 @@ void generate_plapps_xml(std::string& new_xml) {
 namespace {
 
 constexpr const char* kIconPkg =
-    "/user/data/Litehen/assets/icon_xml_package.png";
+    "/user/data/Lite-HEN/assets/icon_xml_package.png";
 constexpr const char* kIconPlugins =
-    "/user/data/Litehen/assets/icon_xml_plugins.png";
-constexpr const char* kIconGame = "/user/data/Litehen/assets/icon_xml_game.png";
+    "/user/data/Lite-HEN/assets/icon_xml_plugins.png";
+constexpr const char* kIconGame = "/user/data/Lite-HEN/assets/icon_xml_game.png";
 constexpr const char* kIconCheats =
-    "/user/data/Litehen/assets/icon_xml_cheats.png";
+    "/user/data/Lite-HEN/assets/icon_xml_cheats.png";
 constexpr const char* kIconDownload =
-    "/user/data/Litehen/assets/icon_xml_download.png";
+    "/user/data/Lite-HEN/assets/icon_xml_download.png";
 constexpr const char* kIconMonitor =
-    "/user/data/Litehen/assets/icon_xml_monitor.png";
+    "/user/data/Lite-HEN/assets/icon_xml_monitor.png";
 constexpr const char* kIconAccount =
-    "/user/data/Litehen/assets/icon_xml_account.png";
+    "/user/data/Lite-HEN/assets/icon_xml_account.png";
 constexpr const char* kIconSettings =
-    "/user/data/Litehen/assets/icon_xml_settings.png";
+    "/user/data/Lite-HEN/assets/icon_xml_settings.png";
 constexpr const char* kIconShortcuts =
-    "/user/data/Litehen/assets/icon_xml_shortcuts.png";
+    "/user/data/Lite-HEN/assets/icon_xml_shortcuts.png";
 constexpr const char* kIconDebug =
-    "/user/data/Litehen/assets/icon_xml_debug.png";
+    "/user/data/Lite-HEN/assets/icon_xml_debug.png";
 constexpr const char* kIconAbout =
-    "/user/data/Litehen/assets/icon_xml_about.png";
+    "/user/data/Lite-HEN/assets/icon_xml_about.png";
 constexpr const char* kIconOverlay =
-    "/user/data/Litehen/assets/icon_xml_overlay.png";
+    "/user/data/Lite-HEN/assets/icon_xml_overlay.png";
 constexpr const char* kIconTitleId =
-    "/user/data/Litehen/assets/icon_xml_title_id.png";
+    "/user/data/Lite-HEN/assets/icon_xml_title_id.png";
 constexpr const char* kIconMenuOption =
-    "/user/data/Litehen/assets/icon_xml_menu_option.png";
+    "/user/data/Lite-HEN/assets/icon_xml_menu_option.png";
 constexpr const char* kIconFan =
-    "/user/data/Litehen/assets/icon_xml_fan.png";
+    "/user/data/Lite-HEN/assets/icon_xml_fan.png";
 constexpr const char* kIconHardDrive =
-    "/user/data/Litehen/assets/icon_xml_hardrive.png";
+    "/user/data/Lite-HEN/assets/icon_xml_hardrive.png";
 constexpr const char* kIconDiscLicense =
-    "/user/data/Litehen/assets/icon_xml_disc_license.png";
+    "/user/data/Lite-HEN/assets/icon_xml_disc_license.png";
 constexpr const char* kIconDonations =
-    "/user/data/Litehen/assets/icon_xml_donations.png";
+    "/user/data/Lite-HEN/assets/icon_xml_donations.png";
 constexpr const char* kIconThanks =
-    "/user/data/Litehen/assets/icon_xml_thanks.png";
+    "/user/data/Lite-HEN/assets/icon_xml_thanks.png";
 constexpr const char* kIconProject =
-    "/user/data/Litehen/assets/icon_xml_project.png";
+    "/user/data/Lite-HEN/assets/icon_xml_project.png";
 constexpr const char* kIconAuthorAvatar =
-    "/user/data/Litehen/assets/icon_xml_author_avatar.png";
+    "/user/data/Lite-HEN/assets/icon_xml_author_avatar.png";
 constexpr const char* kIconDonatorLjf =
-    "/user/data/Litehen/assets/icon_xml_donator_ljf.png";
+    "/user/data/Lite-HEN/assets/icon_xml_donator_ljf.png";
 constexpr const char* kIconDonatorSzx =
-    "/user/data/Litehen/assets/icon_xml_donator_szx.png";
+    "/user/data/Lite-HEN/assets/icon_xml_donator_szx.png";
 constexpr const char* kIconDonatorAglx =
-    "/user/data/Litehen/assets/icon_xml_donator_aglx.png";
+    "/user/data/Lite-HEN/assets/icon_xml_donator_aglx.png";
 
 bool toolbox_on(const char* id) {
   return resolve_toolbox_control_value(id) == "1";
@@ -674,7 +674,7 @@ void generate_toolbox_xml(std::string& new_xml) {
           std::nullopt, std::nullopt,
           "id_group_fan")
       .group(
-          "id_litehen_credit_options", toolbox_i18n::tr("group.about"),
+          "id_lite-hen_credit_options", toolbox_i18n::tr("group.about"),
           [](ps5ui::Group& g) { append_toolbox_about_group(g); },
           std::nullopt, std::nullopt, std::nullopt,
           ps5ui::Style::Center)

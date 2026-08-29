@@ -1,7 +1,7 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  *
  * Payload ELF load helpers (PID files + elfldr socket).
- * Litehen only supports bare .elf payloads (no .plugin packages).
+ * Lite-HEN only supports bare .elf payloads (no .plugin packages).
  */
 #pragma once
 
@@ -34,8 +34,8 @@ void onion_payload_write_pid_file(const char *pid_path, pid_t pid);
 bool onion_payload_running(const char *title_id);
 
 /**
- * Stage ELF under /data/liteHEN/payloads/<key>.elf and launch exclusively via
- * Litehen's private 9020 elfldr. User payloads never fall back to the external
+ * Stage ELF under /data/lite-HEN/payloads/<key>.elf and launch exclusively via
+ * Lite-HEN's private 9020 elfldr. User payloads never fall back to the external
  * 9021 bootstrap/recovery loader and never infer a PID from process snapshots.
  *
  * Returns the loader-reported PID (>1) on success or -1 on every failure,

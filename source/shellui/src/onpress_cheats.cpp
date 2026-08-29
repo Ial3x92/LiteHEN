@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods — OnPress cheats domain */
+/* Copyright (C) 2025 Lite-HEN / LightningMods — OnPress cheats domain */
 #include "onpress.hpp"
 #include "shellui_state.hpp"
 #include "toolbox_route.hpp"

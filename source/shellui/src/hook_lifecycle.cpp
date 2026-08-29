@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen */
+/* Copyright (C) 2026 Lite-HEN */
 
 #include "hook_lifecycle.hpp"
 

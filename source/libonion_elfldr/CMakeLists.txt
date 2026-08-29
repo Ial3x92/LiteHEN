@@ -1,5 +1,5 @@
 ###################################################################################################
-# Litehen shared ptrace + ELF inject primitives (single authid policy).
+# Lite-HEN shared ptrace + ELF inject primitives (single authid policy).
 ###################################################################################################
 
 cmake_minimum_required(VERSION 3.20)

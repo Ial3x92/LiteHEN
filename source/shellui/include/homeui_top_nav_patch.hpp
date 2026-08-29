@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -20,12 +20,12 @@ struct MonoImage;
 
 /*
  * HomeUI RNPS/Hermes top-nav patch:
- * inserts the Litehen icon-button slot between Search and Settings by reusing
+ * inserts the Lite-HEN icon-button slot between Search and Settings by reusing
  * a hidden system entry.
  *
  * Disable for A/B crash isolation (must recompile shellui):
  *   -D SHELLUI_HOMEUI_TOP_NAV_PATCH=0
- * or CMake: -DLITEHEN_SHELLUI_HOMEUI_TOP_NAV_PATCH=OFF
+ * or CMake: -DLITE-HEN_SHELLUI_HOMEUI_TOP_NAV_PATCH=OFF
  */
 #ifndef SHELLUI_HOMEUI_TOP_NAV_PATCH
 #define SHELLUI_HOMEUI_TOP_NAV_PATCH 1

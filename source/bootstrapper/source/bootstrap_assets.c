@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen / LightningMods */
+/* Copyright (C) 2026 Lite-HEN / LightningMods */
 
 #include "bootstrap_assets.h"
 
@@ -77,23 +77,23 @@ static bool write_blob_file(const char *path, const void *data, size_t size) {
 }
 
 bool bootstrap_assets_write(void) {
-  mkdir("/data/liteHEN", 0777);
-  mkdir("/data/liteHEN/assets", 0777);
+  mkdir("/data/lite-HEN", 0777);
+  mkdir("/data/lite-HEN/assets", 0777);
 
   const bool startup_icon_ready = write_blob_file(
-      "/data/liteHEN/litehen.png", sicon_start, sicon_size);
+      "/data/lite-HEN/lite-hen.png", sicon_start, sicon_size);
 
   for (size_t i = 0; i < sizeof(kEmbeddedIcons) / sizeof(kEmbeddedIcons[0]);
        ++i) {
     char path[256];
-    snprintf(path, sizeof(path), "/data/liteHEN/assets/%s.png",
+    snprintf(path, sizeof(path), "/data/lite-HEN/assets/%s.png",
              kEmbeddedIcons[i].name);
     (void)write_blob_file(path, kEmbeddedIcons[i].data,
                           *kEmbeddedIcons[i].size);
   }
 
   mkdir("/system_ex/vsh_asset", 0777);
-  (void)write_blob_file("/system_ex/vsh_asset/litehen.png", sicon_start,
+  (void)write_blob_file("/system_ex/vsh_asset/lite-hen.png", sicon_start,
                         sicon_size);
   return startup_icon_ready;
 }

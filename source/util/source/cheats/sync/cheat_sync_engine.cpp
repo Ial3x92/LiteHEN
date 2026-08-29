@@ -125,7 +125,7 @@ SyncStatus download_archive(IHttpTransport &http, const char *url,
   HttpRequest req;
   req.url = url;
   req.method = "GET";
-  req.user_agent = "Litehen";
+  req.user_agent = "Lite-HEN";
   req.host_allow = host;
   req.status_min = 200;
   req.status_max = 299;

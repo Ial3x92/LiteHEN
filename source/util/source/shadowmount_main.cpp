@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
  *
  * In-process adapter for the vendored ShadowMount+ module. Replicates the
  * startup/shutdown sequence of upstream main() while leaving process-only
@@ -50,11 +50,11 @@ extern "C" {
 #ifndef SHADOWMOUNT_VERSION
 #define SHADOWMOUNT_VERSION "unknown"
 #endif
-#ifndef LITEHEN_SHADOWMOUNT_TEMPLATE
-#define LITEHEN_SHADOWMOUNT_TEMPLATE "config.ini.example"
+#ifndef LITE-HEN_SHADOWMOUNT_TEMPLATE
+#define LITE-HEN_SHADOWMOUNT_TEMPLATE "config.ini.example"
 #endif
-#ifndef LITEHEN_SHADOWMOUNT_ICON
-#define LITEHEN_SHADOWMOUNT_ICON "smp_icon.png"
+#ifndef LITE-HEN_SHADOWMOUNT_ICON
+#define LITE-HEN_SHADOWMOUNT_ICON "smp_icon.png"
 #endif
 
 /* Upstream generates this asset with xxd at Makefile time; embed the pinned
@@ -66,7 +66,7 @@ __asm__(".section .rodata\n"
         ".type smp_icon_png, @object\n"
         ".align 16\n"
         "smp_icon_png:\n"
-        ".incbin \"" LITEHEN_SHADOWMOUNT_ICON "\"\n"
+        ".incbin \"" LITE-HEN_SHADOWMOUNT_ICON "\"\n"
         "smp_icon_png_end:\n"
         ".global smp_icon_png_len\n"
         ".type smp_icon_png_len, @object\n"
@@ -273,7 +273,7 @@ __asm__(".section .rodata\n"
         ".type onion_shadowmount_config_ini, @object\n"
         ".align 16\n"
         "onion_shadowmount_config_ini:\n"
-        ".incbin \"" LITEHEN_SHADOWMOUNT_TEMPLATE "\"\n"
+        ".incbin \"" LITE-HEN_SHADOWMOUNT_TEMPLATE "\"\n"
         "onion_shadowmount_config_ini_end:\n"
         ".global onion_shadowmount_config_ini_len\n"
         ".type onion_shadowmount_config_ini_len, @object\n"
@@ -362,7 +362,7 @@ void cleanup_kstuff_noautomount_files(void) {
 }
 
 /* Upstream kills conflicting backpork fakelib processes by name before the
- * scanner starts. Reuse Litehen's sysctl-based lookup instead of upstream's
+ * scanner starts. Reuse Lite-HEN's sysctl-based lookup instead of upstream's
  * private sysctl walker. */
 void stop_conflicting_backpork(void) {
   if (!runtime_config()->backport_fakelib_enabled)
@@ -518,7 +518,7 @@ int shadowmount_module_main() {
 }
 
 void shadowmount_module_request_stop() {
-  request_shutdown_stop("litehen facade");
+  request_shutdown_stop("lite-hen facade");
 }
 
 } // namespace onion::services

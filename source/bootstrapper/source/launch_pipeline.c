@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen / LightningMods */
+/* Copyright (C) 2026 Lite-HEN / LightningMods */
 
 #include "launch_pipeline.h"
 
@@ -175,8 +175,8 @@ static void launch_kstuff(LaunchContext *context, uint32_t firmware_version,
             context->loader_port);
   size_t override_size = 0;
   uint8_t *override_elf = NULL;
-  if (if_exists("/data/liteHEN/kstuff.elf"))
-    override_elf = onion_payload_read_file("/data/liteHEN/kstuff.elf",
+  if (if_exists("/data/lite-HEN/kstuff.elf"))
+    override_elf = onion_payload_read_file("/data/lite-HEN/kstuff.elf",
                                            &override_size);
 
   const uint8_t *elf = override_elf ? override_elf : kstuff_start;

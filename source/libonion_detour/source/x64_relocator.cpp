@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen */
+/* Copyright (C) 2026 Lite-HEN */
 
 #include <onion/x64_relocator.h>
 

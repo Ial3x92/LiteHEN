@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Litehen / LightningMods
+/* Copyright (C) 2026 Lite-HEN / LightningMods
  *
  * Independent fan-threshold maintainer.
  *

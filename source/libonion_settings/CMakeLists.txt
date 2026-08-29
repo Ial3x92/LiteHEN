@@ -1,5 +1,5 @@
 ###################################################################################################
-# Litehen shared settings (single INI schema for daemon / util / shellui)
+# Lite-HEN shared settings (single INI schema for daemon / util / shellui)
 ###################################################################################################
 
 cmake_minimum_required(VERSION 3.20)

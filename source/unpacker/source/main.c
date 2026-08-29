@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Litehen / LightningMods
+/* Copyright (C) 2025 Lite-HEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -84,36 +84,36 @@ void notify(const char *text, ...) {
   sceKernelSendNotificationRequest(0, &req, sizeof(req), 0);
 }
 
-#ifndef LITEHEN_BOOTSTRAPPER_LZMA
-#define LITEHEN_BOOTSTRAPPER_LZMA "../../bin/bootstrapper.elf.lzma"
+#ifndef LITE-HEN_BOOTSTRAPPER_LZMA
+#define LITE-HEN_BOOTSTRAPPER_LZMA "../../bin/bootstrapper.elf.lzma"
 #endif
-#ifndef LITEHEN_BOOTSTRAPPER_SIZE
-#define LITEHEN_BOOTSTRAPPER_SIZE "../../bin/bootstrapper.elf.lzma.size"
+#ifndef LITE-HEN_BOOTSTRAPPER_SIZE
+#define LITE-HEN_BOOTSTRAPPER_SIZE "../../bin/bootstrapper.elf.lzma.size"
 #endif
 
 __asm__(".intel_syntax noprefix\n"
         ".section .data\n"
-        ".global litehen_compressed\n"
-        ".type   litehen_compressed, @object\n"
+        ".global lite-hen_compressed\n"
+        ".type   lite-hen_compressed, @object\n"
         ".align  16\n"
-        "litehen_compressed:\n"
-        ".incbin \"" LITEHEN_BOOTSTRAPPER_LZMA "\"\n"
-        "litehen_compressed_end:\n"
-        ".global litehen_compressed_size\n"
-        ".type  litehen_compressed_size, @object\n"
+        "lite-hen_compressed:\n"
+        ".incbin \"" LITE-HEN_BOOTSTRAPPER_LZMA "\"\n"
+        "lite-hen_compressed_end:\n"
+        ".global lite-hen_compressed_size\n"
+        ".type  lite-hen_compressed_size, @object\n"
         ".align  4\n"
-        "litehen_compressed_size:\n"
-        ".int    litehen_compressed_end - litehen_compressed\n"
-        ".global litehen_decompressed_size\n"
-        ".type   litehen_decompressed_size, @object\n"
+        "lite-hen_compressed_size:\n"
+        ".int    lite-hen_compressed_end - lite-hen_compressed\n"
+        ".global lite-hen_decompressed_size\n"
+        ".type   lite-hen_decompressed_size, @object\n"
         ".align  16\n"
-        "litehen_decompressed_size:\n"
-        ".incbin \"" LITEHEN_BOOTSTRAPPER_SIZE "\"\n");
+        "lite-hen_decompressed_size:\n"
+        ".incbin \"" LITE-HEN_BOOTSTRAPPER_SIZE "\"\n");
 
-extern uint32_t litehen_compressed_size;
-extern uint8_t litehen_compressed[];
-extern uint8_t litehen_compressed_end[];
-extern uint8_t litehen_decompressed_size[];
+extern uint32_t lite-hen_compressed_size;
+extern uint8_t lite-hen_compressed[];
+extern uint8_t lite-hen_compressed_end[];
+extern uint8_t lite-hen_decompressed_size[];
 
 bool send_to_elfldr(const void* buffer, size_t buffer_size) {
     int sockfd = -1;
@@ -168,22 +168,22 @@ bool send_to_elfldr(const void* buffer, size_t buffer_size) {
 }
 
 int main() {
-  if (litehen_compressed_size <= 0) {
-    LOG_ERROR("Invalid Litehen payload! unable to unpack it!");
+  if (lite-hen_compressed_size <= 0) {
+    LOG_ERROR("Invalid Lite-HEN payload! unable to unpack it!");
     return 0;
   }
 
-  size_t decompress_size = atoi((char *)litehen_decompressed_size);
+  size_t decompress_size = atoi((char *)lite-hen_decompressed_size);
   // LOG_DEBUG("Decompressed size: %zu bytes\nCompressed: %d", size,
-  // litehen_compressed_size); LOG_DEBUG("Payload has %d bytes, decompressing...",
-  // litehen_compressed_size);
+  // lite-hen_compressed_size); LOG_DEBUG("Payload has %d bytes, decompressing...",
+  // lite-hen_compressed_size);
   uint8_t *decompressed = (uint8_t *)malloc(decompress_size);
   if (!decompressed) {
-    notify("Failed to allocate memory for decompressed Litehen payload!");
+    notify("Failed to allocate memory for decompressed Lite-HEN payload!");
     return -1;
   }
   size_t size = decompress_size;
-  size_t srcLen = litehen_compressed_size;
+  size_t srcLen = lite-hen_compressed_size;
 
   //
   // The PROPS used by the LZMA is located at the first 5 bytes of the file, the
@@ -191,21 +191,21 @@ int main() {
   // compressed data
   //
   int res = LzmaUncompress(decompressed, &size,
-                           litehen_compressed + LZMA_CLI_HEADER_SIZE, &srcLen,
-                           litehen_compressed, LZMA_PROPS_SIZE);
+                           lite-hen_compressed + LZMA_CLI_HEADER_SIZE, &srcLen,
+                           lite-hen_compressed, LZMA_PROPS_SIZE);
   if (res != 0) {
-    notify("Failed to decompress Litehen payload! error: %d", res);
+    notify("Failed to decompress Lite-HEN payload! error: %d", res);
     free(decompressed);
     return -1;
   }
 
-  LOG_DEBUG("Bootstrapping Litehen.elf...");
+  LOG_DEBUG("Bootstrapping Lite-HEN.elf...");
 
-  /* Do not write Litehen.bin under /data/liteHEN — keep the payload in RAM
+  /* Do not write Lite-HEN.bin under /data/lite-HEN — keep the payload in RAM
    * only and hand it straight to elfldr :9021. */
 
   if(!send_to_elfldr(decompressed, decompress_size)) {
-    notify("The elfldr on port 9021 is REQUIRED for Litehen make sure its running and try again!");
+    notify("The elfldr on port 9021 is REQUIRED for Lite-HEN make sure its running and try again!");
     free(decompressed);
     return -1;
   }

@@ -12,8 +12,8 @@
 namespace onion::daemon {
 
 inline std::string make_welcome_toast_json(std::string_view toolbox_uri) {
-  const std::string message = std::string(LITEHEN_VERSION) +
-                              onion_notify_tr("notify.boot.made_by") + LITEHEN_AUTHOR;
+  const std::string message = std::string(LITE-HEN_VERSION) +
+                              onion_notify_tr("notify.boot.made_by") + LITE-HEN_AUTHOR;
   const char *sub_message = onion_notify_tr("notify.boot.welcome");
   const char *action_name = onion_notify_tr("notify.boot.goto_toolbox");
   const std::string_view action_url =
@@ -71,7 +71,7 @@ inline std::string make_welcome_toast_json(std::string_view toolbox_uri) {
       cJSON_AddNumberToObject(raw, "priority", 100) &&
       cJSON_AddStringToObject(icon, "type", "Url") &&
       cJSON_AddStringToObject(icon_params, "url",
-                             "/user/data/liteHEN/litehen.png") &&
+                             "/user/data/lite-HEN/lite-hen.png") &&
       cJSON_AddStringToObject(message_obj, "body", message.c_str()) &&
       cJSON_AddStringToObject(sub_message_obj, "body", sub_message) &&
       cJSON_AddStringToObject(action_obj, "actionName", action_name) &&
