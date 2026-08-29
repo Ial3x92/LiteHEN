@@ -138,7 +138,7 @@ MonoString *GetString_Hook(MonoObject *Instance, MonoString *str) {
       return mono_str_ui(toolbox_i18n::tr("pkg.msg.select_all"));
     }
 
-    // XML title/description literals (e.g. "★OnionHEN 工具箱") are already valid
+    // XML title/description literals (e.g. "LiteHEN 工具箱") are already valid
     // MonoStrings. Re-allocating with mono_string_new(Root_Domain, ...) on the UI
     // thread has crashed ShellUI (wrong domain / GC). Pass the original through.
     if (resourceName.rfind("msg_", 0) != 0) {

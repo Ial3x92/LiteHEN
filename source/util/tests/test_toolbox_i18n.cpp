@@ -11,7 +11,7 @@ using namespace toolbox_i18n;
 
 static int test_default_zh(void) {
   set_lang(Lang::ZhHans);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★OnionHEN 工具箱") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "LiteHEN 工具箱") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.pkg"), "内容安装与管理") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.payloads.sub"),
                                "用户与自动启动 Payload；Kstuff、FTP、ShadowMount+ 插件") == 0);
@@ -145,7 +145,7 @@ static int test_ar(void) {
 
 static int test_zh_hant(void) {
   set_lang(Lang::ZhHant);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★OnionHEN 工具箱") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "LiteHEN 工具箱") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "金手指") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.home_menu"), "主畫面") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -155,7 +155,7 @@ static int test_zh_hant(void) {
 
 static int test_ja(void) {
   set_lang(Lang::Ja);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★OnionHEN ツールボックス") ==
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "LiteHEN ツールボックス") ==
                    0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "チート") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.ja"), "日本語") == 0);
@@ -177,7 +177,7 @@ static int test_fr(void) {
 
 static int test_de(void) {
   set_lang(Lang::De);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★OnionHEN-Toolbox") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "LiteHEN-Toolbox") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Cheats") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.de"), "Deutsch") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -187,7 +187,7 @@ static int test_de(void) {
 
 static int test_ko(void) {
   set_lang(Lang::Ko);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★OnionHEN 툴박스") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "LiteHEN 툴박스") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "치트") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.ko"), "한국어") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
