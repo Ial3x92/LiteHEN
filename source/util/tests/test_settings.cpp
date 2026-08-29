@@ -49,7 +49,7 @@ static int test_defaults_and_serialize_keys(void) {
   TEST_ASSERT_TRUE(text.find("[app_jailbreak]\n# enabled controls the App "
                                  "lifecycle and sandbox event listeners. "
                                  "When false,\n"
-                                 "# OnionHEN does not register either listener.\n"
+                                 "# LiteHEN does not register either listener.\n"
                                  "# Available values: true, false\n"
                                  "enabled=true\n") != std::string::npos);
   TEST_ASSERT_TRUE(text.find("edge=top") != std::string::npos);
@@ -63,7 +63,7 @@ static int test_defaults_and_serialize_keys(void) {
   TEST_ASSERT_TRUE(text.find("autoload=true") != std::string::npos);
   TEST_ASSERT_TRUE(text.find("[ftp]\n") != std::string::npos);
   TEST_ASSERT_TRUE(text.find("[ftp]\n# autoload starts the built-in FTP server "
-                                 "the next time OnionHEN launches.\n"
+                                 "the next time LiteHEN launches.\n"
                                  "# Available values: true, false\n"
                                  "autoload=false\n"
                                  "# port selects the TCP listen port for the built-in server.\n"

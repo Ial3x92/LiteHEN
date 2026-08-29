@@ -37,7 +37,7 @@ Submodules (under third_party/):
 
 Runtime-only external dependency:
   elfldr @ 9021    https://github.com/ps5-payload-dev/elfldr
-                  Required only for initial bootstrap; OnionHEN starts
+                  Required only for initial bootstrap; LiteHEN starts
                   onion_elfldr.elf @ 9020 for runtime launches.
 
 Removed from OnionHEN (not synced):

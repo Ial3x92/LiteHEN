@@ -112,7 +112,7 @@ struct AppJailbreakAllowlist {
 
 struct Settings {
   // [startup]
-  // Page to open after OnionHEN finishes loading.
+  // Page to open after LiteHEN finishes loading.
   int startup_open_after_load = kStartupOpenNone;
 
   // [cheats], [app_jailbreak]
@@ -149,17 +149,17 @@ struct Settings {
   int toolbox_shortcut_opt = 0;
 
   // [kstuff]
-  // Load the embedded/override kstuff payload when OnionHEN starts.
+  // Load the embedded/override kstuff payload when LiteHEN starts.
   bool kstuff_autoload = false;
 
   // [ftp]
-  // Start the built-in FTP server the next time OnionHEN launches.
+  // Start the built-in FTP server the next time LiteHEN launches.
   bool ftp_autoload = false;
   // TCP listen port for the built-in FTP server (1..65535).
   int ftp_port = kFtpPortDefault;
 
   // [shadowmount]
-  // Start the built-in ShadowMount+ module the next time OnionHEN launches.
+  // Start the built-in ShadowMount+ module the next time LiteHEN launches.
   bool shadowmount_autoload = false;
 
   // [toolbox]

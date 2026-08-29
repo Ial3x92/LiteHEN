@@ -47,8 +47,8 @@ static int test_default_zh(void) {
   TEST_ASSERT_TRUE(
       std::strcmp(onion_notify_tr("notify.crash.main"),
                   "OnionHEN 已崩溃……\n\n请将 /data/liteHEN/"
-                  "OnionHEN_crash.log 附加到 GitHub Issue：https://github.com/"
-                  "kvnhrt/onionHEN/issues") == 0);
+                  "LiteHEN_crash.log 附加到 GitHub Issue：https://github.com/"
+                  "ial3x92/litehenissues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
                                "为 %s 启用/禁用 %s") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.game_menu"),
@@ -68,7 +68,7 @@ static int test_default_zh(void) {
 
 static int test_en(void) {
   set_lang(Lang::En);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★OnionHEN Toolbox") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★LiteHEN Toolbox") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.pkg"), "Content Install & Management") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.payloads.sub"),
                                "User and auto-start payloads; Kstuff, FTP, "
@@ -108,8 +108,8 @@ static int test_en(void) {
   TEST_ASSERT_TRUE(
       std::strcmp(onion_notify_tr("notify.crash.main"),
                   "OnionHEN has crashed ...\n\nPlease attach /data/liteHEN/"
-                  "OnionHEN_crash.log to a GitHub issue: https://github.com/"
-                  "kvnhrt/onionHEN/issues") == 0);
+                  "LiteHEN_crash.log to a GitHub issue: https://github.com/"
+                  "ial3x92/litehenissues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
                                "Enable/disable %s for %s") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("payload.start_stop_fmt"),
@@ -250,7 +250,7 @@ static int test_pl(void) {
 
 static int test_th(void) {
   set_lang(Lang::Th);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★OnionHEN Toolbox") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★LiteHEN Toolbox") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "สูตรโกง") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.th"), "ไทย") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),

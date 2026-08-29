@@ -125,7 +125,7 @@ int main(void) {
     sceNetCtlInit();
     sceUserServiceInitialize(NULL);
     onion_log_configure(
-        "OnionHEN utils", "/data/liteHEN/OnionHEN_util_daemon.log");
+        "OnionHEN utils", "/data/liteHEN/LiteHEN_util_daemon.log");
     /* Real linked kernel export (not a dlsym function-pointer variable). */
     onion_notify_set_send(reinterpret_cast<onion_notify_send_fn>(
         sceKernelSendNotificationRequest));
