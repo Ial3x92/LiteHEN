@@ -109,7 +109,7 @@ These user-visible strings are **not** in the JSON catalogs on purpose:
 
 | Surface | Why |
 |---|---|
-| Settings menu label `★OnionHEN Tools` | Equal-length binary patch of `★Debug Settings`. Length is fixed. |
+| Settings menu label `★LiteHEN Toolbox` | Equal-length binary patch of `★Debug Settings`. Length is fixed. |
 | HomeUI top-nav `OnionHEN` | Brand token, same in every language. |
 | Notification watermark `[LiteHEN]` | Brand prefix in `onion_notify_format`. |
 | About names, handles, Ko-fi URL, project URLs | Proper nouns / addresses. |
