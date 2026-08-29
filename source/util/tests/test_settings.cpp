@@ -49,7 +49,7 @@ static int test_defaults_and_serialize_keys(void) {
   TEST_ASSERT_TRUE(text.find("[app_jailbreak]\n# enabled controls the App "
                                  "lifecycle and sandbox event listeners. "
                                  "When false,\n"
-                                 "# Lite-HEN does not register either listener.\n"
+                                 "# Lite_HEN does not register either listener.\n"
                                  "# Available values: true, false\n"
                                  "enabled=true\n") != std::string::npos);
   TEST_ASSERT_TRUE(text.find("edge=top") != std::string::npos);
@@ -63,7 +63,7 @@ static int test_defaults_and_serialize_keys(void) {
   TEST_ASSERT_TRUE(text.find("autoload=true") != std::string::npos);
   TEST_ASSERT_TRUE(text.find("[ftp]\n") != std::string::npos);
   TEST_ASSERT_TRUE(text.find("[ftp]\n# autoload starts the built-in FTP server "
-                                 "the next time Lite-HEN launches.\n"
+                                 "the next time Lite_HEN launches.\n"
                                  "# Available values: true, false\n"
                                  "autoload=false\n"
                                  "# port selects the TCP listen port for the built-in server.\n"
@@ -122,7 +122,7 @@ static int test_full_schema_roundtrip(void) {
   in.app_jailbreak_enabled = false;
   in.debug_app_jb_msg = true;
   in.display_tids = true;
-  in.lite-hen_game_opts = false;
+  in.Lite_HEN_game_opts = false;
   in.enable_fan_speed = true;
   in.fan_threshold = 90;
   in.overlay_enabled = false;
@@ -158,7 +158,7 @@ static int test_full_schema_roundtrip(void) {
   TEST_ASSERT_TRUE(out.app_jailbreak_enabled == in.app_jailbreak_enabled);
   TEST_ASSERT_TRUE(out.debug_app_jb_msg == in.debug_app_jb_msg);
   TEST_ASSERT_TRUE(out.display_tids == in.display_tids);
-  TEST_ASSERT_TRUE(out.lite-hen_game_opts == in.lite-hen_game_opts);
+  TEST_ASSERT_TRUE(out.Lite_HEN_game_opts == in.Lite_HEN_game_opts);
   TEST_ASSERT_TRUE(out.enable_fan_speed == in.enable_fan_speed);
   TEST_ASSERT_EQ_INT(in.fan_threshold, out.fan_threshold);
   TEST_ASSERT_TRUE(out.overlay_enabled == in.overlay_enabled);

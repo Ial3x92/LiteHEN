@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract and validate RNPS/HBC dump fingerprints used by Lite-HEN profiles."""
+"""Extract and validate RNPS/HBC dump fingerprints used by Lite_HEN profiles."""
 
 from __future__ import annotations
 

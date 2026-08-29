@@ -1,4 +1,4 @@
-# Host unit tests for Lite-HEN shared libs + util cheats (no PS5 SDK).
+# Host unit tests for Lite_HEN shared libs + util cheats (no PS5 SDK).
 # Usage (from this directory):
 #   make
 #   make test

@@ -1,16 +1,16 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Lite-HEN" height="128" width="128"/>
+  <img src="assets/logo.png" alt="Lite_HEN" height="128" width="128"/>
 </p>
 
-# Lite-HEN
+# Lite_HEN
 
-Lite-HEN is a streamlined, lightweight modification of **Lite-HEN**, designed for users who want a cleaner experience without unnecessary clutter.
+Lite_HEN is a streamlined, lightweight modification of **Lite_HEN**, designed for users who want a cleaner experience without unnecessary clutter.
 
-This project is a derivative work based on [aydencharles/lite-hen](https://github.com/aydencharles/lite-hen) and is fully compliant with the **GNU General Public License v3**.
+This project is a derivative work based on [aydencharles/Lite_HEN](https://github.com/aydencharles/Lite_HEN) and is fully compliant with the **GNU General Public License v3**.
 
-## 🚀 Features & Optimizations (Lite-HEN Edition)
+## 🚀 Features & Optimizations (Lite_HEN Edition)
 
-Compared to the standard build (Lite-HEN), the **Lite-HEN** edition has been completely re-engineered for maximum stability, fast performance, and a drastically reduced memory footprint on the PS5.
+Compared to the standard build (Lite_HEN), the **Lite_HEN** edition has been completely re-engineered for maximum stability, fast performance, and a drastically reduced memory footprint on the PS5.
 
 ### 🧠 System & Performance Optimizations
 * **Minimal RAM Usage:** Disabled heavy C++ compiler overhead by forcing `-fno-exceptions` (Exception Handling) and `-fno-rtti` (Run-Time Type Information). This strips out massive static data tables, ensuring the payload leaves the maximum amount of console RAM free.
@@ -26,7 +26,7 @@ The structure of `toolbox_xml.cpp` has been streamlined to make the settings men
 
 ## 🛠️ Credits & Acknowledgments
 
-Lite-HEN exists because of the PS5 homebrew and reverse-engineering community.
+Lite_HEN exists because of the PS5 homebrew and reverse-engineering community.
 
 ### Contributors
 * **aydencharles**
@@ -62,4 +62,4 @@ Thanks as well to everyone else who tested, researched, or sent usable feedback.
 
 This project is licensed under the GNU General Public License v3.0. Third-party components retain their respective licenses and notices.
 
-Lite-HEN is an unofficial homebrew project and is not affiliated with Sony Interactive Entertainment. Use it only on hardware you own and at your own risk. No warranty is provided.
+Lite_HEN is an unofficial homebrew project and is not affiliated with Sony Interactive Entertainment. Use it only on hardware you own and at your own risk. No warranty is provided.

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Strict user Payload ELF loader (PID files + private :9020 elfldr).
  */
@@ -150,11 +150,11 @@ pid_t onion_payload_launch_elfldr(const char *title_id, const uint8_t *elf,
     return -1;
   }
 
-  mkdir("/data/lite-HEN", 0777);
-  mkdir("/data/lite-HEN/payloads", 0777);
+  mkdir("/data/Lite_HEN", 0777);
+  mkdir("/data/Lite_HEN/payloads", 0777);
 
   char epath[256];
-  snprintf(epath, sizeof(epath), "/data/lite-HEN/payloads/%s.elf", title_id);
+  snprintf(epath, sizeof(epath), "/data/Lite_HEN/payloads/%s.elf", title_id);
   LOG_INFO("loading payload via elfldr key=%s path=%s", title_id, epath);
   return launch_user_payload(title_id, epath, elf, elf_sz);
 }

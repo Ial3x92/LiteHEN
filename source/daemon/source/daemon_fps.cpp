@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Lite-HEN / LightningMods
+/* Copyright (C) 2026 Lite_HEN / LightningMods
  *
  * Skip-hook FPS sampler. Does not inject the game and does not load an SPRX.
  * Reads /dev/dce + DMAP of the game's already-loaded libSceAgcDriver.sprx.

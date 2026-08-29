@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Bridges the config schema to the logger.
  *

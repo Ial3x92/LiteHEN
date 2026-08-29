@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Compatibility shim — implementation lives in libonion_detour.
  * Historical detour.h also pulled C APIs used by prx.cpp.

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Shared Legacy Settings navigation (UIManager.Instance.Push). Extracted from
  * the cheat-download progress page so plugin config pages reuse the same path.

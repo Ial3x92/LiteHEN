@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods */
+/* Copyright (C) 2025 Lite_HEN / LightningMods */
 
 #include "toolbox_route.hpp"
 #include "plugins_registry.hpp"

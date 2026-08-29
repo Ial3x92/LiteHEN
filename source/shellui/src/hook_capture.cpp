@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  * Extracted from hook_functions.cpp — hook_capture
  */
 #include "hooked_funcs.hpp"
@@ -21,7 +21,7 @@ bool CaptureScreen();
 bool CaptureScreen(){
   if(g_settings.cheats_shortcut_opt == CHEATS_LONG_SHARE){
     //LOG_DEBUG("CaptureScreen: Long Share Shortcut activated");
-    GoToURI("Lite-HEN?Cheats");
+    GoToURI("Lite_HEN?Cheats");
     return true;
   }
   else if (g_settings.toolbox_shortcut_opt == TOOLBOX_LONG_SHARE){
@@ -85,7 +85,7 @@ void OnShareButton(MonoObject * data) {
 
   if( g_settings.cheats_shortcut_opt == CHEATS_SINGLE_SHARE) {
     // LOG_DEBUG("Share Shortcut: Redirecting to Cheats");
-    GoToURI("Lite-HEN?Cheats");
+    GoToURI("Lite_HEN?Cheats");
     return;
   }
   else if (g_settings.toolbox_shortcut_opt == TOOLBOX_SINGLE_SHARE) {

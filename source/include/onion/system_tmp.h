@@ -1,6 +1,6 @@
-/* Copyright (C) 2026 Lite-HEN / LightningMods
+/* Copyright (C) 2026 Lite_HEN / LightningMods
  *
- * Shared /system_tmp namespace for Lite-HEN runtime state.
+ * Shared /system_tmp namespace for Lite_HEN runtime state.
  */
 #pragma once
 
@@ -9,9 +9,9 @@
 #include <stdio.h>
 
 #if defined(ONION_HOST_TEST)
-#define ONION_SYSTEM_TMP_ROOT "/tmp/lite-hen"
+#define ONION_SYSTEM_TMP_ROOT "/tmp/Lite_HEN"
 #else
-#define ONION_SYSTEM_TMP_ROOT "/system_tmp/lite-hen"
+#define ONION_SYSTEM_TMP_ROOT "/system_tmp/Lite_HEN"
 #endif
 
 #define ONION_SYSTEM_TMP_IPC_ROOT ONION_SYSTEM_TMP_ROOT "/ipc"

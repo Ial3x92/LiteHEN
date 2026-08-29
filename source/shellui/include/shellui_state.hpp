@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Toolbox / settings UI runtime state. All ShellUI session state lives on g_ui.
  */

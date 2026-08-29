@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods — OnPress network domain */
+/* Copyright (C) 2025 Lite_HEN / LightningMods — OnPress network domain */
 #include "account_activator.h"
 #include "onpress.hpp"
 #include "remote_play.hpp"

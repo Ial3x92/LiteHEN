@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Cheat-download progress page backed by a Legacy Settings user_custom Panel.
  * The worker thread only polls IPC. UI3 widget creation and updates stay on the

@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Lite-HEN / LightningMods
+/* Copyright (C) 2026 Lite_HEN / LightningMods
  *
  * Read/write another process's user VA through the kernel DMAP window.
  * Algorithm matches util KdirectBackend (cheats/memory_backends.cpp) and

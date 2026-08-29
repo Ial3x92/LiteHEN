@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Lite-HEN / LightningMods */
+/* Copyright (C) 2026 Lite_HEN / LightningMods */
 
 #include "bootstrap_filesystem.h"
 
@@ -36,10 +36,10 @@ static bool remount(const char *device, const char *path) {
 }
 
 void bootstrap_filesystem_create_directories(void) {
-  mkdir("/data/lite-HEN", 0777);
-  mkdir("/data/lite-HEN/payloads", 0777);
-  mkdir("/data/lite-HEN/assets", 0777);
-  mkdir("/data/lite-HEN/games", 0777);
+  mkdir("/data/Lite_HEN", 0777);
+  mkdir("/data/Lite_HEN/payloads", 0777);
+  mkdir("/data/Lite_HEN/assets", 0777);
+  mkdir("/data/Lite_HEN/games", 0777);
 }
 
 bool bootstrap_filesystem_mount_system(void) {

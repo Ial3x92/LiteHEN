@@ -1,4 +1,4 @@
-name: Build Lite-HEN
+name: Build Lite_HEN
 on:
   workflow_dispatch:
 
@@ -54,19 +54,19 @@ jobs:
 
           ./scripts/build.sh --release
 
-          # Rileviamo automaticamente il file compilato (sia esso Lite-HEN o Lite-HEN) 
-          # e standardizziamo il nome finale per l'upload in Lite-HEN.elf
-          if [ -f "build/bin/Lite-HEN.elf" ]; then
-            echo "Lite-HEN.elf generato nativamente."
-          elif [ -f "build/bin/Lite-HEN.elf" ]; then
-            cp build/bin/Lite-HEN.elf build/bin/Lite-HEN.elf
+          # Rileviamo automaticamente il file compilato (sia esso Lite_HEN o Lite_HEN) 
+          # e standardizziamo il nome finale per l'upload in Lite_HEN.elf
+          if [ -f "build/bin/Lite_HEN.elf" ]; then
+            echo "Lite_HEN.elf generato nativamente."
+          elif [ -f "build/bin/Lite_HEN.elf" ]; then
+            cp build/bin/Lite_HEN.elf build/bin/Lite_HEN.elf
           else
             echo "Tentativo di fallback sui file generati..."
-            cp build/bin/*.elf build/bin/Lite-HEN.elf 2>/dev/null || true
+            cp build/bin/*.elf build/bin/Lite_HEN.elf 2>/dev/null || true
           fi
 
-      - name: Upload Lite-HEN.elf
+      - name: Upload Lite_HEN.elf
         uses: actions/upload-artifact@v4
         with:
-          name: Lite-HEN
-          path: build/bin/Lite-HEN.elf
+          name: Lite_HEN
+          path: build/bin/Lite_HEN.elf

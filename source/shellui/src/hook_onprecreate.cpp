@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  * Extracted from hook_functions.cpp — hook_onprecreate
  *
  * Value binding is table-driven via resolve_toolbox_control_value → set_Value

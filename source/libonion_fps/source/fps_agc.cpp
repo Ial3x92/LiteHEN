@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Lite-HEN / LightningMods */
+/* Copyright (C) 2026 Lite_HEN / LightningMods */
 #include <onion/fps_agc.hpp>
 
 #include <onion/log.h>

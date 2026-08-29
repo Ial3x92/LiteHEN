@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods — OnPress payloads / auto-start */
+/* Copyright (C) 2025 Lite_HEN / LightningMods — OnPress payloads / auto-start */
 #include "onpress.hpp"
 #include "shellui_payload_state.hpp"
 #include <fcntl.h>

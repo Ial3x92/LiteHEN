@@ -15,9 +15,9 @@ set(_icon_output_dir "${CMAKE_CURRENT_BINARY_DIR}/generated/assets")
 set(_generated_icon_files)
 
 # ---------------------------------------------------------------------------
-# GESTIONE lite-hen_sicon.png (L'unica icona rimasta)
+# GESTIONE Lite_HEN_sicon.png (L'unica icona rimasta)
 # ---------------------------------------------------------------------------
-set(_raster_icon "lite-hen_sicon.png")
+set(_raster_icon "Lite_HEN_sicon.png")
 set(_raster_source "${D_CWD}/assets/${_raster_icon}")
 set(_raster_output "${_icon_output_dir}/${_raster_icon}")
 add_custom_command(
@@ -44,7 +44,7 @@ foreach(_icon_file IN LISTS _generated_icon_files)
 		"\".type   ${_icon_name}_start, @object\\n\"\n"
 		"\".align  16\\n\"\n"
 		"\"${_icon_name}_start:\\n\"\n"
-		"\".incbin \\\"\" LITE-HEN_ICON_ASSET_DIR \"/${_icon_name}.png\\\"\\n\"\n"
+		"\".incbin \\\"\" Lite_HEN_ICON_ASSET_DIR \"/${_icon_name}.png\\\"\\n\"\n"
 		"\"${_icon_name}_end:\\n\"\n"
 		"\".global ${_icon_name}_size\\n\"\n"
 		"\".type   ${_icon_name}_size, @object\\n\"\n"
@@ -75,10 +75,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -gfull -gdwarf-2 -pedantic -pedantic-error
 
 target_sources(${PROJECT_NAME} PRIVATE ${SrcFiles})
 
-if(DEFINED LITE-HEN_OUT_BIN)
-	set(_onion_daemon_elf "${LITE-HEN_OUT_BIN}/daemon.elf")
-	set(_onion_util_elf "${LITE-HEN_OUT_BIN}/util.elf")
-	set(_onion_elfldr_elf "${LITE-HEN_OUT_BIN}/onion_elfldr.elf")
+if(DEFINED Lite_HEN_OUT_BIN)
+	set(_onion_daemon_elf "${Lite_HEN_OUT_BIN}/daemon.elf")
+	set(_onion_util_elf "${Lite_HEN_OUT_BIN}/util.elf")
+	set(_onion_elfldr_elf "${Lite_HEN_OUT_BIN}/onion_elfldr.elf")
 else()
 	set(_onion_daemon_elf "${PROJECT_ROOT}/bin/daemon.elf")
 	set(_onion_util_elf "${PROJECT_ROOT}/bin/util.elf")
@@ -87,14 +87,14 @@ endif()
 set_source_files_properties(
 	${D_SRC}/daemon.c
 	PROPERTIES OBJECT_DEPENDS
-		"${_onion_daemon_elf};${_onion_util_elf};${_onion_elfldr_elf};${LITE-HEN_KSTUFF_ELF};${D_CWD}/assets/lite-hen_sicon.png;${_generated_icon_files}"
+		"${_onion_daemon_elf};${_onion_util_elf};${_onion_elfldr_elf};${Lite_HEN_KSTUFF_ELF};${D_CWD}/assets/Lite_HEN_sicon.png;${_generated_icon_files}"
 )
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-	LITE-HEN_DAEMON_ELF="${_onion_daemon_elf}"
-	LITE-HEN_UTIL_ELF="${_onion_util_elf}"
-	LITE-HEN_ELFLDR_ELF="${_onion_elfldr_elf}"
-	LITE-HEN_KSTUFF_ELF="${LITE-HEN_KSTUFF_ELF}"
-	LITE-HEN_ICON_ASSET_DIR="${_icon_output_dir}"
+	Lite_HEN_DAEMON_ELF="${_onion_daemon_elf}"
+	Lite_HEN_UTIL_ELF="${_onion_util_elf}"
+	Lite_HEN_ELFLDR_ELF="${_onion_elfldr_elf}"
+	Lite_HEN_KSTUFF_ELF="${Lite_HEN_KSTUFF_ELF}"
+	Lite_HEN_ICON_ASSET_DIR="${_icon_output_dir}"
 )
 
 onion_target_debug_define(${PROJECT_NAME})
@@ -108,8 +108,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	"${PROJECT_ROOT}/libonion_elfldr/include"
 	"${PROJECT_ROOT}/include"
 )
-target_link_directories	(${PROJECT_NAME} PUBLIC "${LITE-HEN_PS5_STUB_DIR}")
-target_sources(${PROJECT_NAME} PRIVATE "${LITE-HEN_COMMON_DIR}/elfldr_remote.c")
+target_link_directories	(${PROJECT_NAME} PUBLIC "${Lite_HEN_PS5_STUB_DIR}")
+target_sources(${PROJECT_NAME} PRIVATE "${Lite_HEN_COMMON_DIR}/elfldr_remote.c")
 target_link_libraries	(${PROJECT_NAME} PUBLIC onion_proc onion_platform onion_settings onion_payload onion_ready onion_elfldr kernel_sys SceNotification SceSystemService)
 add_custom_target(${PROJECT_NAME}_assets
 	DEPENDS ${_generated_icon_files} "${_icon_asm}" "${_icon_manifest}")

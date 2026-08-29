@@ -1,4 +1,4 @@
-# Lite-HEN Cheats (C++ orchestration)
+# Lite_HEN Cheats (C++ orchestration)
 
 ## Architecture
 
@@ -41,7 +41,7 @@ IPC DOWNLOAD_CHEATS
 ## Formats / paths
 
 ```text
-/data/lite-HEN/cheats/<TITLE_ID>_<VERSION>[_<PROCESS>][_<HASH>].{json,shn,mc4,ShnExt}
+/data/Lite_HEN/cheats/<TITLE_ID>_<VERSION>[_<PROCESS>][_<HASH>].{json,shn,mc4,ShnExt}
 ```
 
 `PROCESS` and 8-hex `HASH` are optional. Process-scoped names beat generic `TITLE_VERSION`; json → shn → mc4 → ShnExt.

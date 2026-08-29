@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods — OnPress system settings domain */
+/* Copyright (C) 2025 Lite_HEN / LightningMods — OnPress system settings domain */
 #include "onpress.hpp"
 #include "toolbox_i18n.hpp"
 #include <onion/notify_i18n.h>
@@ -75,14 +75,14 @@ static OnPressResult id_app_jailbreak_enabled(OnPressContext &ctx) {
 }
 
 static OnPressResult id_custom_game_opts(OnPressContext &ctx) {
-  if (atoi(ctx.value.c_str()) == g_settings.lite-hen_game_opts) {
-    LOG_WARN("Lite-HEN Game Options already %s",
-                g_settings.lite-hen_game_opts ? "Enabled" : "Disabled");
+  if (atoi(ctx.value.c_str()) == g_settings.Lite_HEN_game_opts) {
+    LOG_WARN("Lite_HEN Game Options already %s",
+                g_settings.Lite_HEN_game_opts ? "Enabled" : "Disabled");
     return OnPressResult::EarlyReturn;
   }
-  g_settings.lite-hen_game_opts = !g_settings.lite-hen_game_opts;
-  LOG_DEBUG("Lite-HEN Game Options: %s",
-              g_settings.lite-hen_game_opts ? "Enabled" : "Disabled");
+  g_settings.Lite_HEN_game_opts = !g_settings.Lite_HEN_game_opts;
+  LOG_DEBUG("Lite_HEN Game Options: %s",
+              g_settings.Lite_HEN_game_opts ? "Enabled" : "Disabled");
   return OnPressResult::Handled;
 }
 

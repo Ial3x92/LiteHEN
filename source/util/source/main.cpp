@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -125,7 +125,7 @@ int main(void) {
     sceNetCtlInit();
     sceUserServiceInitialize(NULL);
     onion_log_configure(
-        "Lite-HEN utils", "/data/lite-HEN/Lite-HEN_util_daemon.log");
+        "Lite_HEN utils", "/data/Lite_HEN/Lite_HEN_util_daemon.log");
     /* Real linked kernel export (not a dlsym function-pointer variable). */
     onion_notify_set_send(reinterpret_cast<onion_notify_send_fn>(
         sceKernelSendNotificationRequest));
@@ -148,9 +148,9 @@ int main(void) {
     /* pt_* / code-cave require PTRACE_AUTHID (not DEBUG_AUTHID). */
     set_ucred_to_ptrace();
 
-    unlink("/data/lite-HEN/Lite-HEN_util_crash.log");
+    unlink("/data/Lite_HEN/Lite_HEN_util_crash.log");
 
-    LOG_INFO("=========== starting Lite-HEN Utilities... ===========");
+    LOG_INFO("=========== starting Lite_HEN Utilities... ===========");
 
     LoadSettings();
 

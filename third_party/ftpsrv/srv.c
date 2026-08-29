@@ -36,7 +36,7 @@ along with this program; see the file COPYING. If not, see
 #include "notify.h"
 #include "srv.h"
 
-/* ftp_serve is run by the Lite-HEN service facade on a dedicated thread.  The
+/* ftp_serve is run by the Lite_HEN service facade on a dedicated thread.  The
  * original standalone binary exited only when its process was killed, so the
  * module needs an explicit stop signal for UI toggles and port changes. */
 static _Atomic bool ftp_stop_requested = false;

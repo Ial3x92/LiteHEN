@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Lite-HEN / LightningMods */
+/* Copyright (C) 2026 Lite_HEN / LightningMods */
 
 #include "bootstrap_runtime.h"
 
@@ -104,7 +104,7 @@ static int redirect_standard_streams(void) {
 }
 
 void bootstrap_runtime_enable_remote_logging(void) {
-  if (!if_exists("/data/I_want_logging_for_lite-hen"))
+  if (!if_exists("/data/I_want_logging_for_Lite_HEN"))
     return;
 
   LOG_DEBUG("Redirecting stdout and stderr to logger ...");

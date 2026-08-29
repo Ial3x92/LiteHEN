@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -529,9 +529,9 @@ bool apply_parser(IniParser *parser, Settings *out) {
       parse_log_level(ini_get(parser, "logging.level"), out->log_level);
   out->display_tids = parse_bool(
       ini_get(parser, "home_screen.show_title_ids"), out->display_tids);
-  out->lite-hen_game_opts =
-      parse_bool(ini_get(parser, "game_menu.show_lite-hen_options"),
-                 out->lite-hen_game_opts);
+  out->Lite_HEN_game_opts =
+      parse_bool(ini_get(parser, "game_menu.show_Lite_HEN_options"),
+                 out->Lite_HEN_game_opts);
   out->libhijacker_cheats = parse_libhijacker_backend(
       ini_get(parser, "cheats.memory_backend"), out->libhijacker_cheats);
   out->cheats_mirror = parse_cheats_mirror(ini_get(parser, "cheats.mirror"),
@@ -636,7 +636,7 @@ bool try_load_path(const char *path, Settings *out) {
 std::string settings_serialize(const Settings &in) {
   std::string b;
   b.reserve(4096);
-  b += "# Lite-HEN configuration\n";
+  b += "# Lite_HEN configuration\n";
   b += "#\n";
   b += "# This file uses semantic schema version 1.\n";
   b += "# Boolean fields accept true or false.\n";
@@ -654,14 +654,14 @@ std::string settings_serialize(const Settings &in) {
   b += "language=" + std::string(language_name(in.ui_lang)) + "\n";
   b += "\n";
   b += "[startup]\n";
-  b += "# open_after_load chooses which page opens after Lite-HEN finishes loading.\n";
+  b += "# open_after_load chooses which page opens after Lite_HEN finishes loading.\n";
   b += "# Available values: none, home_menu\n";
   b += "open_after_load=" +
        std::string(startup_open_after_load_name(in.startup_open_after_load)) +
        "\n";
   b += "\n";
   b += "[logging]\n";
-  b += "# level controls how much Lite-HEN records to its log files.\n";
+  b += "# level controls how much Lite_HEN records to its log files.\n";
   b += "# Available values: off, error, warn, info, debug, trace\n";
   b += "# Raise to debug when reproducing an issue for a bug report.\n";
   b += "# Release builds compile out trace, so trace behaves as debug.\n";
@@ -673,9 +673,9 @@ std::string settings_serialize(const Settings &in) {
   b += "show_title_ids=" + bool_text(in.display_tids) + "\n";
   b += "\n";
   b += "[game_menu]\n";
-  b += "# show_lite-hen_options adds Lite-HEN entries to the game options menu.\n";
+  b += "# show_Lite_HEN_options adds Lite_HEN entries to the game options menu.\n";
   b += "# Available values: true, false\n";
-  b += "show_lite-hen_options=" + bool_text(in.lite-hen_game_opts) + "\n";
+  b += "show_Lite_HEN_options=" + bool_text(in.Lite_HEN_game_opts) + "\n";
   b += "\n";
   b += "[cheats]\n";
   b += "# memory_backend selects the cheat memory access implementation.\n";
@@ -690,10 +690,10 @@ std::string settings_serialize(const Settings &in) {
   b += "[app_jailbreak]\n";
   b += "# enabled controls the App lifecycle and sandbox event listeners. "
        "When false,\n";
-  b += "# Lite-HEN does not register either listener.\n";
+  b += "# Lite_HEN does not register either listener.\n";
   b += "# Available values: true, false\n";
   b += "enabled=" + bool_text(in.app_jailbreak_enabled) + "\n";
-  b += "# debug_notifications shows a notification when Lite-HEN jailbreaks an app.\n";
+  b += "# debug_notifications shows a notification when Lite_HEN jailbreaks an app.\n";
   b += "# Available values: true, false\n";
   b += "debug_notifications=" + bool_text(in.debug_app_jb_msg) + "\n";
   b += "# exact_title_ids is a comma-separated list of exact 9-character Title IDs.\n";
@@ -754,24 +754,24 @@ std::string settings_serialize(const Settings &in) {
   b += "# Available values: off, r3_l3, l2_triangle, long_options, long_share, share\n";
   b += "cheats_menu=" + std::string(cheats_shortcut_name(in.cheats_shortcut_opt)) +
        "\n";
-  b += "# toolbox controls the shortcut that opens the Lite-HEN Toolbox.\n";
+  b += "# toolbox controls the shortcut that opens the Lite_HEN Toolbox.\n";
   b += "# Available values: off, l2_r3, long_share, share\n";
   b += "toolbox=" + std::string(toolbox_shortcut_name(in.toolbox_shortcut_opt)) +
        "\n";
   b += "\n";
   b += "[kstuff]\n";
-  b += "# autoload loads kstuff when Lite-HEN starts.\n";
+  b += "# autoload loads kstuff when Lite_HEN starts.\n";
   b += "# Available values: true, false\n";
   b += "autoload=" + bool_text(in.kstuff_autoload) + "\n";
   b += "\n[ftp]\n";
-  b += "# autoload starts the built-in FTP server the next time Lite-HEN launches.\n";
+  b += "# autoload starts the built-in FTP server the next time Lite_HEN launches.\n";
   b += "# Available values: true, false\n";
   b += "autoload=" + bool_text(in.ftp_autoload) + "\n";
   b += "# port selects the TCP listen port for the built-in server.\n";
   b += "# Available values: 1 through 65535\n";
   b += "port=" + std::to_string(in.ftp_port) + "\n";
   b += "\n[shadowmount]\n";
-  b += "# autoload starts the built-in ShadowMount+ module the next time Lite-HEN launches.\n";
+  b += "# autoload starts the built-in ShadowMount+ module the next time Lite_HEN launches.\n";
   b += "# Available values: true, false\n";
   b += "autoload=" + bool_text(in.shadowmount_autoload) + "\n";
   return b;

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods — P0 split. */
+/* Copyright (C) 2025 Lite_HEN / LightningMods — P0 split. */
 
 
 #include "hooked_funcs.hpp"
@@ -134,7 +134,7 @@ void createJson_hook(MonoObject* inst, MonoObject* array, MonoString* id, MonoSt
                Mono_to_String(messageId).c_str());
 #endif
 
-    if(!g_settings.lite-hen_game_opts) {
+    if(!g_settings.Lite_HEN_game_opts) {
         createJson(inst, array, id, label, actionUrl, actionId, messageId, subMenu, enable);
         return;
     }
@@ -154,7 +154,7 @@ void createJson_hook(MonoObject* inst, MonoObject* array, MonoString* id, MonoSt
                    mono_string_new(Root_Domain, "MENU_ID_CHEATS"),
                    mono_string_new(Root_Domain,
                                    toolbox_i18n::tr("cheats.game_menu")),
-                   mono_string_new(Root_Domain, "Lite-HEN?Cheats_not_open"),
+                   mono_string_new(Root_Domain, "Lite_HEN?Cheats_not_open"),
                    actionId, nullptr, subMenu, enable);
         return;
     }

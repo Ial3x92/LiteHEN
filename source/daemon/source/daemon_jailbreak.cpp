@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Event-driven app jailbreak listener.
  *
@@ -8,7 +8,7 @@
  *        /mnt/sandbox/<TID>_<000-050>/download0/<name>
  *      Accepted names:
  *        - etahen_jailbreak
- *        - lite-hen_jailbreak
+ *        - Lite_HEN_jailbreak
  *   3. SceSysCore NOTE_EXEC/NOTE_EXIT events identify app lifetime. Vnode
  *      events then follow sandbox -> slot -> download0 -> request file.
  *
@@ -73,7 +73,7 @@ constexpr const char *kMountRoot = "/mnt";
 constexpr const char *kSandboxRoot = "/mnt/sandbox";
 constexpr const char *kJailbreakReqNames[] = {
     "etahen_jailbreak",
-    "lite-hen_jailbreak",
+    "Lite_HEN_jailbreak",
 };
 constexpr const char *kShellUiTitleId = "NPXS40087";
 constexpr const char *kShellUiProcessName = "SceShellUI";

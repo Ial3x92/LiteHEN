@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * The facade is the only util-facing boundary for the in-process FTP module.
  * It owns the serving thread and keeps UI/IPC code independent from the

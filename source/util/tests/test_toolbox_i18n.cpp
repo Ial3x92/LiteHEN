@@ -11,7 +11,7 @@ using namespace toolbox_i18n;
 
 static int test_default_zh(void) {
   set_lang(Lang::ZhHans);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite-HEN 工具箱") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite_HEN 工具箱") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.pkg"), "内容安装与管理") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.payloads.sub"),
                                "用户与自动启动 Payload；Kstuff、FTP、ShadowMount+ 插件") == 0);
@@ -21,7 +21,7 @@ static int test_default_zh(void) {
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.group"), "FTP 服务器") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.run"), "立即运行 FTP 服务器") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.autoload"),
-                               "随 Lite-HEN 启动 FTP") == 0);
+                               "随 Lite_HEN 启动 FTP") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.display"), "监控与显示") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.display.sub"),
                                "游戏覆盖层、主菜单显示与游戏选项入口") == 0);
@@ -29,7 +29,7 @@ static int test_default_zh(void) {
                                "风扇、外部存储与光盘许可证激活") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.preferences"), "操作偏好") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.open_after_load"),
-                               "Lite-HEN 加载后自动打开") == 0);
+                               "Lite_HEN 加载后自动打开") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.home_menu"), "主菜单") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("log.level"), "日志输出等级") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("log.info"), "信息（推荐）") == 0);
@@ -46,13 +46,13 @@ static int test_default_zh(void) {
                   "远程游玩配对已中止。") == 0);
   TEST_ASSERT_TRUE(
       std::strcmp(onion_notify_tr("notify.crash.main"),
-                  "Lite-HEN 已崩溃……\n\n请将 /data/lite-HEN/"
-                  "Lite-HEN_crash.log 附加到 GitHub Issue：https://github.com/"
-                  "ial3x92/lite-henissues") == 0);
+                  "Lite_HEN 已崩溃……\n\n请将 /data/Lite_HEN/"
+                  "Lite_HEN_crash.log 附加到 GitHub Issue：https://github.com/"
+                  "ial3x92/Lite_HENissues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
                                "为 %s 启用/禁用 %s") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.game_menu"),
-                               "★ Lite-HEN 金手指") == 0);
+                               "★ Lite_HEN 金手指") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download"),
                                "下载金手指合集") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download.desc"),
@@ -68,7 +68,7 @@ static int test_default_zh(void) {
 
 static int test_en(void) {
   set_lang(Lang::En);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Lite-HEN Toolbox") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Lite_HEN Toolbox") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.pkg"), "Content Install & Management") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.payloads.sub"),
                                "User and auto-start payloads; Kstuff, FTP, "
@@ -79,7 +79,7 @@ static int test_en(void) {
                                "collection") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.group"), "FTP Server") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.run"), "Run FTP server now") == 0);
-  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.autoload"), "Start FTP with Lite-HEN") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.autoload"), "Start FTP with Lite_HEN") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("shadowmount.run"), "Run ShadowMount+ now") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("plugin.shadowmount.title"), "ShadowMount+") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.display.sub"),
@@ -90,7 +90,7 @@ static int test_en(void) {
                                "activation") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.preferences"), "Preferences") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.open_after_load"),
-                               "Automatically open after Lite-HEN loads") == 0);
+                               "Automatically open after Lite_HEN loads") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.home_menu"), "Home Menu") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("log.level"), "Log output level") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("log.info"),
@@ -107,9 +107,9 @@ static int test_en(void) {
                   "Remote Play pairing cancelled.") == 0);
   TEST_ASSERT_TRUE(
       std::strcmp(onion_notify_tr("notify.crash.main"),
-                  "Lite-HEN has crashed ...\n\nPlease attach /data/lite-HEN/"
-                  "Lite-HEN_crash.log to a GitHub issue: https://github.com/"
-                  "ial3x92/lite-henissues") == 0);
+                  "Lite_HEN has crashed ...\n\nPlease attach /data/Lite_HEN/"
+                  "Lite_HEN_crash.log to a GitHub issue: https://github.com/"
+                  "ial3x92/Lite_HENissues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
                                "Enable/disable %s for %s") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("payload.start_stop_fmt"),
@@ -118,13 +118,13 @@ static int test_en(void) {
                                "Change the PlayStation Network environment "
                                "string; the console reboots after saving") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.game_menu"),
-                               "★ Lite-HEN Cheats") == 0);
+                               "★ Lite_HEN Cheats") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download"),
                                "Download cheat collection") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download.desc"),
                                "Credits to TeeKay87") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("pkg.msg.installing"),
-                               "Lite-HEN is installing the selected PKG") == 0);
+                               "Lite_HEN is installing the selected PKG") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("pkg.msg.select_all"), "Select all") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("about.donors"), "★ Donors ★") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("about.wechat"),
@@ -134,18 +134,18 @@ static int test_en(void) {
 
 static int test_ar(void) {
   set_lang(Lang::Ar);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★صندوق أدوات Lite-HEN") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★صندوق أدوات Lite_HEN") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.ar"), "العربية") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
                                "تفعيل/تعطيل %s لـ %s") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.game_menu"),
-                               "★ غش Lite-HEN") == 0);
+                               "★ غش Lite_HEN") == 0);
   return 0;
 }
 
 static int test_zh_hant(void) {
   set_lang(Lang::ZhHant);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite-HEN 工具箱") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite_HEN 工具箱") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "金手指") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.home_menu"), "主畫面") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -155,7 +155,7 @@ static int test_zh_hant(void) {
 
 static int test_ja(void) {
   set_lang(Lang::Ja);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite-HEN ツールボックス") ==
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite_HEN ツールボックス") ==
                    0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "チート") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.ja"), "日本語") == 0);
@@ -166,7 +166,7 @@ static int test_ja(void) {
 
 static int test_fr(void) {
   set_lang(Lang::Fr);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Boîte à outils Lite-HEN") ==
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Boîte à outils Lite_HEN") ==
                    0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Codes de triche") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.fr"), "Français") == 0);
@@ -177,7 +177,7 @@ static int test_fr(void) {
 
 static int test_de(void) {
   set_lang(Lang::De);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite-HEN-Toolbox") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite_HEN-Toolbox") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Cheats") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.de"), "Deutsch") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -187,7 +187,7 @@ static int test_de(void) {
 
 static int test_ko(void) {
   set_lang(Lang::Ko);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite-HEN 툴박스") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "Lite_HEN 툴박스") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "치트") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.ko"), "한국어") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -198,7 +198,7 @@ static int test_ko(void) {
 static int test_es(void) {
   set_lang(Lang::Es);
   TEST_ASSERT_TRUE(
-      std::strcmp(tr("root.title"), "★Caja de herramientas Lite-HEN") == 0);
+      std::strcmp(tr("root.title"), "★Caja de herramientas Lite_HEN") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Trucos") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.es"), "Español") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -209,7 +209,7 @@ static int test_es(void) {
 static int test_pt_br(void) {
   set_lang(Lang::PtBr);
   TEST_ASSERT_TRUE(
-      std::strcmp(tr("root.title"), "★Caixa de ferramentas Lite-HEN") == 0);
+      std::strcmp(tr("root.title"), "★Caixa de ferramentas Lite_HEN") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Cheats") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.pt_br"), "Português (Brasil)") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -220,7 +220,7 @@ static int test_pt_br(void) {
 static int test_it(void) {
   set_lang(Lang::It);
   TEST_ASSERT_TRUE(
-      std::strcmp(tr("root.title"), "★Cassetta degli attrezzi Lite-HEN") == 0);
+      std::strcmp(tr("root.title"), "★Cassetta degli attrezzi Lite_HEN") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Trucchi") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.it"), "Italiano") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -230,7 +230,7 @@ static int test_it(void) {
 
 static int test_ru(void) {
   set_lang(Lang::Ru);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Инструменты Lite-HEN") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Инструменты Lite_HEN") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Читы") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.ru"), "Русский") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -240,7 +240,7 @@ static int test_ru(void) {
 
 static int test_pl(void) {
   set_lang(Lang::Pl);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Narzędzia Lite-HEN") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Narzędzia Lite_HEN") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Cheaty") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.pl"), "Polski") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -250,7 +250,7 @@ static int test_pl(void) {
 
 static int test_th(void) {
   set_lang(Lang::Th);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Lite-HEN Toolbox") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Lite_HEN Toolbox") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "สูตรโกง") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.th"), "ไทย") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),

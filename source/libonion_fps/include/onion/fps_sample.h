@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Lite-HEN / LightningMods
+/* Copyright (C) 2026 Lite_HEN / LightningMods
  *
  * Seqlock record published by the daemon FPS sampler and read by ShellUI.
  * Header-only: ShellUI must not link libonion_fps (no DMAP / ioctl).

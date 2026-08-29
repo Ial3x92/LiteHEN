@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Built-in plugin registry. Pure data + lookups (host-testable, no Mono/PS5).
  * The plugins page and its per-plugin config pages are driven by this table,

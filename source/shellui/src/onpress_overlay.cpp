@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods — OnPress overlay domain */
+/* Copyright (C) 2025 Lite_HEN / LightningMods — OnPress overlay domain */
 #include "onpress.hpp"
 #include <cstdlib>
 #include <unistd.h>

@@ -1,6 +1,6 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
- * Lite-HEN logging.
+ * Lite_HEN logging.
  *
  * Sinks: klog (volatile, read live from a PC) + an optional bounded file.
  * stdout is also written when the process has one.

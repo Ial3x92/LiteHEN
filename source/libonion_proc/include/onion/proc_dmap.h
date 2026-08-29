@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 Lite-HEN / LightningMods
+/* Copyright (C) 2026 Lite_HEN / LightningMods
  *
  * Cross-process user VA copy via kernel DMAP (virt2phys + kernel_copyout).
  * Shared by cheats (KdirectBackend) and FPS skip-hook sampling.

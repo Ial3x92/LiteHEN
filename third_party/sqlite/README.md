@@ -2,7 +2,7 @@
 
 Vendored SQLite amalgamation, version **3.53.4** (`sqlite-amalgamation-3530400`).
 
-| File | Role in Lite-HEN |
+| File | Role in Lite_HEN |
 |------|------------------|
 | `sqlite3.c` / `sqlite3.h` | App database used by the embedded ShadowMount+ module |
 

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Shared value providers for toolbox UI binding (XML path + optional hooks).
  */
@@ -86,7 +86,7 @@ const ExactValueEntry kExactValues[] = {
        return bool_str(g_settings.app_jailbreak_enabled);
      }},
     {"id_custom_game_opts",
-     +[]() -> std::string { return bool_str(g_settings.lite-hen_game_opts); }},
+     +[]() -> std::string { return bool_str(g_settings.Lite_HEN_game_opts); }},
     {"id_overlay_change_pos",
      +[]() -> std::string { return int_str(g_settings.overlay_pos); }},
     /* Exact list id only — not id_toolbox_shortcut_N list_items. */

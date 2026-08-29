@@ -58,8 +58,8 @@ string(REGEX REPLACE "[^A-Za-z0-9._+-]" "-" _version "${_version}")
 string(CONCAT _contents
     "#pragma once\n\n"
     "/* Generated at build time. Do not edit. */\n"
-    "#define LITE-HEN_VERSION \"Lite-HEN\"\n"
-    "#define LITE-HEN_AUTHOR \"Ial3x92\"\n")
+    "#define Lite_HEN_VERSION \"Lite_HEN\"\n"
+    "#define Lite_HEN_AUTHOR \"Ial3x92\"\n")
 
 get_filename_component(_output_dir "${OUTPUT_FILE}" DIRECTORY)
 file(MAKE_DIRECTORY "${_output_dir}")
@@ -76,4 +76,4 @@ if(_write_header)
   file(WRITE "${OUTPUT_FILE}" "${_contents}")
 endif()
 
-message(STATUS "Lite-HEN version: Lite-HEN")
+message(STATUS "Lite_HEN version: Lite_HEN")

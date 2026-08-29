@@ -20,7 +20,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
   "${PROJECT_ROOT}/libonion_elfldr/include"
   "${PROJECT_ROOT}/libonion_platform/include"
 )
-target_link_directories(${PROJECT_NAME} PUBLIC "${LITE-HEN_PS5_STUB_DIR}")
+target_link_directories(${PROJECT_NAME} PUBLIC "${Lite_HEN_PS5_STUB_DIR}")
 add_dependencies(${PROJECT_NAME} onion_elfldr)
 target_link_libraries(${PROJECT_NAME} PUBLIC onion_platform onion_elfldr)
 

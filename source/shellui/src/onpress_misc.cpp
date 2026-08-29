@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods — OnPress misc (kstuff, account, credits) */
+/* Copyright (C) 2025 Lite_HEN / LightningMods — OnPress misc (kstuff, account, credits) */
 #include "onpress.hpp"
 #include "account_activator.h"
 #include "progress_dialog.hpp"
@@ -14,12 +14,12 @@ OnPressResult onpress_kstuff_autoload(OnPressContext &ctx) {
 
   g_settings.kstuff_autoload = enabled;
   if (enabled) {
-    unlink("/user/data/lite-HEN/no_kstuff");
-    unlink("/data/lite-HEN/no_kstuff");
+    unlink("/user/data/Lite_HEN/no_kstuff");
+    unlink("/data/Lite_HEN/no_kstuff");
     notify("notify.kstuff.next_boot_on");
   } else {
-    touch_file("/user/data/lite-HEN/no_kstuff");
-    touch_file("/data/lite-HEN/no_kstuff");
+    touch_file("/user/data/Lite_HEN/no_kstuff");
+    touch_file("/data/Lite_HEN/no_kstuff");
     notify("notify.kstuff.next_boot_off");
   }
   return OnPressResult::Handled;
@@ -54,7 +54,7 @@ static OnPressResult id_download_cheats(OnPressContext &ctx) {
 
 OnPressResult onpress_delete_kstuff(OnPressContext &ctx) {
   (void)ctx;
-  unlink("/user/data/lite-HEN/kstuff.elf");
+  unlink("/user/data/Lite_HEN/kstuff.elf");
   notify("notify.kstuff.deleted");
   return OnPressResult::Handled;
 }
@@ -84,7 +84,7 @@ static OnPressResult id_lm_test(OnPressContext &ctx) {
   return OnPressResult::Handled;
 }
 
-static OnPressResult id_lite-hen_credits(OnPressContext &ctx) {
+static OnPressResult id_Lite_HEN_credits(OnPressContext &ctx) {
   (void)ctx;
   return OnPressResult::EarlyReturn;
 }
@@ -98,7 +98,7 @@ static OnPressResult id_presentation_card(OnPressContext &ctx) {
 static const OnPressExactEntry kRootExact[] = {
     {"id_download_cheats", id_download_cheats},
     {"id_lm_test", id_lm_test},
-    {"id_lite-hen_credits", id_lite-hen_credits},
+    {"id_Lite_HEN_credits", id_Lite_HEN_credits},
     {"id_author_0xp0co", id_presentation_card},
     {"id_donator_aglx", id_presentation_card},
     {"id_donator_ljf", id_presentation_card},

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shut down Lite-HEN stack on a PS5 from a PC (LAN).
+"""Shut down Lite_HEN stack on a PS5 from a PC (LAN).
 
 Sequence (daemon side):
   1. stop onion_util.elf
@@ -37,7 +37,7 @@ def shutdown(host: str, port: int = ONION_CTRL_TCP_PORT, timeout: float = 5.0) -
     except OSError as e:
         print(f"connect/send failed: {e}", file=sys.stderr)
         print(
-            "Check: PS5 and PC on same LAN; Lite-HEN daemon running; port 9048 open.",
+            "Check: PS5 and PC on same LAN; Lite_HEN daemon running; port 9048 open.",
             file=sys.stderr,
         )
         return 2
@@ -54,7 +54,7 @@ def shutdown(host: str, port: int = ONION_CTRL_TCP_PORT, timeout: float = 5.0) -
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Shut down Lite-HEN stack on PS5")
+    ap = argparse.ArgumentParser(description="Shut down Lite_HEN stack on PS5")
     ap.add_argument("ps5_ip", help="PS5 LAN IP address")
     ap.add_argument("--port", type=int, default=ONION_CTRL_TCP_PORT)
     args = ap.parse_args()

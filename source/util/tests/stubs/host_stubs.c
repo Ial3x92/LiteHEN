@@ -1,7 +1,7 @@
 /*
  * Host stubs for util unit tests (no PS5 SDK).
  *
- * Production Lite-HEN_log / platform helpers are linked from
+ * Production Lite_HEN_log / platform helpers are linked from
  * libonion_platform when ONION_HOST_TEST builds include them.
  * This file only supplies symbols that are PS5-runtime-only.
  */
@@ -166,7 +166,7 @@ __attribute__((constructor)) static void host_bind_notify_send(void) {
 /* Fallback logger if a TU is compiled without libonion_platform log.c.
  * When log.c is linked, that definition wins if this is weak — but most
  * linkers take the first definition. Prefer always linking log.c and not
- * defining Lite-HEN_log here.
+ * defining Lite_HEN_log here.
  */
 
 int util_file_read_alloc(const char *path, char **buf_out, size_t *size_out,

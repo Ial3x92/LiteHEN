@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * Process-wide resume coordination.  The system-state event flag is the
  * resume source; service recovery and ShellUI reconciliation remain owned by

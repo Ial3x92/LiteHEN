@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods */
+/* Copyright (C) 2025 Lite_HEN / LightningMods */
 
 #include "kstuff_probe.h"
 

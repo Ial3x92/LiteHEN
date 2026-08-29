@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 Lite-HEN / LightningMods
+/* Copyright (C) 2025 Lite_HEN / LightningMods
  *
  * ShellUI IPC client entry — no HookedFuncs (true compile seam).
  * Call sites that need UI types/hooks include hooked_funcs.hpp separately.
