@@ -40,9 +40,6 @@ void escapeXML(std::string& input) {
 
 namespace {
 
-/* Defined with the other dynamic control helpers below. */
-std::string toolbox_val(const char* id, const char* fallback = "0");
-
 /** Payload .elf only (OnionHEN no longer supports .plugin packages). */
 template <typename G>
 void append_payload_entry(G& page, const std::string& directory, const char* filename,
@@ -50,7 +47,9 @@ void append_payload_entry(G& page, const std::string& directory, const char* fil
   if (!toolbox::is_payload_elf_name(filename))
     return;
 
-  // NOTA: Qui c'era la graffa chiusa '}' errata che ho rimosso!
+  // Ricostruiamo le variabili che servono al compilatore
+  const std::string path = directory + "/" + filename;
+  const std::string elf_key = "id_payload_elf_" + std::to_string(next_id++);
   
   /* Confirm file is readable (ELF magic checked at launch). */
   const int fd = open(path.c_str(), O_RDONLY, 0);
@@ -60,7 +59,8 @@ void append_payload_entry(G& page, const std::string& directory, const char* fil
   }
   close(fd);
 
-  LOG_DEBUG("Found payload: %s key=%s", path.c_str(), elf_key);
+  LOG_DEBUG("Found payload: %s key=%s", path.c_str(), elf_key.c_str());
+
 
 
   const std::string shown_path = toolbox::display_path_for_ui(path);
