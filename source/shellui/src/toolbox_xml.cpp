@@ -605,46 +605,38 @@ void append_toolbox_system_group(ps5ui::Group& g) {
       .link("id_account_activation", toolbox_i18n::tr("account.link"),
             "account.xml", std::nullopt) 
 
-      // 5. Configurazione Lingue, Scorciatoie e Ambiente NP
-      .list("id_ui_lang", toolbox_i18n::tr("lang.list"),
-         [](ps5ui::ListBuilder& L) {
-           L.item("id_ui_lang_system", toolbox_i18n::tr("lang.system"), "0")
-               .item("id_ui_lang_zh", toolbox_i18n::tr("lang.zh"), "1")
-               .item("id_ui_lang_zh_hant", toolbox_i18n::tr("lang.zh_hant"), "4")
-               .item("id_ui_lang_en", toolbox_i18n::tr("lang.en"), "2")
-               .item("id_ui_lang_ja", toolbox_i18n::tr("lang.ja"), "5")
-               .item("id_ui_lang_ko", toolbox_i18n::tr("lang.ko"), "8")
-               .item("id_ui_lang_fr", toolbox_i18n::tr("lang.fr"), "6")
-               .item("id_ui_lang_de", toolbox_i18n::tr("lang.de"), "7")
-               .item("id_ui_lang_it", toolbox_i18n::tr("lang.it"), "11")
-               .item("id_ui_lang_es", toolbox_i18n::tr("lang.es"), "9")
-               .item("id_ui_lang_pt_br", toolbox_i18n::tr("lang.pt_br"), "10")
-               .item("id_ui_lang_pl", toolbox_i18n::tr("lang.pl"), "13")
-               .item("id_ui_lang_ru", toolbox_i18n::tr("lang.ru"), "12")
-               .item("id_ui_lang_ar", toolbox_i18n::tr("lang.ar"), "3")
-               .item("id_ui_lang_th", toolbox_i18n::tr("lang.th"), "14");
-         },
-         std::nullopt, toolbox_val("id_ui_lang", "0")) 
-      .list("id_cheats_shortcut", toolbox_i18n::tr("sc.cheats"),
-            [](ps5ui::ListBuilder& L) {
-              L.item("id_cheats_shortcut_0", toolbox_i18n::tr("sc.off"), "0")
-                  .item("id_cheats_shortcut_1", toolbox_i18n::tr("sc.r3_l3"),
-                        "1")
-                  .item("id_cheats_shortcut_2", toolbox_i18n::tr("sc.l2_tri"),
-                        "2")
-                  .item("id_cheats_shortcut_3",
-                        toolbox_i18n::tr("sc.long_options"), "3")
-                  .item("id_cheats_shortcut_4",
-                        toolbox_i18n::tr("sc.long_share"), "4")
-                  .item("id_cheats_shortcut_5", toolbox_i18n::tr("sc.share"),
-                        "5");
-            },
-            std::nullopt, toolbox_val("id_cheats_shortcut")) 
-      .text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
-                  std::nullopt, "basic_latin", "1", 
-                  "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
-                  toolbox_i18n::tr("debug.np_env.confirm_phrase")); // <-- Il punto e virgola ora chiude l'\''intero blocco correttamente qui
+       // 5. Configurazione Lingue, Scorciatoie e Ambiente NP
+  .list("id_ui_lang", toolbox_i18n::tr("lang.list"),
+     [](ps5ui::ListBuilder& L) {
+       L.item("id_ui_lang_system", toolbox_i18n::tr("lang.system"), "0")
+           .item("id_ui_lang_en", toolbox_i18n::tr("lang.en"), "2")
+           .item("id_ui_lang_fr", toolbox_i18n::tr("lang.fr"), "6")
+           .item("id_ui_lang_de", toolbox_i18n::tr("lang.de"), "7")
+           .item("id_ui_lang_it", toolbox_i18n::tr("lang.it"), "11")
+           .item("id_ui_lang_es", toolbox_i18n::tr("lang.es"), "9");
+     },
+     std::nullopt, toolbox_val("id_ui_lang", "0")) 
+  .list("id_cheats_shortcut", toolbox_i18n::tr("sc.cheats"),
+        [](ps5ui::ListBuilder& L) {
+          L.item("id_cheats_shortcut_0", toolbox_i18n::tr("sc.off"), "0")
+              .item("id_cheats_shortcut_1", toolbox_i18n::tr("sc.r3_l3"),
+                    "1")
+              .item("id_cheats_shortcut_2", toolbox_i18n::tr("sc.l2_tri"),
+                    "2")
+              .item("id_cheats_shortcut_3",
+                    toolbox_i18n::tr("sc.long_options"), "3")
+              .item("id_cheats_shortcut_4",
+                    toolbox_i18n::tr("sc.long_share"), "4")
+              .item("id_cheats_shortcut_5", toolbox_i18n::tr("sc.share"),
+                    "5");
+        },
+        std::nullopt, toolbox_val("id_cheats_shortcut")) 
+  .text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
+              std::nullopt, "basic_latin", "1", 
+              "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
+              toolbox_i18n::tr("debug.np_env.confirm_phrase")); // <-- Il punto e virgola ora chiude l'intero blocco correttamente qui
 }
+
 
 void append_toolbox_about_group(ps5ui::Group& g) {
   g.label("id_credit_ial3x92", "ial3x92", ps5ui::Style::Center)
