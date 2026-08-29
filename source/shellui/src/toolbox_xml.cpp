@@ -461,35 +461,57 @@ void generate_plapps_xml(std::string& new_xml) {
 
 namespace {
 
-constexpr const char* kIconPkg = "";
-constexpr const char* kIconPlugins = "";
-constexpr const char* kIconGame = "";
-constexpr const char* kIconCheats = "";
-constexpr const char* kIconDownload = "";
-constexpr const char* kIconMonitor = "";
-constexpr const char* kIconAccount = "";
-constexpr const char* kIconSettings = "";
-constexpr const char* kIconShortcuts = "";
-constexpr const char* kIconDebug = "";
-constexpr const char* kIconAbout = "";
-constexpr const char* kIconOverlay = "";
-constexpr const char* kIconTitleId = "";
-constexpr const char* kIconMenuOption = "";
-constexpr const char* kIconFan = "";
-constexpr const char* kIconHardDrive = "";
-constexpr const char* kIconDiscLicense = "";
-constexpr const char* kIconDonations = "";
-constexpr const char* kIconThanks = "";
-constexpr const char* kIconProject = "";
-constexpr const char* kIconAuthorAvatar = "";
-constexpr const char* kIconDonatorLjf = "";
-constexpr const char* kIconDonatorSzx = "";
-constexpr const char* kIconDonatorAglx = "";
+constexpr const char* kIconPkg =
+    "/user/data/OnionHEN/assets/icon_xml_package.png";
+constexpr const char* kIconPlugins =
+    "/user/data/OnionHEN/assets/icon_xml_plugins.png";
+constexpr const char* kIconGame = "/user/data/OnionHEN/assets/icon_xml_game.png";
+constexpr const char* kIconCheats =
+    "/user/data/OnionHEN/assets/icon_xml_cheats.png";
+constexpr const char* kIconDownload =
+    "/user/data/OnionHEN/assets/icon_xml_download.png";
+constexpr const char* kIconMonitor =
+    "/user/data/OnionHEN/assets/icon_xml_monitor.png";
+constexpr const char* kIconAccount =
+    "/user/data/OnionHEN/assets/icon_xml_account.png";
+constexpr const char* kIconSettings =
+    "/user/data/OnionHEN/assets/icon_xml_settings.png";
+constexpr const char* kIconShortcuts =
+    "/user/data/OnionHEN/assets/icon_xml_shortcuts.png";
+constexpr const char* kIconDebug =
+    "/user/data/OnionHEN/assets/icon_xml_debug.png";
+constexpr const char* kIconAbout =
+    "/user/data/OnionHEN/assets/icon_xml_about.png";
+constexpr const char* kIconOverlay =
+    "/user/data/OnionHEN/assets/icon_xml_overlay.png";
+constexpr const char* kIconTitleId =
+    "/user/data/OnionHEN/assets/icon_xml_title_id.png";
+constexpr const char* kIconMenuOption =
+    "/user/data/OnionHEN/assets/icon_xml_menu_option.png";
+constexpr const char* kIconFan =
+    "/user/data/OnionHEN/assets/icon_xml_fan.png";
+constexpr const char* kIconHardDrive =
+    "/user/data/OnionHEN/assets/icon_xml_hardrive.png";
+constexpr const char* kIconDiscLicense =
+    "/user/data/OnionHEN/assets/icon_xml_disc_license.png";
+constexpr const char* kIconDonations =
+    "/user/data/OnionHEN/assets/icon_xml_donations.png";
+constexpr const char* kIconThanks =
+    "/user/data/OnionHEN/assets/icon_xml_thanks.png";
+constexpr const char* kIconProject =
+    "/user/data/OnionHEN/assets/icon_xml_project.png";
+constexpr const char* kIconAuthorAvatar =
+    "/user/data/OnionHEN/assets/icon_xml_author_avatar.png";
+constexpr const char* kIconDonatorLjf =
+    "/user/data/OnionHEN/assets/icon_xml_donator_ljf.png";
+constexpr const char* kIconDonatorSzx =
+    "/user/data/OnionHEN/assets/icon_xml_donator_szx.png";
+constexpr const char* kIconDonatorAglx =
+    "/user/data/OnionHEN/assets/icon_xml_donator_aglx.png";
 
 bool toolbox_on(const char* id) {
   return resolve_toolbox_control_value(id) == "1";
 }
-
 
 std::string toolbox_val(const char* id, const char* fallback = "0") {
   std::string v = resolve_toolbox_control_value(id);
