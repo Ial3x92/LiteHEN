@@ -295,7 +295,7 @@ int main() {
       debug_settings_route.toolbox_uri(
           onion::debug_settings_route::UriKind::Simple));
   sceNotificationSend(0xFE, true, welcome_toast_json.c_str());
-  LOG_INFO("StartUp thread created!! - welcome to OnionHEN");
+  LOG_INFO("StartUp thread created!! - welcome to LiteHEN");
 
   onion::daemon::apply_startup_destination(boot_settings);
 
