@@ -491,9 +491,8 @@ bool toolbox_on(const char* id) {
 }
 }
 
-std::string toolbox_val(const char* id, const char* fallback = "0") {
-  std::string v = resolve_toolbox_control_value(id);
-  return v.empty() ? fallback : v;
+std::string toolbox_val(const char* id, const char* fallback) {
+  return resolve_toolbox_control_value(id, fallback);
 }
 
 void append_toolbox_pkg_group(ps5ui::Group& g) {
@@ -504,6 +503,7 @@ void append_toolbox_pkg_group(ps5ui::Group& g) {
          "payloads.xml", 
          ""); 
 }
+
 
 void append_toolbox_system_group(ps5ui::Group& g) {
   // 1. Controllo Ventola e Attivazione BD
