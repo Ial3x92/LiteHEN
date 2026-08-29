@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 Litehen / LightningMods
  *
  * Firmware 11.6 progress pages use a Legacy Settings <user_custom> placeholder.
  * Its real PUI.UI3 Panel is appended to the ListPanelItem created for that

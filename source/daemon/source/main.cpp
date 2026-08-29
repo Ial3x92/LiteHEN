@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 Litehen / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -220,7 +220,7 @@ void sig_handler(int signo) {
         onion_log_emergency("signal handler disabled, ignoring signal %d", signo);
         return;
     }
-    onion_log_emergency("signal %d received; main OnionHEN has crashed", signo);
+    onion_log_emergency("signal %d received; main Litehen has crashed", signo);
     onion_print_backtrace(onion_log_emergency);
     onion_notify(true, "notify.crash.main");
     _exit(128 + signo);

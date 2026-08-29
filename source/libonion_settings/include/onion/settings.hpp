@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 Litehen / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -124,7 +124,7 @@ struct Settings {
 
   // [home_screen], [game_menu]
   bool display_tids = true;
-  bool onionhen_game_opts = false;
+  bool litehen_game_opts = false;
 
   // [cooling]
   bool enable_fan_speed = true;

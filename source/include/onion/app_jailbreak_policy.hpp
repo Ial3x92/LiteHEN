@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 Litehen / LightningMods
  *
  * Title-ID policy for the sandbox-file app-jailbreak protocol.
  */

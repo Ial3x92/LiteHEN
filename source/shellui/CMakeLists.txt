@@ -20,10 +20,10 @@ target_compile_options(${PROJECT_NAME} PUBLIC
 )
 
 # A/B: disable HomeUI top-nav Hermes patch without editing sources.
-#   cmake -DONIONHEN_SHELLUI_HOMEUI_TOP_NAV_PATCH=OFF ...
-option(ONIONHEN_SHELLUI_HOMEUI_TOP_NAV_PATCH
-	"Patch HomeUI top-nav Fps slot into OnionHEN entry" ON)
-if(NOT ONIONHEN_SHELLUI_HOMEUI_TOP_NAV_PATCH)
+#   cmake -DLITEHEN_SHELLUI_HOMEUI_TOP_NAV_PATCH=OFF ...
+option(LITEHEN_SHELLUI_HOMEUI_TOP_NAV_PATCH
+	"Patch HomeUI top-nav Fps slot into Litehen entry" ON)
+if(NOT LITEHEN_SHELLUI_HOMEUI_TOP_NAV_PATCH)
 	target_compile_definitions(${PROJECT_NAME} PRIVATE SHELLUI_HOMEUI_TOP_NAV_PATCH=0)
 	message(STATUS "shellui: HomeUI top-nav patch DISABLED")
 endif()
@@ -48,7 +48,7 @@ add_custom_command(
 )
 add_custom_target(shellui_i18n_catalog DEPENDS "${I18N_CATALOG}")
 
-file(GLOB SrcFiles CONFIGURE_DEPENDS ${D_SRC}/*.c ${D_SRC}/*.cpp ${D_SRC}/../include/*.h ${D_SRC}/../include/*.hpp ${D_SRC}/*.s ${ONIONHEN_THIRD_PARTY_DIR}/cjson/*.cpp ${ONIONHEN_THIRD_PARTY_DIR}/cjson/*.hpp)
+file(GLOB SrcFiles CONFIGURE_DEPENDS ${D_SRC}/*.c ${D_SRC}/*.cpp ${D_SRC}/../include/*.h ${D_SRC}/../include/*.hpp ${D_SRC}/*.s ${LITEHEN_THIRD_PARTY_DIR}/cjson/*.cpp ${LITEHEN_THIRD_PARTY_DIR}/cjson/*.hpp)
 
 set(CMAKE_C_FLAGS "${ONION_PS5_TARGET_FLAGS} ")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-nested-anon-types -Wno-gnu-anonymous-struct -Wno-zero-length-array -Wno-keyword-macro -fPIC -fPIE -march=znver2 -Wall -Werror -fstack-protector-all")
@@ -60,8 +60,8 @@ onion_target_debug_define(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PRIVATE
 	"${D_CWD}/include"
 	"${I18N_GENERATED_DIR}"
-	"${ONIONHEN_THIRD_PARTY_DIR}/cjson"
-	"${ONIONHEN_THIRD_PARTY_DIR}/sha1"
+	"${LITEHEN_THIRD_PARTY_DIR}/cjson"
+	"${LITEHEN_THIRD_PARTY_DIR}/sha1"
 	"${PROJECT_ROOT}/libonion_ipc/include"
 	"${PROJECT_ROOT}/libonion_settings/include"
 	"${PROJECT_ROOT}/libonion_detour/include"
@@ -70,7 +70,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	"${PROJECT_ROOT}/libonion_fps/include"
 	"${PROJECT_ROOT}/include"
 )
-target_link_directories	(${PROJECT_NAME} PUBLIC "${ONIONHEN_PS5_STUB_DIR}")
+target_link_directories	(${PROJECT_NAME} PUBLIC "${LITEHEN_PS5_STUB_DIR}")
 target_link_libraries	(${PROJECT_NAME} PUBLIC onion_detour onion_proc onion_platform onion_ipc onion_settings onion_ready SceRegMgr SceSystemService SceUserService SceNetCtl)
 
 # Add post-build command

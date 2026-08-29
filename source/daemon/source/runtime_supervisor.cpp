@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 OnionHEN / LightningMods
+/* Copyright (C) 2026 Litehen / LightningMods
  *
  * Runtime dependency supervisor:
  *   external :9021 (bootstrap/recovery) -> private :9020 -> util

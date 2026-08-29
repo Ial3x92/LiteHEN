@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 Litehen / LightningMods
  *
  * Generic recursive copy / size helpers for daemon IPC (BREW_COPY_*).
  */

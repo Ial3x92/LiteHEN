@@ -1,5 +1,5 @@
 ###################################################################################################
-# OnionHEN user Payload helpers (strict private :9020 + exact PID files)
+# Litehen user Payload helpers (strict private :9020 + exact PID files)
 ###################################################################################################
 
 cmake_minimum_required(VERSION 3.20)

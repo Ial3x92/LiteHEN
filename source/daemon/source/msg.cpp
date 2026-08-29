@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods */
+/* Copyright (C) 2025 Litehen / LightningMods */
 
 #include "daemon_ops.hpp"
 #include <onion/platform.h>

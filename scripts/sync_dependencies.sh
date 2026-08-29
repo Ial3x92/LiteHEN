@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Sync / build external dependencies for OnionHEN.
+# Sync / build external dependencies for Litehen.
 #
 # Embedded payload input: kstuff.elf
 # Also built from source: onion_elfldr.elf (private 9020 runtime loader)
@@ -9,7 +9,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TP="${ROOT}/third_party"
-CACHE="${ONIONHEN_CACHE_DIR:-${ROOT}/.cache/dependencies}"
+CACHE="${LITEHEN_CACHE_DIR:-${ROOT}/.cache/dependencies}"
 
 PS5_PAYLOAD_SDK="${PS5_PAYLOAD_SDK:-}"
 FROM_SOURCE=0
@@ -29,7 +29,7 @@ die()  { printf '\033[1;31m[error]\033[0m %s\n' "$*" >&2; exit 1; }
 
 usage() {
   cat <<EOF
-Sync OnionHEN external dependencies from open-source upstreams.
+Sync Litehen external dependencies from open-source upstreams.
 
 Submodules (under third_party/):
   kstuff-lite      https://github.com/EchoStretch/kstuff-lite
@@ -40,7 +40,7 @@ Runtime-only external dependency:
                   Required only for initial bootstrap; LiteHEN starts
                   onion_elfldr.elf @ 9020 for runtime launches.
 
-Removed from OnionHEN (not synced):
+Removed from Litehen (not synced):
   external elfldr.elf (9021 service), ps5debug, ps5-app-dumper, Byepervisor/hen.bin
 
 Options:
@@ -108,7 +108,7 @@ download_verified() {
 stub() {
   local dest="$1" name="$2"
   mkdir -p "$(dirname "${dest}")"
-  printf 'OnionHEN-STUB:%s\0' "${name}" > "${dest}"
+  printf 'Litehen-STUB:%s\0' "${name}" > "${dest}"
   warn "STUB ${dest} (not for real hardware)"
 }
 
@@ -130,11 +130,11 @@ kstuff_looks_cached() {
   [[ -f "${path}" ]] || return 1
   local sz
   sz="$(wc -c < "${path}" | tr -d ' ')"
-  # Reject empty / OnionHEN-STUB placeholders from --stub-missing.
+  # Reject empty / Litehen-STUB placeholders from --stub-missing.
   if [[ "${sz}" -lt "${KSTUFF_MIN_BYTES}" ]]; then
     return 1
   fi
-  if head -c 16 "${path}" 2>/dev/null | grep -q 'OnionHEN-STUB'; then
+  if head -c 16 "${path}" 2>/dev/null | grep -q 'Litehen-STUB'; then
     return 1
   fi
   return 0
@@ -183,7 +183,7 @@ sync_kstuff() {
 }
 
 main() {
-  log "OnionHEN dependency sync"
+  log "Litehen dependency sync"
   echo "  third_party = ${TP}"
   echo "  cache       = ${CACHE}"
 

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 Litehen / LightningMods
  *
  * Portable process lookup (sysctl allproc) shared by util / daemon / shellui /
  * bootstrapper. Complements the kernel allproc helpers in onion/proc.h.

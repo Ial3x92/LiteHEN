@@ -1,9 +1,9 @@
 # Third-party dependencies
 
-Everything in this directory is maintained outside OnionHEN. Keeping external
+Everything in this directory is maintained outside Litehen. Keeping external
 code here makes `source/` exclusively first-party code.
 
-| Path | Form | Role in OnionHEN |
+| Path | Form | Role in Litehen |
 |------|------|------------------|
 | [`7zip_sdk/`](7zip_sdk/) | Vendored source | LZMA support used by the unpacker |
 | [`cjson/`](cjson/) | Vendored source | JSON parsing and serialization |

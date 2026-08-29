@@ -1,11 +1,11 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 Litehen / LightningMods
 
-Cross-process readiness protocol for OnionHEN services.
+Cross-process readiness protocol for Litehen services.
 
-Services publish a named marker under /system_tmp/onionhen/ready/<name>.
+Services publish a named marker under /system_tmp/litehen/ready/<name>.
 Consumers wait with timeout instead of fixed sleep() races.
 
-All runtime markers live under the shared OnionHEN system_tmp namespace.
+All runtime markers live under the shared Litehen system_tmp namespace.
 */
 
 #pragma once

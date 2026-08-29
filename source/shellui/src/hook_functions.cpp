@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2025 OnionHEN / LightningMods
+﻿/* Copyright (C) 2025 Litehen / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -215,7 +215,7 @@ MonoString * CxmlUri_Hook(MonoObject * Instance, MonoString * uri) {
   /*
    * NPXS40008 registers its Debug Settings icon as icon_setting.png.  Do not
    * rewrite that asset on disk (or mutate the RNPS string table): the stock
-   * file must remain visible whenever OnionHEN is not loaded.  CxmlUri is the
+   * file must remain visible whenever Litehen is not loaded.  CxmlUri is the
    * SettingsPlugin asset resolver, so redirect only this request while our
    * hooks are ready.
    */

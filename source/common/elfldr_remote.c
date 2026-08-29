@@ -1,4 +1,4 @@
-/* OnionHEN: elfldr socket launch helpers */
+/* Litehen: elfldr socket launch helpers */
 
 #include "elfldr_remote.h"
 

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods — OnPress misc (kstuff, account, credits) */
+/* Copyright (C) 2025 Litehen / LightningMods — OnPress misc (kstuff, account, credits) */
 #include "onpress.hpp"
 #include "account_activator.h"
 #include "progress_dialog.hpp"
@@ -84,7 +84,7 @@ static OnPressResult id_lm_test(OnPressContext &ctx) {
   return OnPressResult::Handled;
 }
 
-static OnPressResult id_onionhen_credits(OnPressContext &ctx) {
+static OnPressResult id_litehen_credits(OnPressContext &ctx) {
   (void)ctx;
   return OnPressResult::EarlyReturn;
 }
@@ -98,7 +98,7 @@ static OnPressResult id_presentation_card(OnPressContext &ctx) {
 static const OnPressExactEntry kRootExact[] = {
     {"id_download_cheats", id_download_cheats},
     {"id_lm_test", id_lm_test},
-    {"id_onionhen_credits", id_onionhen_credits},
+    {"id_litehen_credits", id_litehen_credits},
     {"id_author_0xp0co", id_presentation_card},
     {"id_donator_aglx", id_presentation_card},
     {"id_donator_ljf", id_presentation_card},

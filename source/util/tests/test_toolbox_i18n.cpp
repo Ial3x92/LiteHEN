@@ -21,7 +21,7 @@ static int test_default_zh(void) {
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.group"), "FTP 服务器") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.run"), "立即运行 FTP 服务器") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.autoload"),
-                               "随 OnionHEN 启动 FTP") == 0);
+                               "随 Litehen 启动 FTP") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.display"), "监控与显示") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.display.sub"),
                                "游戏覆盖层、主菜单显示与游戏选项入口") == 0);
@@ -29,7 +29,7 @@ static int test_default_zh(void) {
                                "风扇、外部存储与光盘许可证激活") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.preferences"), "操作偏好") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.open_after_load"),
-                               "OnionHEN 加载后自动打开") == 0);
+                               "Litehen 加载后自动打开") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.home_menu"), "主菜单") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("log.level"), "日志输出等级") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("log.info"), "信息（推荐）") == 0);
@@ -46,13 +46,13 @@ static int test_default_zh(void) {
                   "远程游玩配对已中止。") == 0);
   TEST_ASSERT_TRUE(
       std::strcmp(onion_notify_tr("notify.crash.main"),
-                  "OnionHEN 已崩溃……\n\n请将 /data/liteHEN/"
+                  "Litehen 已崩溃……\n\n请将 /data/liteHEN/"
                   "LiteHEN_crash.log 附加到 GitHub Issue：https://github.com/"
                   "ial3x92/litehenissues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
                                "为 %s 启用/禁用 %s") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.game_menu"),
-                               "★ OnionHEN 金手指") == 0);
+                               "★ Litehen 金手指") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download"),
                                "下载金手指合集") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download.desc"),
@@ -79,7 +79,7 @@ static int test_en(void) {
                                "collection") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.group"), "FTP Server") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("ftp.run"), "Run FTP server now") == 0);
-  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.autoload"), "Start FTP with OnionHEN") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.autoload"), "Start FTP with Litehen") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("shadowmount.run"), "Run ShadowMount+ now") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("plugin.shadowmount.title"), "ShadowMount+") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.display.sub"),
@@ -90,7 +90,7 @@ static int test_en(void) {
                                "activation") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.preferences"), "Preferences") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.open_after_load"),
-                               "Automatically open after OnionHEN loads") == 0);
+                               "Automatically open after Litehen loads") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("startup.home_menu"), "Home Menu") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("log.level"), "Log output level") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("log.info"),
@@ -107,7 +107,7 @@ static int test_en(void) {
                   "Remote Play pairing cancelled.") == 0);
   TEST_ASSERT_TRUE(
       std::strcmp(onion_notify_tr("notify.crash.main"),
-                  "OnionHEN has crashed ...\n\nPlease attach /data/liteHEN/"
+                  "Litehen has crashed ...\n\nPlease attach /data/liteHEN/"
                   "LiteHEN_crash.log to a GitHub issue: https://github.com/"
                   "ial3x92/litehenissues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -118,13 +118,13 @@ static int test_en(void) {
                                "Change the PlayStation Network environment "
                                "string; the console reboots after saving") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.game_menu"),
-                               "★ OnionHEN Cheats") == 0);
+                               "★ Litehen Cheats") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download"),
                                "Download cheat collection") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download.desc"),
                                "Credits to TeeKay87") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("pkg.msg.installing"),
-                               "OnionHEN is installing the selected PKG") == 0);
+                               "Litehen is installing the selected PKG") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("pkg.msg.select_all"), "Select all") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("about.donors"), "★ Donors ★") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("about.wechat"),
@@ -134,12 +134,12 @@ static int test_en(void) {
 
 static int test_ar(void) {
   set_lang(Lang::Ar);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★صندوق أدوات OnionHEN") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★صندوق أدوات Litehen") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.ar"), "العربية") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
                                "تفعيل/تعطيل %s لـ %s") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.game_menu"),
-                               "★ غش OnionHEN") == 0);
+                               "★ غش Litehen") == 0);
   return 0;
 }
 
@@ -166,7 +166,7 @@ static int test_ja(void) {
 
 static int test_fr(void) {
   set_lang(Lang::Fr);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Boîte à outils OnionHEN") ==
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Boîte à outils Litehen") ==
                    0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Codes de triche") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.fr"), "Français") == 0);
@@ -198,7 +198,7 @@ static int test_ko(void) {
 static int test_es(void) {
   set_lang(Lang::Es);
   TEST_ASSERT_TRUE(
-      std::strcmp(tr("root.title"), "★Caja de herramientas OnionHEN") == 0);
+      std::strcmp(tr("root.title"), "★Caja de herramientas Litehen") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Trucos") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.es"), "Español") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -209,7 +209,7 @@ static int test_es(void) {
 static int test_pt_br(void) {
   set_lang(Lang::PtBr);
   TEST_ASSERT_TRUE(
-      std::strcmp(tr("root.title"), "★Caixa de ferramentas OnionHEN") == 0);
+      std::strcmp(tr("root.title"), "★Caixa de ferramentas Litehen") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Cheats") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.pt_br"), "Português (Brasil)") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -220,7 +220,7 @@ static int test_pt_br(void) {
 static int test_it(void) {
   set_lang(Lang::It);
   TEST_ASSERT_TRUE(
-      std::strcmp(tr("root.title"), "★Cassetta degli attrezzi OnionHEN") == 0);
+      std::strcmp(tr("root.title"), "★Cassetta degli attrezzi Litehen") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Trucchi") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.it"), "Italiano") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -230,7 +230,7 @@ static int test_it(void) {
 
 static int test_ru(void) {
   set_lang(Lang::Ru);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Инструменты OnionHEN") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Инструменты Litehen") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Читы") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.ru"), "Русский") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -240,7 +240,7 @@ static int test_ru(void) {
 
 static int test_pl(void) {
   set_lang(Lang::Pl);
-  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Narzędzia OnionHEN") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★Narzędzia Litehen") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.link"), "Cheaty") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("lang.pl"), "Polski") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),

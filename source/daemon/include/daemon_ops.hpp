@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 Litehen / LightningMods
  *
  * Daemon domain ops — settings, FS, inject. msg.cpp only owns IPC_loop.
  */
@@ -54,7 +54,7 @@ void *fps_sampler_thread(void *args) noexcept;
 void *vsync_fps_sampler_thread(void *args) noexcept;
 
 /**
- * Tear down OnionHEN userland (does not return). Caller should reply to IPC first.
+ * Tear down Litehen userland (does not return). Caller should reply to IPC first.
  *
  * Sets g_stack_shutting_down, then: stop util → restart SceShellUI → exit.
  * The private loader is left available as the runtime recovery endpoint.

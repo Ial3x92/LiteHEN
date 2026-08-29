@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 OnionHEN / LightningMods */
+/* Copyright (C) 2026 Litehen / LightningMods */
 #pragma once
 
 #include <stdbool.h>

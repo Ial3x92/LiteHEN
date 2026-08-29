@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 OnionHEN / LightningMods */
+/* Copyright (C) 2026 Litehen / LightningMods */
 #include <onion/fps_publish.hpp>
 
 #include <onion/log.h>

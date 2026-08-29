@@ -1,4 +1,4 @@
-# OnionHEN Cheats (C++ orchestration)
+# Litehen Cheats (C++ orchestration)
 
 ## Architecture
 

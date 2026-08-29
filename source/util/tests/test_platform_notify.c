@@ -266,7 +266,7 @@ static int test_notify_rich_localizes_both_text_fields(void) {
   onion_notify_set_rich_send(capture_rich_notify);
   onion_notify_rich("notify.brand", "notify.boot.starting", "/icon.png",
                     "download", "43");
-  TEST_ASSERT_TRUE(strstr(g_rich_payload, "OnionHEN 正在启动...") != NULL);
+  TEST_ASSERT_TRUE(strstr(g_rich_payload, "Litehen 正在启动...") != NULL);
   onion_notify_set_language(ONION_NOTIFY_LANG_EN);
   return 0;
 }
