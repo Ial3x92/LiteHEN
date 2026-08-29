@@ -40,6 +40,9 @@ void escapeXML(std::string& input) {
 
 namespace {
 
+/* Defined with the other dynamic control helpers below. */
+std::string toolbox_val(const char* id, const char* fallback);
+
 /** Payload .elf only (OnionHEN no longer supports .plugin packages). */
 template <typename G>
 void append_payload_entry(G& page, const std::string& directory, const char* filename,
@@ -47,10 +50,12 @@ void append_payload_entry(G& page, const std::string& directory, const char* fil
   if (!toolbox::is_payload_elf_name(filename))
     return;
 
-  // Ricostruiamo le variabili che servono al compilatore
   const std::string path = directory + "/" + filename;
-  const std::string elf_key = "id_payload_elf_" + std::to_string(next_id++);
-  
+  char elf_key[64] = {};
+  if (!toolbox::elf_key_from_name(filename, elf_key, sizeof(elf_key))) {
+    LOG_ERROR("Skipping invalid payload name: %s", filename);
+    return;
+  }
   /* Confirm file is readable (ELF magic checked at launch). */
   const int fd = open(path.c_str(), O_RDONLY, 0);
   if (fd < 0) {
@@ -59,9 +64,7 @@ void append_payload_entry(G& page, const std::string& directory, const char* fil
   }
   close(fd);
 
-  LOG_DEBUG("Found payload: %s key=%s", path.c_str(), elf_key.c_str());
-
-
+  LOG_DEBUG("Found payload: %s key=%s", path.c_str(), elf_key);
 
   const std::string shown_path = toolbox::display_path_for_ui(path);
   const std::string id_prefix = list_page ? "id_payload_" : "id_auto_payload_";
@@ -240,12 +243,12 @@ void generate_account_xml(std::string& xml_buffer) {
 
 void generate_payload_xml(std::string& xml_buffer, bool list_page) {
   static const std::vector<std::string> kPayloadDirs = {
-      "/user/data/liteHEN/payloads",
-      "/data/liteHEN/payloads",
-      "/usb0/Litehen/payloads",
-      "/usb1/Litehen/payloads",
-      "/usb2/Litehen/payloads",
-      "/usb3/Litehen/payloads",
+      "/user/data/OnionHEN/payloads",
+      "/data/OnionHEN/payloads",
+      "/usb0/OnionHEN/payloads",
+      "/usb1/OnionHEN/payloads",
+      "/usb2/OnionHEN/payloads",
+      "/usb3/OnionHEN/payloads",
   };
 
   const char* root_id = list_page ? "id_payload" : "id_auto_payloads";
@@ -458,41 +461,62 @@ void generate_plapps_xml(std::string& new_xml) {
 
 namespace {
 
-constexpr const char* kIconPkg = "";
-constexpr const char* kIconPlugins = "";
-constexpr const char* kIconGame = "";
-constexpr const char* kIconCheats = "";
-constexpr const char* kIconDownload = "";
-constexpr const char* kIconMonitor = "";
-constexpr const char* kIconAccount = "";
-constexpr const char* kIconSettings = "";
-constexpr const char* kIconShortcuts = "";
-constexpr const char* kIconDebug = "";
-constexpr const char* kIconAbout = "";
-constexpr const char* kIconOverlay = "";
-constexpr const char* kIconTitleId = "";
-constexpr const char* kIconMenuOption = "";
-constexpr const char* kIconFan = "";
-constexpr const char* kIconHardDrive = "";
-constexpr const char* kIconDiscLicense = "";
-constexpr const char* kIconDonations = "";
-constexpr const char* kIconThanks = "";
-constexpr const char* kIconProject = "";
-constexpr const char* kIconAuthorAvatar = "";
-constexpr const char* kIconDonatorLjf = "";
-constexpr const char* kIconDonatorSzx = "";
-constexpr const char* kIconDonatorAglx = "";
+constexpr const char* kIconPkg =
+    "/user/data/OnionHEN/assets/icon_xml_package.png";
+constexpr const char* kIconPlugins =
+    "/user/data/OnionHEN/assets/icon_xml_plugins.png";
+constexpr const char* kIconGame = "/user/data/OnionHEN/assets/icon_xml_game.png";
+constexpr const char* kIconCheats =
+    "/user/data/OnionHEN/assets/icon_xml_cheats.png";
+constexpr const char* kIconDownload =
+    "/user/data/OnionHEN/assets/icon_xml_download.png";
+constexpr const char* kIconMonitor =
+    "/user/data/OnionHEN/assets/icon_xml_monitor.png";
+constexpr const char* kIconAccount =
+    "/user/data/OnionHEN/assets/icon_xml_account.png";
+constexpr const char* kIconSettings =
+    "/user/data/OnionHEN/assets/icon_xml_settings.png";
+constexpr const char* kIconShortcuts =
+    "/user/data/OnionHEN/assets/icon_xml_shortcuts.png";
+constexpr const char* kIconDebug =
+    "/user/data/OnionHEN/assets/icon_xml_debug.png";
+constexpr const char* kIconAbout =
+    "/user/data/OnionHEN/assets/icon_xml_about.png";
+constexpr const char* kIconOverlay =
+    "/user/data/OnionHEN/assets/icon_xml_overlay.png";
+constexpr const char* kIconTitleId =
+    "/user/data/OnionHEN/assets/icon_xml_title_id.png";
+constexpr const char* kIconMenuOption =
+    "/user/data/OnionHEN/assets/icon_xml_menu_option.png";
+constexpr const char* kIconFan =
+    "/user/data/OnionHEN/assets/icon_xml_fan.png";
+constexpr const char* kIconHardDrive =
+    "/user/data/OnionHEN/assets/icon_xml_hardrive.png";
+constexpr const char* kIconDiscLicense =
+    "/user/data/OnionHEN/assets/icon_xml_disc_license.png";
+constexpr const char* kIconDonations =
+    "/user/data/OnionHEN/assets/icon_xml_donations.png";
+constexpr const char* kIconThanks =
+    "/user/data/OnionHEN/assets/icon_xml_thanks.png";
+constexpr const char* kIconProject =
+    "/user/data/OnionHEN/assets/icon_xml_project.png";
+constexpr const char* kIconAuthorAvatar =
+    "/user/data/OnionHEN/assets/icon_xml_author_avatar.png";
+constexpr const char* kIconDonatorLjf =
+    "/user/data/OnionHEN/assets/icon_xml_donator_ljf.png";
+constexpr const char* kIconDonatorSzx =
+    "/user/data/OnionHEN/assets/icon_xml_donator_szx.png";
+constexpr const char* kIconDonatorAglx =
+    "/user/data/OnionHEN/assets/icon_xml_donator_aglx.png";
 
 bool toolbox_on(const char* id) {
   return resolve_toolbox_control_value(id) == "1";
 }
-}
 
-std::string toolbox_val(const char* id, const char* fallback) {
-  std::string val = resolve_toolbox_control_value(id);
-  return val.empty() ? fallback : val;
+std::string toolbox_val(const char* id, const char* fallback = "0") {
+  std::string v = resolve_toolbox_control_value(id);
+  return v.empty() ? fallback : v;
 }
-
 
 void append_toolbox_pkg_group(ps5ui::Group& g) {
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
@@ -502,7 +526,6 @@ void append_toolbox_pkg_group(ps5ui::Group& g) {
          "payloads.xml", 
          ""); 
 }
-
 
 void append_toolbox_system_group(ps5ui::Group& g) {
   // 1. Controllo Ventola e Attivazione BD
