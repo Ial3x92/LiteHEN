@@ -15,9 +15,9 @@ set(_icon_output_dir "${CMAKE_CURRENT_BINARY_DIR}/generated/assets")
 set(_generated_icon_files)
 
 # ---------------------------------------------------------------------------
-# GESTIONE ONIONHEN_SICON.PNG (L'unica icona rimasta)
+# GESTIONE litehen_sicon.png (L'unica icona rimasta)
 # ---------------------------------------------------------------------------
-set(_raster_icon "onionhen_sicon.png")
+set(_raster_icon "litehen_sicon.png")
 set(_raster_source "${D_CWD}/assets/${_raster_icon}")
 set(_raster_output "${_icon_output_dir}/${_raster_icon}")
 add_custom_command(
@@ -87,7 +87,7 @@ endif()
 set_source_files_properties(
 	${D_SRC}/daemon.c
 	PROPERTIES OBJECT_DEPENDS
-		"${_onion_daemon_elf};${_onion_util_elf};${_onion_elfldr_elf};${ONIONHEN_KSTUFF_ELF};${D_CWD}/assets/onionhen_sicon.png;${_generated_icon_files}"
+		"${_onion_daemon_elf};${_onion_util_elf};${_onion_elfldr_elf};${ONIONHEN_KSTUFF_ELF};${D_CWD}/assets/litehen_sicon.png;${_generated_icon_files}"
 )
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	ONIONHEN_DAEMON_ELF="${_onion_daemon_elf}"
