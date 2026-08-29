@@ -124,6 +124,9 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 
 onion_strip_debug(${PROJECT_NAME})
 
+# ---------------------------------------------------------------------------
+# RIPRISTINATO: Blocco di compressione LZMA e creazione target bootstrapper_packed
+# ---------------------------------------------------------------------------
 set(_bootstrapper_lzma "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bootstrapper.elf.lzma")
 set(_bootstrapper_lzma_size "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bootstrapper.elf.lzma.size")
 add_custom_command(
@@ -131,5 +134,8 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -E env "TARGET_ELF=$<TARGET_FILE:${PROJECT_NAME}>"
 			${PROJECT_ROOT}/../scripts/pack_bootstrapper.sh
 	DEPENDS ${PROJECT_NAME}
-	COMMENT "Recording size and compressing bootstrapper"
+	COMMENT "Recording size and compressing bootstrapper with LZMA"
 )
+
+add_custom_target(${PROJECT_NAME}_packed
+	DEPENDS "${_bootstrapper_lzma}" "${_bootstrapper_lzma_size}")
