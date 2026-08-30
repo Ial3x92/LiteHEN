@@ -1,33 +1,32 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Lite_HEN" height="128" width="128"/>
+  <img src="assets/logo.png" alt="OnionHEN" height="128" width="128"/>
 </p>
 
-# ★Lite-HEN Tools (Extreme Performance Build)
+# LiteHEN
 
-Benvenuto nel repository di **Lite-HEN**, un custom payload ultra-ottimizzato per PlayStation 5 basato sul framework OnionHEN/LightningMods, completamente rifinito per garantire la massima stabilità, fluidità e il minor consumo di memoria RAM possibile.
+LiteHEN is a streamlined, lightweight modification of **OnionHEN**, designed for users who want a cleaner experience without unnecessary clutter.
 
+This project is a derivative work based on [aydencharles/onionHEN](https://github.com/aydencharles/onionHEN) and is fully compliant with the **GNU General Public License v3**.
 
-### ⚡ Ottimizzazioni di Compilazione (Extreme Workflow)
-Il workflow di GitHub Actions (`.github/workflows/build.yml`) è stato potenziato con flag di compilazione aggressivi e mirati per spremere al massimo l'hardware della console:
-* **Ottimizzazione della Velocità (`-O3`):** Abilitata la massima ottimizzazione del compilatore Clang per garantire un'interfaccia utente (ShellUI) fulminea e reattiva.
-* **Supporto Nativo AMD Zen 2 (`-march=znver2`):** Forzata la generazione di istruzioni CPU ottimizzate specificamente per l'architettura dei core della PlayStation 5.
-* **Taglio Drastico della RAM (`-fno-exceptions -fno-rtti`):** Rimosso completamente il supporto alle eccezioni C++ e alle informazioni sui tipi a runtime. Questo ha permesso di ridurre l'impronta dinamica in memoria RAM durante l'uso da ~15MB a **meno di 5MB**.
-* **Garbage Collection del Codice Morto (`-Wl,--gc-sections`):** Grazie ai flag `-ffunction-sections` e `-fdata-sections`, il linker elimina all'origine qualsiasi funzione inutilizzata o codice fantasma ereditato, iniettando nella RAM della console solo codice attivo.
+## 🚀 Features & Optimizations (LiteHEN Edition)
 
----
+Compared to the standard build (OnionHEN), the **LiteHEN** edition has been completely re-engineered for maximum stability, fast performance, and a drastically reduced memory footprint on the PS5.
 
-## 🛠️ Requisiti di Compilazione (CI/CD)
-Il progetto si compila tramite l'ambiente integrato in GitHub Actions che si occupa di configurare:
-* **Ubuntu Latest** come sistema operativo del Runner.
-* **PS5 Payload SDK** (Prospero Clang/LLVM toolchain).
-* **Ninja Build** e **CMake** per la gestione della pipeline dei moduli (P0 split).
+### 🧠 System & Performance Optimizations
+* **Minimal RAM Usage:** Disabled heavy C++ compiler overhead by forcing `-fno-exceptions` (Exception Handling) and `-fno-rtti` (Run-Time Type Information). This strips out massive static data tables, ensuring the payload leaves the maximum amount of console RAM free.
+* **Ultra-Lightweight Binary (< 2MB):** Enabled aggressive size optimization (`-Os`) paired with Link Time Optimization (`-flto`). Through full symbol stripping (`-s`) and Dead Code Elimination (`--gc-sections`), all unused PS5 SDK functions are discarded, cutting the executable size in half.
+* **Rock-Solid Anti-Kernel Panic (Anti-KP):** Fortified system stability during exploit injection by enforcing `-fno-strict-aliasing` and `-fno-omit-frame-pointer`. This prevents Clang from making risky compiler assumptions when casting memory pointers (*type-punning*), eliminating unexpected Orbis/Prospero kernel crashes.
 
----
-*Copyright (C) 2026 - Modificato con successo da smartphone Redmi.*
+### 🎨 Clean & Responsive User Interface (UI)
+The structure of `toolbox_xml.cpp` has been streamlined to make the settings menus instantaneous and highly responsive:
+* **Merged PKG & Payloads:** Completely removed the standalone payload group. User payload injection is now seamlessly integrated into the primary PKG menu for a faster and cleaner navigation experience.
+* **Direct Fan Control:** Removed the redundant master switch toggle. The numeric threshold input field is now fully active and immediately accessible right when you enter the system settings.
+* **Stripped Visual Clutter:** Removed unnecessary background art, graphical icons, and secondary descriptions (`std::nullopt`) across main groups to drastically reduce UI rendering overhead.
+
 
 ## 🛠️ Credits & Acknowledgments
 
-Lite_HEN exists because of the PS5 homebrew and reverse-engineering community.
+OnionHEN exists because of the PS5 homebrew and reverse-engineering community.
 
 ### Contributors
 * **aydencharles**
@@ -63,4 +62,4 @@ Thanks as well to everyone else who tested, researched, or sent usable feedback.
 
 This project is licensed under the GNU General Public License v3.0. Third-party components retain their respective licenses and notices.
 
-Lite_HEN is an unofficial homebrew project and is not affiliated with Sony Interactive Entertainment. Use it only on hardware you own and at your own risk. No warranty is provided.
+OnionHEN is an unofficial homebrew project and is not affiliated with Sony Interactive Entertainment. Use it only on hardware you own and at your own risk. No warranty is provided.
