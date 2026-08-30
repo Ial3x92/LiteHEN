@@ -35,10 +35,10 @@ jobs:
           LLVM_CONFIG: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-llvm-config
           CC: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang
           CXX: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang++
-          # 🛡️ IMPOSTAZIONI ANTI-KP, MINIMO PESO, MINIMA RAM E MASSIMA VELOCITÀ 🛡️
-          CFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
-          CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
-          LDFLAGS: "-flto -s -Wl,--gc-sections"
+          # ⚡ CONFIGURAZIONE EXTREME PRESTAZIONI: MASSIMA VELOCITÀ, ZERO SPRECHI RAM, ANTI-KP ⚡
+          CFLAGS: "-O3 -march=znver2 -fno-strict-aliasing -fomit-frame-pointer -fno-exceptions -fno-rtti -flto=thin -s -ffunction-sections -fdata-sections"
+          CXXFLAGS: "-O3 -march=znver2 -fno-strict-aliasing -fomit-frame-pointer -fno-exceptions -fno-rtti -flto=thin -s -ffunction-sections -fdata-sections"
+          LDFLAGS: "-flto=thin -s -Wl,--gc-sections"
         run: |
           rm -rf build
           chmod +x ./scripts/*.sh
@@ -54,8 +54,7 @@ jobs:
 
           ./scripts/build.sh --release
 
-          # Rileviamo automaticamente il file compilato (sia esso Lite_HEN o Lite_HEN) 
-          # e standardizziamo il nome finale per l'upload in Lite_HEN.elf
+          # Rileviamo automaticamente il file compilato e standardizziamo il nome finale per l'upload in Lite_HEN.elf
           if [ -f "build/bin/Lite_HEN.elf" ]; then
             echo "Lite_HEN.elf generato nativamente."
           elif [ -f "build/bin/Lite_HEN.elf" ]; then
