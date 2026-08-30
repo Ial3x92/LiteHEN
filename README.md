@@ -6,14 +6,6 @@
 
 Benvenuto nel repository di **Lite-HEN**, un custom payload ultra-ottimizzato per PlayStation 5 basato sul framework OnionHEN/LightningMods, completamente rifinito per garantire la massima stabilità, fluidità e il minor consumo di memoria RAM possibile.
 
-## 🚀 Modifiche Applicate (Changelog)
-
-Rispetto alla codebase originale di OnionHEN, sono state apportate modifiche radicali sia a livello estetico che strutturale (allineate ai vincoli di iniezione della memoria a runtime):
-
-### 🎨 Modifiche Estetiche e Interfaccia Utente (UI)
-* **Branding Unificato:** Sostituita ogni occorrenza del vecchio brand in **Lite-HEN** o **lite-hen** (in minuscolo per i percorsi di sistema).
-* **Ridenominazione delle Impostazioni:** Il menu all'interno delle Impostazioni della PS5 (`NPXS40008`) è stato rinominato in **`★Lite-HEN Tools`**.
-* **Ottimizzazione dei Caratteri (16-Byte Fixed Patch):** La stringa del menu rispetta al millesimo il vincolo di lunghezza fissa delle patch binarie di Sony (`★Debug Settings`). Questo garantisce l'aggiornamento estetico eliminando qualsiasi rischio di Buffer Overflow o crash all'avvio.
 
 ### ⚡ Ottimizzazioni di Compilazione (Extreme Workflow)
 Il workflow di GitHub Actions (`.github/workflows/build.yml`) è stato potenziato con flag di compilazione aggressivi e mirati per spremere al massimo l'hardware della console:
@@ -21,16 +13,6 @@ Il workflow di GitHub Actions (`.github/workflows/build.yml`) è stato potenziat
 * **Supporto Nativo AMD Zen 2 (`-march=znver2`):** Forzata la generazione di istruzioni CPU ottimizzate specificamente per l'architettura dei core della PlayStation 5.
 * **Taglio Drastico della RAM (`-fno-exceptions -fno-rtti`):** Rimosso completamente il supporto alle eccezioni C++ e alle informazioni sui tipi a runtime. Questo ha permesso di ridurre l'impronta dinamica in memoria RAM durante l'uso da ~15MB a **meno di 5MB**.
 * **Garbage Collection del Codice Morto (`-Wl,--gc-sections`):** Grazie ai flag `-ffunction-sections` e `-fdata-sections`, il linker elimina all'origine qualsiasi funzione inutilizzata o codice fantasma ereditato, iniettando nella RAM della console solo codice attivo.
-
----
-
-## 🎮 Istruzioni per l'Installazione sulla PS5
-
-1. **Compilazione:** Avvia manualmente il workflow su GitHub Actions e scarica il file `Lite_HEN.elf` generato negli *Artifacts*.
-2. **Iniezione del Payload:** Avvia l'exploit del browser sulla PS5 e invia il file `Lite_HEN.elf` tramite Netcat sulla **porta 9020**.
-3. **Gestione delle Cartelle (Dati e Trucchi):**
-   * Al primo avvio, il payload creerà automaticamente la nuova directory di riferimento in **`/data/lite-hen/`**.
-   * Per non perdere i tuoi vecchi salvataggi, plugin o la cartella dei trucchi (`cheats`), apri **PS5 Explorer** (o connettiti via FTP) e sposta tutto il contenuto presente in `/data/onionhen/` all'interno della nuova cartella `/data/lite-hen/`.
 
 ---
 
