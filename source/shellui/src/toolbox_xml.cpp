@@ -518,13 +518,15 @@ std::string toolbox_val(const char* id, const char* fallback = "0") {
   return v.empty() ? fallback : v;
 }
 
+void append_toolbox_pkg_group(ps5ui::Group& g) {
+  g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
+         "PkgInstaller/data/pkginstaller.xml",
+         ""); // <- Chiuso correttamente qui con il punto e virgola
+}
+
 void append_toolbox_payloads_group(ps5ui::Group& g) {
-  g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml",
-         toolbox_i18n::tr("payloads.link.sub"), kIconPlugins)
-      .link("id_auto_payloads", toolbox_i18n::tr("payload.auto.link"),
-            "auto_payloads.xml", toolbox_i18n::tr("payload.auto.sub"), kIconPlugins)
-      .link("id_plugins", toolbox_i18n::tr("plugins.link"), "plugins.xml",
-            toolbox_i18n::tr("plugins.link.sub"), kIconPlugins);
+  g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml", ""); 
+  // La descrizione è stata svuotata ("") e l'icona kIconPlugins è stata rimossa
 }
 
 void append_toolbox_system_group(ps5ui::Group& g) {
