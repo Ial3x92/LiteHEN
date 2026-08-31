@@ -138,7 +138,7 @@ struct Settings {
   bool overlay_ram = false;
   bool overlay_cpu = true;
   bool overlay_gpu = true;
-  bool overlay_fps = true;
+  bool overlay_fps = false;
   bool overlay_ip = false;
   /** Per-core CPU usage mode on the overlay (id_all_cpu_usage). */
   bool all_cpu_usage = false;
