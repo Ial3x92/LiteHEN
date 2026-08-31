@@ -639,7 +639,8 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 
 
 void append_toolbox_about_group(ps5ui::Group& g) {
-  g.label("id_credit_ial3x92", "ial3x92", ps5ui::Style::Center)
+  g.label("id_credit_OnionHEN", "LiteHEN is a modification of OnionHEN", ps5ui::Style::Center)
+   .label("id_credit_ial3x92", "ial3x92", ps5ui::Style::Center)
    .label("id_credit_kvnhrt", "kvnhrt", ps5ui::Style::Center)
    .label("id_credit_aydencharles", "aydencharles", ps5ui::Style::Center)
    .label("id_credit_lightningmods", "LightningMods", ps5ui::Style::Center)
