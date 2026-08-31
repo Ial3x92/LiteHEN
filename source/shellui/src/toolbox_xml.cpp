@@ -513,6 +513,7 @@ bool toolbox_on(const char* id) {
   return resolve_toolbox_control_value(id) == "1";
 }
 
+
 std::string toolbox_val(const char* id, const char* fallback = "0") {
   std::string v = resolve_toolbox_control_value(id);
   return v.empty() ? fallback : v;
@@ -521,12 +522,12 @@ std::string toolbox_val(const char* id, const char* fallback = "0") {
 void append_toolbox_pkg_group(ps5ui::Group& g) {
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
          "PkgInstaller/data/pkginstaller.xml",
-         ""); // <- Chiuso correttamente qui con il punto e virgola
+         ""); 
 }
 
 void append_toolbox_payloads_group(ps5ui::Group& g) {
-  g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml", ""); 
-  // La descrizione è stata svuotata ("") e l'icona kIconPlugins è stata rimossa
+  g.link("id_payloads", toolbox_i18n::tr("payloads.link"), "payloads.xml",
+         toolbox_i18n::tr("payloads.link.sub"));
 }
 
 void append_toolbox_system_group(ps5ui::Group& g) {
@@ -539,10 +540,10 @@ void append_toolbox_system_group(ps5ui::Group& g) {
                       "2", std::nullopt, std::nullopt, std::nullopt,
                       toolbox_val("id_fan_speed", ""));
        },
-       std::nullopt, std::nullopt, std::nullopt) // Rimosso il vincolo dell'interruttore
+       std::nullopt, std::nullopt, std::nullopt)
       .link("id_licenseactivation", toolbox_i18n::tr("license.bd"),
             "DebugSettings/data/debug_settings_licenseactivation.xml",
-            "") // <-- Rimosso il punto e virgola e la graffa per continuare la catena dei metodi
+            "")
 
       // 2. Integrazione Monitoraggio e Visualizzazione (Overlay e IDS)
       .group(
@@ -573,7 +574,7 @@ void append_toolbox_system_group(ps5ui::Group& g) {
        std::nullopt, std::nullopt, "id_overlay_enabled") 
       .toggle("id_disp_titleids", toolbox_i18n::tr("disp_tids"),
               toolbox_on("id_disp_titleids"), std::nullopt, 
-              std::nullopt, std::nullopt) // Rimosso logo kIconTitleId
+              std::nullopt, std::nullopt)
 
       // 3. Integrazione Gioco a Distanza (Remote Play)
       .group(
@@ -636,9 +637,8 @@ void append_toolbox_system_group(ps5ui::Group& g) {
   .text_field("id_np_env", toolbox_i18n::tr("debug.np_env"),
               std::nullopt, "basic_latin", "1", 
               "16", "/NP/env", toolbox_i18n::tr("debug.np_env.confirm"),
-              toolbox_i18n::tr("debug.np_env.confirm_phrase")); // <-- Il punto e virgola ora chiude l'intero blocco correttamente qui
+              toolbox_i18n::tr("debug.np_env.confirm_phrase"));
 }
-
 
 void append_toolbox_about_group(ps5ui::Group& g) {
   g.label("id_credit_OnionHEN", "LiteHEN is a modification of OnionHEN", ps5ui::Style::Center)
@@ -669,13 +669,17 @@ void generate_toolbox_xml(std::string& new_xml) {
           "id_group_pkg", toolbox_i18n::tr("group.pkg"),
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
           std::nullopt, std::nullopt,
-          "id_game_package_installer")
-      // Il blocco id_group_payloads è stato completamente rimosso da qui
+          "id_group_payloads") // 1. Corretto: Sposta il focus in giù sul macro-gruppo dei payload
+      .group(
+          "id_group_payloads", toolbox_i18n::tr("group.payloads"),
+          [](ps5ui::Group& g) { append_toolbox_payloads_group(g); },
+          std::nullopt, std::nullopt,
+          "id_group_system") // 2. Reinserito e Corretto: Sposta il focus sul gruppo system sotto
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
           std::nullopt, std::nullopt,
-          "id_group_fan")
+          "id_onionhen_credit_options") // 3. Corretto: Sposta il focus sul gruppo dei Crediti/About
       .group(
           "id_onionhen_credit_options", toolbox_i18n::tr("group.about"),
           [](ps5ui::Group& g) { append_toolbox_about_group(g); },
