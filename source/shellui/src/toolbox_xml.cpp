@@ -243,12 +243,12 @@ void generate_account_xml(std::string& xml_buffer) {
 
 void generate_payload_xml(std::string& xml_buffer, bool list_page) {
   static const std::vector<std::string> kPayloadDirs = {
-      "/user/data/OnionHEN/payloads",
-      "/data/OnionHEN/payloads",
-      "/usb0/OnionHEN/payloads",
-      "/usb1/OnionHEN/payloads",
-      "/usb2/OnionHEN/payloads",
-      "/usb3/OnionHEN/payloads",
+      "/user/data/liteHEN/payloads",
+      "/data/liteHEN/payloads",
+      "/usb0/liteHEN/payloads",
+      "/usb1/liteHEN/payloads",
+      "/usb2/liteHEN/payloads",
+      "/usb3/liteHEN/payloads",
   };
 
   const char* root_id = list_page ? "id_payload" : "id_auto_payloads";
