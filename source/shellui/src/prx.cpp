@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -368,8 +368,8 @@ void init_resource_names() {
 
 bool init_version_string(const OrbisKernelSwVersion& sw) {
   /* XOR with base64_decode(kXorKeyB64) == "SISTR0_I_SEE_YOU" (not the b64 text). */
-  /* XOR "LiteHEN " with SISTR0_I_SEE_YOU. Regenerate: encryptver.py "LiteHEN " */
-  const char enc_ver[] = "\x1c\x27\x3a\x3b\x3c\x78\x1a\x07\x7f"; /* "LiteHEN " */
+  /* XOR "OnionHEN " with SISTR0_I_SEE_YOU. Regenerate: encryptver.py "OnionHEN " */
+  const char enc_ver[] = "\x1c\x27\x3a\x3b\x3c\x78\x1a\x07\x7f"; /* "OnionHEN " */
   const std::string key = base64_decode(kXorKeyB64);
   auto dev_ver_bytes =
       encrypt_decrypt(reinterpret_cast<const unsigned char*>(enc_ver),

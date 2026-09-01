@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  *
  * SceNetCtl ABI declarations.
  *
@@ -9,7 +9,7 @@
  * void*, int vs int32_t), which is how three subtly different get_ip_address
  * implementations grew. This header is the single source of truth.
  *
- * Declarations only — no LiteHEN behaviour lives here. For reading the
+ * Declarations only — no OnionHEN behaviour lives here. For reading the
  * console IP use onion_net_get_ip_address() from <onion/net.h>.
  */
 

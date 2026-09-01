@@ -126,8 +126,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE CBC=1)
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	CURL_STATICLIB
 	ONION_CURL_CA_BUNDLE="${ONION_CURL_CA_BUNDLE}"
-  VERSION_TAG="LiteHEN ftpsrv module"
-  SHADOWMOUNT_VERSION="LiteHEN shadowmount module"
+  VERSION_TAG="OnionHEN ftpsrv module"
+  SHADOWMOUNT_VERSION="OnionHEN shadowmount module"
   ONIONHEN_SHADOWMOUNT_TEMPLATE="${SHADOWMOUNT_SOURCE_DIR}/config.ini.example"
   ONIONHEN_SHADOWMOUNT_ICON="${SHADOWMOUNT_SOURCE_DIR}/smp_icon.png"
 )
@@ -146,7 +146,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 # )
 
 # Upstream ftpsrv is compiled with a less strict warning profile than the
-# LiteHEN util sources.  Keep the shared target's -Werror for our code while
+# OnionHEN util sources.  Keep the shared target's -Werror for our code while
 # allowing the pinned third-party modules to retain their upstream
 # implementation.
 set_source_files_properties(${FTPSRV_SOURCES} PROPERTIES

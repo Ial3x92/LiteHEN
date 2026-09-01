@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  *
  * Lightweight i18n for dynamic toolbox XML.
  */

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  *
  * Table-driven OnPress dispatch for ShellUI toolbox items.
  */
@@ -72,7 +72,7 @@ const OnPressExactEntry *onpress_plugins_exact(size_t *count);
 /**
  * Shared built-in plugin handlers (root page + plugins page).
  * Run toggles change the current session only. Autoload toggles persist for
- * the next LiteHEN start and do not start or stop the service now.
+ * the next OnionHEN start and do not start or stop the service now.
  */
 OnPressResult onpress_kstuff_autoload(OnPressContext &ctx);
 OnPressResult onpress_ftp_run(OnPressContext &ctx);

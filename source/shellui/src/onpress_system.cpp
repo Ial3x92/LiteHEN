@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods — OnPress system settings domain */
+/* Copyright (C) 2025 OnionHEN / LightningMods — OnPress system settings domain */
 #include "onpress.hpp"
 #include "toolbox_i18n.hpp"
 #include <onion/notify_i18n.h>
@@ -76,12 +76,12 @@ static OnPressResult id_app_jailbreak_enabled(OnPressContext &ctx) {
 
 static OnPressResult id_custom_game_opts(OnPressContext &ctx) {
   if (atoi(ctx.value.c_str()) == g_settings.onionhen_game_opts) {
-    LOG_WARN("LiteHEN Game Options already %s",
+    LOG_WARN("OnionHEN Game Options already %s",
                 g_settings.onionhen_game_opts ? "Enabled" : "Disabled");
     return OnPressResult::EarlyReturn;
   }
   g_settings.onionhen_game_opts = !g_settings.onionhen_game_opts;
-  LOG_DEBUG("LiteHEN Game Options: %s",
+  LOG_DEBUG("OnionHEN Game Options: %s",
               g_settings.onionhen_game_opts ? "Enabled" : "Disabled");
   return OnPressResult::Handled;
 }

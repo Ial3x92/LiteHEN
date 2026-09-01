@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 LiteHEN */
+/* Copyright (C) 2026 OnionHEN */
 #pragma once
 
 #include <cstddef>

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  *
  * Serialized Toolbox ELF inject into one SceShellUI PID.
  * When to inject (immediate vs rest) lives in daemon_inject.cpp.

@@ -1,6 +1,6 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  *
- * LiteHEN logging.
+ * OnionHEN logging.
  *
  * Sinks: klog (volatile, read live from a PC) + an optional bounded file.
  * stdout is also written when the process has one.

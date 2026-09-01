@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  *
  * Single programmatic navigation primitive for dynamic Legacy Settings pages.
  * Pushes a Settings.Plugins resource (e.g. "plugin_config.xml") onto the active

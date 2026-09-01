@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  * Crit daemon IPC command dispatch.
  * Transport (listen/accept/thread) stays in msg.cpp.
  */
@@ -77,7 +77,7 @@ void handleIPC(clientArgs *client, std::string &inputStr,
     reply(sender_app, true);
     break;
   case BREW_UNUSED_DECRYPT_DIR:
-    /* SELF directory decrypt removed from LiteHEN. */
+    /* SELF directory decrypt removed from OnionHEN. */
     LOG_WARN("BREW_DECRYPT_DIR: unsupported (removed)");
     reply(sender_app, true);
     break;

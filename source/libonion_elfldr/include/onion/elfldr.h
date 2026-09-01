@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 John Törnblom / LiteHEN
+/* Copyright (C) 2024 John Törnblom / OnionHEN
  *
  * Shared ELF load helpers (inject path, embedded spawn, privilege raise).
  */

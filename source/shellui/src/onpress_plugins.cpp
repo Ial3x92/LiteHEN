@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods - OnPress built-in plugins */
+/* Copyright (C) 2025 OnionHEN / LightningMods - OnPress built-in plugins */
 
 #include "onpress.hpp"
 #include "shellui_payload_state.hpp"

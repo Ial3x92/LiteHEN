@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods */
+/* Copyright (C) 2025 OnionHEN / LightningMods */
 
 #include "daemon_power_state.hpp"
 #include <onion/platform.h>

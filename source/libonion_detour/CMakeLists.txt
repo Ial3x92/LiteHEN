@@ -1,5 +1,5 @@
 ###################################################################################################
-# LiteHEN shared Detour + hde64 (shellui injectees)
+# OnionHEN shared Detour + hde64 (shellui injectees)
 ###################################################################################################
 
 cmake_minimum_required(VERSION 3.20)

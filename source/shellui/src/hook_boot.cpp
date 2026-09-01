@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  * Extracted from hook_functions.cpp — hook_boot
  */
 #include "hooked_funcs.hpp"
@@ -19,8 +19,8 @@
 
 std::string Mono_to_String(MonoString *str);
 
-static constexpr const char kHomeTopNavUri[] = "LiteHEN?NavUI=1";
-static constexpr const char kLegacyHomeTopNavUri[] = "LiteHEN?NavUI";
+static constexpr const char kHomeTopNavUri[] = "OnionHEN?NavUI=1";
+static constexpr const char kLegacyHomeTopNavUri[] = "OnionHEN?NavUI";
 
 static bool is_home_top_nav_uri(const std::string &uri) {
   return uri == kHomeTopNavUri || uri == kLegacyHomeTopNavUri;
@@ -37,21 +37,21 @@ bool handle_uri_boot_common(MonoString* uri, int opt, MonoString* titleIdForBoot
                 opt);
 #endif
   
-    if(uri_string == "LiteHEN?Cheats") {
+    if(uri_string == "OnionHEN?Cheats") {
 #if SHELL_DEBUG==1
       LOG_DEBUG("cheats_shortcut URI detected");
 #endif
       g_ui.cheats_shortcut_activated = true;
       return true; // Signal to redirect
     }
-    else if(uri_string == "LiteHEN?Cheats_not_open") {
+    else if(uri_string == "OnionHEN?Cheats_not_open") {
 #if SHELL_DEBUG==1
       LOG_DEBUG("cheats_shortcut (not open) URI detected");
 #endif
       g_ui.cheats_shortcut_activated_not_open = true;
       return true;
     }
-    else if (uri_string == "LiteHEN?DL_UPDATE") {
+    else if (uri_string == "OnionHEN?DL_UPDATE") {
 #if SHELL_DEBUG==1
         LOG_DEBUG("DL_UPDATE URI detected");
 #endif
@@ -60,7 +60,7 @@ bool handle_uri_boot_common(MonoString* uri, int opt, MonoString* titleIdForBoot
     }
     else if (is_home_top_nav_uri(uri_string)) {
 #if SHELL_DEBUG==1
-      LOG_DEBUG("HomeUI top-nav LiteHEN URI detected");
+      LOG_DEBUG("HomeUI top-nav OnionHEN URI detected");
 #endif
       return true;
     }
@@ -215,7 +215,7 @@ bool handle_uri_boot_common(MonoString* uri, int opt, MonoString* titleIdForBoot
 #if SHELL_DEBUG == 1
         LOG_DEBUG("Cheats Shortcut Activated");
 #endif
-        GoToURI("LiteHEN?Cheats");
+        GoToURI("OnionHEN?Cheats");
         result.Buttons = None; // Clear the Select button to prevent triggering other actions
         cheas_sc_activated = false; // Reset the flag
       }

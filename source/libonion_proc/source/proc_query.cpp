@@ -1,6 +1,6 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  *
- * sysctl-based process lookup (single implementation for all LiteHEN bins).
+ * sysctl-based process lookup (single implementation for all OnionHEN bins).
  */
 
 extern "C" {

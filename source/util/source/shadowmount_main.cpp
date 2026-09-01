@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 LiteHEN / LightningMods
+/* Copyright (C) 2025 OnionHEN / LightningMods
  *
  * In-process adapter for the vendored ShadowMount+ module. Replicates the
  * startup/shutdown sequence of upstream main() while leaving process-only
@@ -362,7 +362,7 @@ void cleanup_kstuff_noautomount_files(void) {
 }
 
 /* Upstream kills conflicting backpork fakelib processes by name before the
- * scanner starts. Reuse LiteHEN's sysctl-based lookup instead of upstream's
+ * scanner starts. Reuse OnionHEN's sysctl-based lookup instead of upstream's
  * private sysctl walker. */
 void stop_conflicting_backpork(void) {
   if (!runtime_config()->backport_fakelib_enabled)
