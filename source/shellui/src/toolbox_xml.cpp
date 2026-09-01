@@ -660,11 +660,11 @@ void append_toolbox_about_group(ps5ui::Group& g) {
 } // namespace
 
 void generate_toolbox_xml(std::string& new_xml) {
-  // Sostituito il vecchio sistema di traduzione con il nome fisso "LiteHEN"
-  ps5ui::Page page("id_debug_settings", "LiteHEN");
+  ps5ui::Page page("id_debug_settings", toolbox_i18n::tr("root.title"));
   page.root_focus("id_group_pkg");
 
-  new_xml = page.group(
+  // Salviamo l'XML generato in una stringa temporanea
+  std::string temp_xml = page.group(
           "id_group_pkg", toolbox_i18n::tr("group.pkg"),
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
           std::nullopt, std::nullopt,
@@ -680,4 +680,12 @@ void generate_toolbox_xml(std::string& new_xml) {
           std::nullopt, std::nullopt, std::nullopt,
           ps5ui::Style::Center)
       .build();
+
+  // Inseriamo l'attributo invisibile nativo di PS5 nell'XML prima di caricarlo
+  size_t pos = temp_xml.find("<page");
+  if (pos != std::string::npos) {
+      temp_xml.insert(pos + 5, " visible=\"false\"");
+  }
+  
+  new_xml = temp_xml;
 }
