@@ -518,7 +518,7 @@ int shadowmount_module_main() {
 }
 
 void shadowmount_module_request_stop() {
-  request_shutdown_stop("onionhen facade");
+  request_shutdown_stop(" facade");
 }
 
 } // namespace onion::services

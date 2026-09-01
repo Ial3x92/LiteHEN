@@ -30,7 +30,7 @@ OnionHEN exists because of the PS5 homebrew and reverse-engineering community.
 
 ### Contributors
 * **aydencharles**
-* **kvnhrt**
+* **ial3x92**
 
 ### Based on
 * **etaHEN** — LightningMods and contributors; source base of this tree
