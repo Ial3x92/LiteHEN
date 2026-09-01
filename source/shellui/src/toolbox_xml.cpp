@@ -660,7 +660,8 @@ void append_toolbox_about_group(ps5ui::Group& g) {
 } // namespace
 
 void generate_toolbox_xml(std::string& new_xml) {
-  ps5ui::Page page("id_debug_settings", toolbox_i18n::tr("root.title"));
+  // Sostituito il vecchio sistema di traduzione con il nome fisso "LiteHEN"
+  ps5ui::Page page("id_debug_settings", "LiteHEN");
   page.root_focus("id_group_pkg");
 
   new_xml = page.group(
@@ -668,7 +669,6 @@ void generate_toolbox_xml(std::string& new_xml) {
           [](ps5ui::Group& g) { append_toolbox_pkg_group(g); },
           std::nullopt, std::nullopt,
           "id_game_package_installer")
-      // Il blocco id_group_payloads è stato completamente rimosso da qui
       .group(
           "id_group_system", toolbox_i18n::tr("group.system"),
           [](ps5ui::Group& g) { append_toolbox_system_group(g); },
