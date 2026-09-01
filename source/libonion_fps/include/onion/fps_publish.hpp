@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 OnionHEN / LightningMods */
+/* Copyright (C) 2026 LiteHEN / LightningMods */
 #pragma once
 
 #include <onion/fps_sample.h>

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -169,7 +169,7 @@ bool send_to_elfldr(const void* buffer, size_t buffer_size) {
 
 int main() {
   if (onionhen_compressed_size <= 0) {
-    LOG_ERROR("Invalid OnionHEN payload! unable to unpack it!");
+    LOG_ERROR("Invalid LiteHEN payload! unable to unpack it!");
     return 0;
   }
 
@@ -179,7 +179,7 @@ int main() {
   // onionhen_compressed_size);
   uint8_t *decompressed = (uint8_t *)malloc(decompress_size);
   if (!decompressed) {
-    notify("Failed to allocate memory for decompressed OnionHEN payload!");
+    notify("Failed to allocate memory for decompressed LiteHEN payload!");
     return -1;
   }
   size_t size = decompress_size;
@@ -194,18 +194,18 @@ int main() {
                            onionhen_compressed + LZMA_CLI_HEADER_SIZE, &srcLen,
                            onionhen_compressed, LZMA_PROPS_SIZE);
   if (res != 0) {
-    notify("Failed to decompress OnionHEN payload! error: %d", res);
+    notify("Failed to decompress LiteHEN payload! error: %d", res);
     free(decompressed);
     return -1;
   }
 
-  LOG_DEBUG("Bootstrapping OnionHEN.elf...");
+  LOG_DEBUG("Bootstrapping LiteHEN.elf...");
 
-  /* Do not write OnionHEN.bin under /data/liteHEN — keep the payload in RAM
+  /* Do not write LiteHEN.bin under /data/liteHEN — keep the payload in RAM
    * only and hand it straight to elfldr :9021. */
 
   if(!send_to_elfldr(decompressed, decompress_size)) {
-    notify("The elfldr on port 9021 is REQUIRED for OnionHEN make sure its running and try again!");
+    notify("The elfldr on port 9021 is REQUIRED for LiteHEN make sure its running and try again!");
     free(decompressed);
     return -1;
   }

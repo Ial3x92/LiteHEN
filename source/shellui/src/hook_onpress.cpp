@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
  * ShellUI OnPress_Hook — table-driven toolbox press dispatch.
  */
 #include "onpress.hpp"
@@ -124,7 +124,7 @@ int OnPress_Hook(MonoObject *Instance, MonoObject *element, MonoObject *e) {
   const OnPressResult result = dispatch_toolbox_press(domain, ctx);
 
   if (result == OnPressResult::Consumed) {
-    // Fully owned by OnionHEN (dynamic XML). Skip stock SettingPage.OnPressed.
+    // Fully owned by LiteHEN (dynamic XML). Skip stock SettingPage.OnPressed.
     if (ctx.dirty) {
       settings_commit(ctx.reload_main, ctx.reload_util);
     }

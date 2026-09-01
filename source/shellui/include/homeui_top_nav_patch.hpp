@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -20,7 +20,7 @@ struct MonoImage;
 
 /*
  * HomeUI RNPS/Hermes top-nav patch:
- * inserts the OnionHEN icon-button slot between Search and Settings by reusing
+ * inserts the LiteHEN icon-button slot between Search and Settings by reusing
  * a hidden system entry.
  *
  * Disable for A/B crash isolation (must recompile shellui):

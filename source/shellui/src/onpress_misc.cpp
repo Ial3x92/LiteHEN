@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods — OnPress misc (kstuff, account, credits) */
+/* Copyright (C) 2025 LiteHEN / LightningMods — OnPress misc (kstuff, account, credits) */
 #include "onpress.hpp"
 #include "account_activator.h"
 #include "progress_dialog.hpp"

@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 OnionHEN / LightningMods
+/* Copyright (C) 2026 LiteHEN / LightningMods
  *
  * Host-testable FPS composition (no kernel / ioctl).
  */

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
  *
  * ShellUI notify(const char *, ...) — no watermark bool (historical UI API).
  */
