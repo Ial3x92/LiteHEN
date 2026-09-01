@@ -1,16 +1,16 @@
 <p align="center">
-  <img src="assets/logo.png" alt="LiteHEN" height="128" width="128"/>
+  <img src="assets/logo.png" alt="OnionHEN" height="128" width="128"/>
 </p>
 
 # LiteHEN
 
-LiteHEN is a streamlined, lightweight modification of **LiteHEN**, designed for users who want a cleaner experience without unnecessary clutter.
+LiteHEN is a streamlined, lightweight modification of **OnionHEN**, designed for users who want a cleaner experience without unnecessary clutter.
 
 This project is a derivative work based on [aydencharles/onionHEN](https://github.com/aydencharles/onionHEN) and is fully compliant with the **GNU General Public License v3**.
 
 ## 🚀 Features & Optimizations (LiteHEN Edition)
 
-Compared to the standard build (LiteHEN), the **LiteHEN** edition has been completely re-engineered for maximum stability, fast performance, and a drastically reduced memory footprint on the PS5.
+Compared to the standard build (OnionHEN), the **LiteHEN** edition has been completely re-engineered for maximum stability, fast performance, and a drastically reduced memory footprint on the PS5.
 
 ### 🧠 System & Performance Optimizations
 * **Minimal RAM Usage:** Disabled heavy C++ compiler overhead by forcing `-fno-exceptions` (Exception Handling) and `-fno-rtti` (Run-Time Type Information). This strips out massive static data tables, ensuring the payload leaves the maximum amount of console RAM free.
@@ -26,7 +26,7 @@ The structure of `toolbox_xml.cpp` has been streamlined to make the settings men
 
 ## 🛠️ Credits & Acknowledgments
 
-LiteHEN exists because of the PS5 homebrew and reverse-engineering community.
+OnionHEN exists because of the PS5 homebrew and reverse-engineering community.
 
 ### Contributors
 * **aydencharles**
@@ -62,4 +62,4 @@ Thanks as well to everyone else who tested, researched, or sent usable feedback.
 
 This project is licensed under the GNU General Public License v3.0. Third-party components retain their respective licenses and notices.
 
-LiteHEN is an unofficial homebrew project and is not affiliated with Sony Interactive Entertainment. Use it only on hardware you own and at your own risk. No warranty is provided.
+OnionHEN is an unofficial homebrew project and is not affiliated with Sony Interactive Entertainment. Use it only on hardware you own and at your own risk. No warranty is provided.
