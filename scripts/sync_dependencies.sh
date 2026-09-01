@@ -9,7 +9,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TP="${ROOT}/third_party"
-CACHE="${LITEHEN _CACHE_DIR:-${ROOT}/.cache/dependencies}"
+CACHE="${LITE-HEN_CACHE_DIR:-${ROOT}/.cache/dependencies}"
 
 PS5_PAYLOAD_SDK="${PS5_PAYLOAD_SDK:-}"
 FROM_SOURCE=0

@@ -20,7 +20,7 @@ target_compile_options(${PROJECT_NAME} PUBLIC
 	$<$<COMPILE_LANGUAGE:ASM>:${ASM_FLAGS}>
 )
 
-set(LZMA_ROOT "${LITEHEN _THIRD_PARTY_DIR}/7zip_sdk/C")
+set(LZMA_ROOT "${LITE-HEN_THIRD_PARTY_DIR}/7zip_sdk/C")
 set(LZMA_LIB ${LZMA_ROOT}/LzmaLib.c ${LZMA_ROOT}/Alloc.c
 				${LZMA_ROOT}/LzmaEnc.c
 				${LZMA_ROOT}/LzFind.c
@@ -41,7 +41,7 @@ target_sources(${PROJECT_NAME} PRIVATE ${SrcFiles})
 set_source_files_properties(
 	${D_SRC}/main.c
 	PROPERTIES OBJECT_DEPENDS
-		"${LITEHEN _OUT_BIN}/bootstrapper.elf.lzma;${LITEHEN _OUT_BIN}/bootstrapper.elf.lzma.size"
+		"${LITE-HEN_OUT_BIN}/bootstrapper.elf.lzma;${LITE-HEN_OUT_BIN}/bootstrapper.elf.lzma.size"
 )
 onion_target_debug_define(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -52,8 +52,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} PRIVATE onion_platform)
 add_dependencies(${PROJECT_NAME} onion_platform)
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-	LITEHEN _BOOTSTRAPPER_LZMA="${LITEHEN _OUT_BIN}/bootstrapper.elf.lzma"
-	LITEHEN _BOOTSTRAPPER_SIZE="${LITEHEN _OUT_BIN}/bootstrapper.elf.lzma.size"
+	LITE-HEN_BOOTSTRAPPER_LZMA="${LITE-HEN_OUT_BIN}/bootstrapper.elf.lzma"
+	LITE-HEN_BOOTSTRAPPER_SIZE="${LITE-HEN_OUT_BIN}/bootstrapper.elf.lzma.size"
 )
 add_dependencies(${PROJECT_NAME} bootstrapper_packed)
 

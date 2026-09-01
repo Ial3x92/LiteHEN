@@ -84,11 +84,11 @@ void notify(const char *text, ...) {
   sceKernelSendNotificationRequest(0, &req, sizeof(req), 0);
 }
 
-#ifndef LITEHEN _BOOTSTRAPPER_LZMA
-#define LITEHEN _BOOTSTRAPPER_LZMA "../../bin/bootstrapper.elf.lzma"
+#ifndef LITE-HEN_BOOTSTRAPPER_LZMA
+#define LITE-HEN_BOOTSTRAPPER_LZMA "../../bin/bootstrapper.elf.lzma"
 #endif
-#ifndef LITEHEN _BOOTSTRAPPER_SIZE
-#define LITEHEN _BOOTSTRAPPER_SIZE "../../bin/bootstrapper.elf.lzma.size"
+#ifndef LITE-HEN_BOOTSTRAPPER_SIZE
+#define LITE-HEN_BOOTSTRAPPER_SIZE "../../bin/bootstrapper.elf.lzma.size"
 #endif
 
 __asm__(".intel_syntax noprefix\n"
@@ -97,7 +97,7 @@ __asm__(".intel_syntax noprefix\n"
         ".type   litehen_compressed, @object\n"
         ".align  16\n"
         "litehen_compressed:\n"
-        ".incbin \"" LITEHEN _BOOTSTRAPPER_LZMA "\"\n"
+        ".incbin \"" LITE-HEN_BOOTSTRAPPER_LZMA "\"\n"
         "litehen_compressed_end:\n"
         ".global litehen_compressed_size\n"
         ".type  litehen_compressed_size, @object\n"
@@ -108,7 +108,7 @@ __asm__(".intel_syntax noprefix\n"
         ".type   litehen_decompressed_size, @object\n"
         ".align  16\n"
         "litehen_decompressed_size:\n"
-        ".incbin \"" LITEHEN _BOOTSTRAPPER_SIZE "\"\n");
+        ".incbin \"" LITE-HEN_BOOTSTRAPPER_SIZE "\"\n");
 
 extern uint32_t litehen_compressed_size;
 extern uint8_t litehen_compressed[];

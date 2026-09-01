@@ -49,7 +49,7 @@ constexpr size_t kHbcSourceHashOffset = 0x0c;
 constexpr size_t kHbcSourceHashSize = 20;
 constexpr size_t kHbcFileLengthOffset = 0x20;
 constexpr size_t kHbcFooterSha1Size = 20;
-constexpr const char *kLITEHEN TopNavIconPath =
+constexpr const char *kLITE-HENTopNavIconPath =
     "/system_ex/vsh_asset/litehen.png";
 
 static const unsigned char kLegacyOldIconOrder[] = {
@@ -474,7 +474,7 @@ static const unsigned char kNewCustomTitleValue[] = {0xff, 0x00};
  * a raw icon path. Reusing the adjacent AppError onPress function changes a
  * second executable function and must only be enabled after device validation.
  */
-static const unsigned char kImageSourceLITEHEN ButtonBody[] = {
+static const unsigned char kImageSourceLITE-HENButtonBody[] = {
     0x29, 0x00, 0x00, 0x2e, 0x01, 0x00, 0x09, 0x34, 0x02, 0x01, 0x02,
     0x9d, 0x2e, 0x01, 0x00, 0x08, 0x34, 0x01, 0x01, 0x01, 0x6f, 0x62,
     0x04, 0x00, 0x9a, 0x18, 0x74, 0x03, 0x4f, 0x00, 0x04, 0x03, 0x52,
@@ -499,7 +499,7 @@ static const unsigned char kImageSourceIconPropsHelperBody[] = {
     0x3d, 0x01, 0x02, 0x2b, 0x5a, 0x01, 0x60, 0x74, 0x00, 0x74, 0x00,
     0x74, 0x00, 0x74, 0x00, 0x74, 0x00, 0x74, 0x00, 0x74, 0x00};
 
-static_assert(sizeof(kImageSourceLITEHEN ButtonBody) == kButtonBodySize);
+static_assert(sizeof(kImageSourceLITE-HENButtonBody) == kButtonBodySize);
 static_assert(sizeof(kStockAppErrorOnPressBody) == kAppErrorHelperBodySize);
 static_assert(sizeof(kImageSourceIconPropsHelperBody) ==
               kAppErrorHelperBodySize);
@@ -904,7 +904,7 @@ static bool is_homeui_top_nav_icon_source(MonoObject *source) {
     return false;
   }
 
-  return Mono_to_String(text).find(kLITEHEN TopNavIconPath) !=
+  return Mono_to_String(text).find(kLITE-HENTopNavIconPath) !=
          std::string::npos;
 }
 
@@ -1179,7 +1179,7 @@ void patch_homeui_top_nav(unsigned char *buffer, int *size_ptr,
       bytes.has_legacy_button_body ? bytes.legacy_onion_hen_button_body
                                    : nullptr;
   const unsigned char *onion_hen_button_body =
-      bytes.requires_image_source_object ? kImageSourceLITEHEN ButtonBody
+      bytes.requires_image_source_object ? kImageSourceLITE-HENButtonBody
                                          : bytes.onion_hen_button_body;
 
   const BytePatch kPatches[] = {
