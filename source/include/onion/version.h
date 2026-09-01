@@ -1,10 +1,10 @@
 #pragma once
 
 /* Fallback for non-CMake tooling; PS5 builds shadow this with a generated file. */
-#ifndef ONIONHEN_VERSION
-#define ONIONHEN_VERSION "dirty-unknown"
+#ifndef LITE.HEN_VERSION
+#define LITE.HEN_VERSION "dirty-unknown"
 #endif
 
-#ifndef ONIONHEN_AUTHOR
-#define ONIONHEN_AUTHOR "ial3x92 & 麒麟/0xp0co"
+#ifndef LITE.HEN_AUTHOR
+#define LITE.HEN_AUTHOR "ial3x92 & 麒麟/0xp0co"
 #endif

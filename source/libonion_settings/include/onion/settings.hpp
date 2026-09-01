@@ -124,7 +124,7 @@ struct Settings {
 
   // [home_screen], [game_menu]
   bool display_tids = true;
-  bool onionhen_game_opts = false;
+  bool litehen_game_opts = false;
 
   // [cooling]
   bool enable_fan_speed = true;

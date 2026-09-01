@@ -113,7 +113,7 @@ void append_homebrew_game(G& page, const std::string& game_dir, const char* dir_
   game.path = shown_path;
   game.dir_name = dir_name;
   game.icon_path = icon_path;
-  game.id = "id_onionhen_pl_loader_" + title_id + "_" + std::to_string(random_num);
+  game.id = "id_litehen_pl_loader_" + title_id + "_" + std::to_string(random_num);
   g_ui.games_list.push_back(game);
 
   page.button(game.id, "(" + title_id + ") " + title,
@@ -675,7 +675,7 @@ void generate_toolbox_xml(std::string& new_xml) {
           std::nullopt, std::nullopt,
           "id_group_fan")
       .group(
-          "id_onionhen_credit_options", toolbox_i18n::tr("group.about"),
+          "id_litehen_credit_options", toolbox_i18n::tr("group.about"),
           [](ps5ui::Group& g) { append_toolbox_about_group(g); },
           std::nullopt, std::nullopt, std::nullopt,
           ps5ui::Style::Center)

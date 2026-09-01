@@ -1,17 +1,17 @@
-#ifndef ONIONHEN_DAEMON_ELF
-#define ONIONHEN_DAEMON_ELF "../../bin/daemon.elf"
+#ifndef LITE.HEN_DAEMON_ELF
+#define LITE.HEN_DAEMON_ELF "../../bin/daemon.elf"
 #endif
-#ifndef ONIONHEN_UTIL_ELF
-#define ONIONHEN_UTIL_ELF "../../bin/util.elf"
+#ifndef LITE.HEN_UTIL_ELF
+#define LITE.HEN_UTIL_ELF "../../bin/util.elf"
 #endif
-#ifndef ONIONHEN_ELFLDR_ELF
-#define ONIONHEN_ELFLDR_ELF "../../bin/onion_elfldr.elf"
+#ifndef LITE.HEN_ELFLDR_ELF
+#define LITE.HEN_ELFLDR_ELF "../../bin/onion_elfldr.elf"
 #endif
-#ifndef ONIONHEN_KSTUFF_ELF
-#define ONIONHEN_KSTUFF_ELF "../assets/kstuff.elf"
+#ifndef LITE.HEN_KSTUFF_ELF
+#define LITE.HEN_KSTUFF_ELF "../assets/kstuff.elf"
 #endif
-#ifndef ONIONHEN_ICON_ASSET_DIR
-#define ONIONHEN_ICON_ASSET_DIR "../assets"
+#ifndef LITE.HEN_ICON_ASSET_DIR
+#define LITE.HEN_ICON_ASSET_DIR "../assets"
 #endif
 
 __asm__(".intel_syntax noprefix\n"
@@ -20,7 +20,7 @@ __asm__(".intel_syntax noprefix\n"
         ".type   daemon_start, @object\n"
         ".align  16\n"
         "daemon_start:\n"
-        ".incbin \"" ONIONHEN_DAEMON_ELF "\"\n"
+        ".incbin \"" LITE.HEN_DAEMON_ELF "\"\n"
         "daemon_end:\n"
         ".global daemon_size\n"
         ".type   daemon_size, @object\n"
@@ -32,7 +32,7 @@ __asm__(".intel_syntax noprefix\n"
         ".type   util_start, @object\n"
         ".align  16\n"
         "util_start:\n"
-        ".incbin \"" ONIONHEN_UTIL_ELF "\"\n"
+        ".incbin \"" LITE.HEN_UTIL_ELF "\"\n"
         "util_end:\n"
         ".global util_size\n"
         ".type   util_size, @object\n"
@@ -44,7 +44,7 @@ __asm__(".intel_syntax noprefix\n"
         ".type   onion_elfldr_start, @object\n"
         ".align  16\n"
         "onion_elfldr_start:\n"
-        ".incbin \"" ONIONHEN_ELFLDR_ELF "\"\n"
+        ".incbin \"" LITE.HEN_ELFLDR_ELF "\"\n"
         "onion_elfldr_end:\n"
         ".global onion_elfldr_size\n"
         ".type   onion_elfldr_size, @object\n"
@@ -72,7 +72,7 @@ __asm__(".intel_syntax noprefix\n"
     ".type   kstuff_start, @object\n"
     ".align  16\n"
     "kstuff_start:\n"
-    ".incbin \"" ONIONHEN_KSTUFF_ELF "\"\n"
+    ".incbin \"" LITE.HEN_KSTUFF_ELF "\"\n"
     "kstuff_end:\n"
     ".global kstuff_size\n"
     ".type  kstuff_size, @object\n"

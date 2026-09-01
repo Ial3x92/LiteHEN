@@ -84,36 +84,36 @@ void notify(const char *text, ...) {
   sceKernelSendNotificationRequest(0, &req, sizeof(req), 0);
 }
 
-#ifndef ONIONHEN_BOOTSTRAPPER_LZMA
-#define ONIONHEN_BOOTSTRAPPER_LZMA "../../bin/bootstrapper.elf.lzma"
+#ifndef LITE.HEN_BOOTSTRAPPER_LZMA
+#define LITE.HEN_BOOTSTRAPPER_LZMA "../../bin/bootstrapper.elf.lzma"
 #endif
-#ifndef ONIONHEN_BOOTSTRAPPER_SIZE
-#define ONIONHEN_BOOTSTRAPPER_SIZE "../../bin/bootstrapper.elf.lzma.size"
+#ifndef LITE.HEN_BOOTSTRAPPER_SIZE
+#define LITE.HEN_BOOTSTRAPPER_SIZE "../../bin/bootstrapper.elf.lzma.size"
 #endif
 
 __asm__(".intel_syntax noprefix\n"
         ".section .data\n"
-        ".global onionhen_compressed\n"
-        ".type   onionhen_compressed, @object\n"
+        ".global litehen_compressed\n"
+        ".type   litehen_compressed, @object\n"
         ".align  16\n"
-        "onionhen_compressed:\n"
-        ".incbin \"" ONIONHEN_BOOTSTRAPPER_LZMA "\"\n"
-        "onionhen_compressed_end:\n"
-        ".global onionhen_compressed_size\n"
-        ".type  onionhen_compressed_size, @object\n"
+        "litehen_compressed:\n"
+        ".incbin \"" LITE.HEN_BOOTSTRAPPER_LZMA "\"\n"
+        "litehen_compressed_end:\n"
+        ".global litehen_compressed_size\n"
+        ".type  litehen_compressed_size, @object\n"
         ".align  4\n"
-        "onionhen_compressed_size:\n"
-        ".int    onionhen_compressed_end - onionhen_compressed\n"
-        ".global onionhen_decompressed_size\n"
-        ".type   onionhen_decompressed_size, @object\n"
+        "litehen_compressed_size:\n"
+        ".int    litehen_compressed_end - litehen_compressed\n"
+        ".global litehen_decompressed_size\n"
+        ".type   litehen_decompressed_size, @object\n"
         ".align  16\n"
-        "onionhen_decompressed_size:\n"
-        ".incbin \"" ONIONHEN_BOOTSTRAPPER_SIZE "\"\n");
+        "litehen_decompressed_size:\n"
+        ".incbin \"" LITE.HEN_BOOTSTRAPPER_SIZE "\"\n");
 
-extern uint32_t onionhen_compressed_size;
-extern uint8_t onionhen_compressed[];
-extern uint8_t onionhen_compressed_end[];
-extern uint8_t onionhen_decompressed_size[];
+extern uint32_t litehen_compressed_size;
+extern uint8_t litehen_compressed[];
+extern uint8_t litehen_compressed_end[];
+extern uint8_t litehen_decompressed_size[];
 
 bool send_to_elfldr(const void* buffer, size_t buffer_size) {
     int sockfd = -1;
@@ -168,22 +168,22 @@ bool send_to_elfldr(const void* buffer, size_t buffer_size) {
 }
 
 int main() {
-  if (onionhen_compressed_size <= 0) {
+  if (litehen_compressed_size <= 0) {
     LOG_ERROR("Invalid LiteHEN payload! unable to unpack it!");
     return 0;
   }
 
-  size_t decompress_size = atoi((char *)onionhen_decompressed_size);
+  size_t decompress_size = atoi((char *)litehen_decompressed_size);
   // LOG_DEBUG("Decompressed size: %zu bytes\nCompressed: %d", size,
-  // onionhen_compressed_size); LOG_DEBUG("Payload has %d bytes, decompressing...",
-  // onionhen_compressed_size);
+  // litehen_compressed_size); LOG_DEBUG("Payload has %d bytes, decompressing...",
+  // litehen_compressed_size);
   uint8_t *decompressed = (uint8_t *)malloc(decompress_size);
   if (!decompressed) {
     notify("Failed to allocate memory for decompressed LiteHEN payload!");
     return -1;
   }
   size_t size = decompress_size;
-  size_t srcLen = onionhen_compressed_size;
+  size_t srcLen = litehen_compressed_size;
 
   //
   // The PROPS used by the LZMA is located at the first 5 bytes of the file, the
@@ -191,8 +191,8 @@ int main() {
   // compressed data
   //
   int res = LzmaUncompress(decompressed, &size,
-                           onionhen_compressed + LZMA_CLI_HEADER_SIZE, &srcLen,
-                           onionhen_compressed, LZMA_PROPS_SIZE);
+                           litehen_compressed + LZMA_CLI_HEADER_SIZE, &srcLen,
+                           litehen_compressed, LZMA_PROPS_SIZE);
   if (res != 0) {
     notify("Failed to decompress LiteHEN payload! error: %d", res);
     free(decompressed);

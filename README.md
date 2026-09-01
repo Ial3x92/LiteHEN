@@ -6,7 +6,7 @@
 
 LiteHEN is a streamlined, lightweight modification of **LiteHEN**, designed for users who want a cleaner experience without unnecessary clutter.
 
-This project is a derivative work based on [aydencharles/onionHEN](https://github.com/aydencharles/onionHEN) and is fully compliant with the **GNU General Public License v3**.
+This project is a derivative work based on [aydencharles/lITEHEN](https://github.com/aydencharles/lITEHEN) and is fully compliant with the **GNU General Public License v3**.
 
 ## 🚀 Features & Optimizations (LiteHEN Edition)
 
