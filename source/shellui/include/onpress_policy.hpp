@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
  * Pure page ownership policy for global SettingPage hooks.
  */
 #pragma once

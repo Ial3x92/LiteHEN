@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
  *
  * Shared daemon helpers (file/net/app query) — extracted from commands.cpp.
  */

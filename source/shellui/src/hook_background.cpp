@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods — P0 split. */
+/* Copyright (C) 2025  / LightningMods — P0 split. */
 
 
 #include "hooked_funcs.hpp"

@@ -54,12 +54,12 @@ jobs:
 
           ./scripts/build.sh --release
 
-          # Rileviamo automaticamente il file compilato (sia esso OnionHEN o LiteHEN) 
+          # Rileviamo automaticamente il file compilato (sia esso LiteHEN o LiteHEN) 
           # e standardizziamo il nome finale per l'upload in LiteHEN.elf
           if [ -f "build/bin/LiteHEN.elf" ]; then
             echo "LiteHEN.elf generato nativamente."
-          elif [ -f "build/bin/OnionHEN.elf" ]; then
-            cp build/bin/OnionHEN.elf build/bin/LiteHEN.elf
+          elif [ -f "build/bin/LiteHEN.elf" ]; then
+            cp build/bin/LiteHEN.elf build/bin/LiteHEN.elf
           else
             echo "Tentativo di fallback sui file generati..."
             cp build/bin/*.elf build/bin/LiteHEN.elf 2>/dev/null || true

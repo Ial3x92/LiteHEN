@@ -1,6 +1,6 @@
-/* Copyright (C) 2026 OnionHEN / LightningMods
+/* Copyright (C) 2026 LiteHEN / LightningMods
  *
- * Shared /system_tmp namespace for OnionHEN runtime state.
+ * Shared /system_tmp namespace for LiteHEN runtime state.
  */
 #pragma once
 

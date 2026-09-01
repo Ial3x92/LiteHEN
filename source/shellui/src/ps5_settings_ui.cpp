@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
  *
  * PS5 Debug Settings XML fluent builder implementation.
  */

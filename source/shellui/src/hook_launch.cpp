@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods — P0 split. */
+/* Copyright (C) 2025 LiteHEN / LightningMods — P0 split. */
 
 
 #include "hooked_funcs.hpp"
@@ -154,7 +154,7 @@ void createJson_hook(MonoObject* inst, MonoObject* array, MonoString* id, MonoSt
                    mono_string_new(Root_Domain, "MENU_ID_CHEATS"),
                    mono_string_new(Root_Domain,
                                    toolbox_i18n::tr("cheats.game_menu")),
-                   mono_string_new(Root_Domain, "OnionHEN?Cheats_not_open"),
+                   mono_string_new(Root_Domain, "LiteHEN?Cheats_not_open"),
                    actionId, nullptr, subMenu, enable);
         return;
     }

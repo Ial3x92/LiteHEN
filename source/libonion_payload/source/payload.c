@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
  *
  * Strict user Payload ELF loader (PID files + private :9020 elfldr).
  */

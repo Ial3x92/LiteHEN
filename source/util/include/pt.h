@@ -1,4 +1,4 @@
-/* Copyright (C) 2024–2025 John Törnblom / OnionHEN
+/* Copyright (C) 2024–2025 John Törnblom / LiteHEN
  *
  * Util-facing ptrace API. Implementation: libonion_elfldr (no per-call authid).
  * Process is elevated once with set_ucred_to_ptrace() (PTRACE_AUTHID) at util

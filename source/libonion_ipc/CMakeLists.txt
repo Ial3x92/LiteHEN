@@ -1,5 +1,5 @@
 ###################################################################################################
-# OnionHEN shared IPC client (injectee-side: shellui)
+# LiteHEN shared IPC client (injectee-side: shellui)
 ###################################################################################################
 
 cmake_minimum_required(VERSION 3.20)

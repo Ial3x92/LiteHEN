@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods — OnPress payload apps */
+/* Copyright (C) 2025 LiteHEN / LightningMods — OnPress payload apps */
 #include "onpress.hpp"
 
 static OnPressResult prefix_id_pl_loader(OnPressContext &ctx) {

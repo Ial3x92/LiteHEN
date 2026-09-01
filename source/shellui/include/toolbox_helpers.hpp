@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
  *
  * Pure ShellUI helpers (host-testable, no Mono/PS5 I/O).
  */

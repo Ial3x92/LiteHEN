@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
  * Util daemon IPC command dispatch.
  * Transport (listen/accept/thread) stays in msg.cpp.
  */

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 OnionHEN / LightningMods
+/* Copyright (C) 2025 LiteHEN / LightningMods
  *
  * Legacy Settings passes the actual UI3 ListPanelItem to
  * UserCustomElementUI.Reset. Sony later stores that same Widget in

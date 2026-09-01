@@ -1,4 +1,4 @@
-/* Copyright (C) 2026 OnionHEN */
+/* Copyright (C) 2026 LiteHEN */
 #pragma once
 
 #include <stdbool.h>
