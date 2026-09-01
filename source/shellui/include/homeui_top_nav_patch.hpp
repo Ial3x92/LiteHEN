@@ -25,7 +25,7 @@ struct MonoImage;
  *
  * Disable for A/B crash isolation (must recompile shellui):
  *   -D SHELLUI_HOMEUI_TOP_NAV_PATCH=0
- * or CMake: -DLITE.HEN_SHELLUI_HOMEUI_TOP_NAV_PATCH=OFF
+ * or CMake: -DLITEHEN _SHELLUI_HOMEUI_TOP_NAV_PATCH=OFF
  */
 #ifndef SHELLUI_HOMEUI_TOP_NAV_PATCH
 #define SHELLUI_HOMEUI_TOP_NAV_PATCH 1

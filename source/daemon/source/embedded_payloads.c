@@ -1,11 +1,11 @@
-#ifndef LITE.HEN_SHELLUI_ELF
-#define LITE.HEN_SHELLUI_ELF "../assets/shellui.elf"
+#ifndef LITEHEN _SHELLUI_ELF
+#define LITEHEN _SHELLUI_ELF "../assets/shellui.elf"
 #endif
-#ifndef LITE.HEN_UTIL_ELF
-#define LITE.HEN_UTIL_ELF "../../bin/util.elf"
+#ifndef LITEHEN _UTIL_ELF
+#define LITEHEN _UTIL_ELF "../../bin/util.elf"
 #endif
-#ifndef LITE.HEN_ELFLDR_ELF
-#define LITE.HEN_ELFLDR_ELF "../../bin/onion_elfldr.elf"
+#ifndef LITEHEN _ELFLDR_ELF
+#define LITEHEN _ELFLDR_ELF "../../bin/onion_elfldr.elf"
 #endif
 
  __asm__(
@@ -15,7 +15,7 @@
 	".type   shellui_elf_start, @object\n"
 	".align  16\n"
 	"shellui_elf_start:\n"
-	    ".incbin \"" LITE.HEN_SHELLUI_ELF "\"\n"
+	    ".incbin \"" LITEHEN _SHELLUI_ELF "\"\n"
 	"shellui_elf_end:\n"
 	    ".global shellui_elf_size\n"
 	    ".type   shellui_elf_size, @object\n"
@@ -28,7 +28,7 @@
 	".type   util_elf_start, @object\n"
 	".align  16\n"
 	"util_elf_start:\n"
-		".incbin \"" LITE.HEN_UTIL_ELF "\"\n"
+		".incbin \"" LITEHEN _UTIL_ELF "\"\n"
 	"util_elf_end:\n"
 		".global util_elf_size\n"
 		".type   util_elf_size, @object\n"
@@ -41,7 +41,7 @@
 	".type   onion_elfldr_elf_start, @object\n"
 	".align  16\n"
 	"onion_elfldr_elf_start:\n"
-		".incbin \"" LITE.HEN_ELFLDR_ELF "\"\n"
+		".incbin \"" LITEHEN _ELFLDR_ELF "\"\n"
 	"onion_elfldr_elf_end:\n"
 		".global onion_elfldr_elf_size\n"
 		".type   onion_elfldr_elf_size, @object\n"

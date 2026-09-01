@@ -23,7 +23,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SOURCE="${ROOT}/source"
 # CMake binary dir + final ELFs/libs: <repo>/build/{bin,lib}/
 BUILD="${BUILD_DIR:-${ROOT}/build}"
-CACHE="${LITE.HEN_CACHE_DIR:-${ROOT}/.cache/dependencies}"
+CACHE="${LITEHEN _CACHE_DIR:-${ROOT}/.cache/dependencies}"
 BIN="${BUILD}/bin"
 
 PS5_PAYLOAD_SDK="${PS5_PAYLOAD_SDK:-${PS5SDK:-}}"
@@ -82,7 +82,7 @@ Options:
 
 Environment:
   PS5_PAYLOAD_SDK   Path to ps5-payload-sdk (required)
-  LITE.HEN_CACHE_DIR Override dependency cache directory
+  LITEHEN _CACHE_DIR Override dependency cache directory
   BUILD_DIR         Override build directory
   BUILD_TYPE        Debug|Release; skips the interactive build-type prompt
 
@@ -265,7 +265,7 @@ stage_dependencies() {
   if [[ ! -x "${ROOT}/scripts/sync_dependencies.sh" ]]; then
     die "missing ${ROOT}/scripts/sync_dependencies.sh"
   fi
-  LITE.HEN_CACHE_DIR="${CACHE}" \
+  LITEHEN _CACHE_DIR="${CACHE}" \
     "${ROOT}/scripts/sync_dependencies.sh" "${args[@]+"${args[@]}"}"
 }
 
@@ -300,7 +300,7 @@ configure() {
     -B "${BUILD}" \
     -G Ninja \
     -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" \
-    -DLITE.HEN_KSTUFF_ELF="${CACHE}/kstuff.elf" \
+    -DLITEHEN _KSTUFF_ELF="${CACHE}/kstuff.elf" \
     -DPS5_PAYLOAD_SDK="${PS5_PAYLOAD_SDK}"
   ok "configured -> ${BUILD}"
 }

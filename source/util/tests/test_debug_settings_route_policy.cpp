@@ -474,7 +474,7 @@ static int test_welcome_toast_replaces_toolbox_uri(void) {
   TEST_ASSERT_TRUE(fields.valid);
   TEST_ASSERT_STREQ(uri, fields.action_url.c_str());
   TEST_ASSERT_STREQ("welcome to LiteHEN", fields.sub_message.c_str());
-  TEST_ASSERT_STREQ(LITE.HEN_VERSION " made by " LITE.HEN_AUTHOR,
+  TEST_ASSERT_STREQ(LITEHEN _VERSION " made by " LITEHEN _AUTHOR,
                     fields.message.c_str());
   return 0;
 }
@@ -497,7 +497,7 @@ static int test_welcome_toast_localizes_text(void) {
   TEST_ASSERT_STREQ("欢迎使用 LiteHEN", fields.sub_message.c_str());
   TEST_ASSERT_STREQ("前往 LiteHEN 工具箱", fields.action_name.c_str());
   const std::string expected =
-      std::string(LITE.HEN_VERSION) + " · 作者：" + LITE.HEN_AUTHOR;
+      std::string(LITEHEN _VERSION) + " · 作者：" + LITEHEN _AUTHOR;
   TEST_ASSERT_STREQ(expected.c_str(), fields.message.c_str());
   onion_notify_set_language(ONION_NOTIFY_LANG_EN);
   return 0;

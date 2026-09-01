@@ -50,11 +50,11 @@ extern "C" {
 #ifndef SHADOWMOUNT_VERSION
 #define SHADOWMOUNT_VERSION "unknown"
 #endif
-#ifndef LITE.HEN_SHADOWMOUNT_TEMPLATE
-#define LITE.HEN_SHADOWMOUNT_TEMPLATE "config.ini.example"
+#ifndef LITEHEN _SHADOWMOUNT_TEMPLATE
+#define LITEHEN _SHADOWMOUNT_TEMPLATE "config.ini.example"
 #endif
-#ifndef LITE.HEN_SHADOWMOUNT_ICON
-#define LITE.HEN_SHADOWMOUNT_ICON "smp_icon.png"
+#ifndef LITEHEN _SHADOWMOUNT_ICON
+#define LITEHEN _SHADOWMOUNT_ICON "smp_icon.png"
 #endif
 
 /* Upstream generates this asset with xxd at Makefile time; embed the pinned
@@ -66,7 +66,7 @@ __asm__(".section .rodata\n"
         ".type smp_icon_png, @object\n"
         ".align 16\n"
         "smp_icon_png:\n"
-        ".incbin \"" LITE.HEN_SHADOWMOUNT_ICON "\"\n"
+        ".incbin \"" LITEHEN _SHADOWMOUNT_ICON "\"\n"
         "smp_icon_png_end:\n"
         ".global smp_icon_png_len\n"
         ".type smp_icon_png_len, @object\n"
@@ -273,7 +273,7 @@ __asm__(".section .rodata\n"
         ".type onion_shadowmount_config_ini, @object\n"
         ".align 16\n"
         "onion_shadowmount_config_ini:\n"
-        ".incbin \"" LITE.HEN_SHADOWMOUNT_TEMPLATE "\"\n"
+        ".incbin \"" LITEHEN _SHADOWMOUNT_TEMPLATE "\"\n"
         "onion_shadowmount_config_ini_end:\n"
         ".global onion_shadowmount_config_ini_len\n"
         ".type onion_shadowmount_config_ini_len, @object\n"
