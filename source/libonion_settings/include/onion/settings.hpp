@@ -20,8 +20,8 @@ along with this program; see the file COPYING. If not, see
 // Single product config schema for daemon / util / shellui.
 //
 // Paths:
-//   primary  /data/OnionHEN/config.ini          (elevated daemons)
-//   shellui  /user/data/OnionHEN/config.ini     (SceShellUI sandbox view)
+//   primary  /data/liteHEN/config.ini          (elevated daemons)
+//   shellui  /user/data/liteHEN/config.ini     (SceShellUI sandbox view)
 // Load tries both; save writes all writable targets so the files stay twins.
 //
 // Process-local store: use SettingsStore for multi-threaded daemons (snapshot
@@ -45,8 +45,8 @@ extern "C++" {
 namespace onion {
 
 // Canonical filesystem paths.
-inline constexpr const char *kConfigPathPrimary = "/data/OnionHEN/config.ini";
-inline constexpr const char *kConfigPathShellui = "/user/data/OnionHEN/config.ini";
+inline constexpr const char *kConfigPathPrimary = "/data/liteHEN/config.ini";
+inline constexpr const char *kConfigPathShellui = "/user/data/liteHEN/config.ini";
 
 // Semantic config schema. This schema starts at version 1.
 inline constexpr int kSettingsSchemaVersion = 1;
@@ -112,7 +112,7 @@ struct AppJailbreakAllowlist {
 
 struct Settings {
   // [startup]
-  // Page to open after OnionHEN finishes loading.
+  // Page to open after LiteHEN finishes loading.
   int startup_open_after_load = kStartupOpenNone;
 
   // [cheats], [app_jailbreak]
@@ -138,28 +138,28 @@ struct Settings {
   bool overlay_ram = false;
   bool overlay_cpu = true;
   bool overlay_gpu = true;
-  bool overlay_fps = true;
+  bool overlay_fps = false;
   bool overlay_ip = false;
   /** Per-core CPU usage mode on the overlay (id_all_cpu_usage). */
   bool all_cpu_usage = false;
   int overlay_pos = 0; // 0/1 top edge, 2/3 bottom edge
 
   // [shortcuts]
-  int cheats_shortcut_opt = 0;
+  int cheats_shortcut_opt = 5;
   int toolbox_shortcut_opt = 0;
 
   // [kstuff]
-  // Load the embedded/override kstuff payload when OnionHEN starts.
+  // Load the embedded/override kstuff payload when LiteHEN starts.
   bool kstuff_autoload = false;
 
   // [ftp]
-  // Start the built-in FTP server the next time OnionHEN launches.
+  // Start the built-in FTP server the next time LiteHEN launches.
   bool ftp_autoload = false;
   // TCP listen port for the built-in FTP server (1..65535).
   int ftp_port = kFtpPortDefault;
 
   // [shadowmount]
-  // Start the built-in ShadowMount+ module the next time OnionHEN launches.
+  // Start the built-in ShadowMount+ module the next time LiteHEN launches.
   bool shadowmount_autoload = false;
 
   // [toolbox]
