@@ -398,6 +398,6 @@
     "notify.account.already": "Ce compte est déjà activé",
     "notify.account.failed": "Échec de l’activation du compte",
     "notify.account.invalid": "Impossible de lire le compte de l’utilisateur actuel",
-    "notify.brand": "LiteHEN"
+    "notify.brand": "OnionLiteHEN"
   }
 }
