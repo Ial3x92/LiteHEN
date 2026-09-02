@@ -5,7 +5,7 @@
     "fallback": false
   },
   "toolbox": {
-    "root.title": "OnionLiteHEN",
+    "root.title": "LiteHEN",
     "group.pkg": "Pkg et Payloads",
     "group.pkg.sub": "Installer des PKG et gérer le contenu additionnel",
     "group.payloads": "Payloads",
@@ -398,6 +398,6 @@
     "notify.account.already": "Ce compte est déjà activé",
     "notify.account.failed": "Échec de l’activation du compte",
     "notify.account.invalid": "Impossible de lire le compte de l’utilisateur actuel",
-    "notify.brand": "OnionLiteHEN"
+    "notify.brand": "LiteHEN"
   }
 }
