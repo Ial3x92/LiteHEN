@@ -5,7 +5,7 @@
     "fallback": false
   },
   "toolbox": {
-    "root.title": "LiteHEN",
+    "root.title": "OnionLiteHEN",
     "group.pkg": "Pkg e Payload",
     "group.pkg.sub": "Installare PKG e gestire i contenuti aggiuntivi",
     "group.payloads": "Payload",
