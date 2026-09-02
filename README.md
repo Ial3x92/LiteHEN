@@ -2,15 +2,15 @@
   <img src="assets/logo.png" alt="OnionHEN" height="128" width="128"/>
 </p>
 
-# OnionLiteHEN
+# LiteHEN
 
-OnionLiteHEN is a streamlined, lightweight modification of **OnionHEN**, designed for users who want a cleaner experience without unnecessary clutter.
+LiteHEN is a streamlined, lightweight modification of **OnionHEN**, designed for users who want a cleaner experience without unnecessary clutter.
 
 This project is a derivative work based on [aydencharles/onionHEN](https://github.com/aydencharles/onionHEN) and is fully compliant with the **GNU General Public License v3**.
 
-## 🚀 Features & Optimizations (OnionLiteHEN Edition)
+## 🚀 Features & Optimizations (LiteHEN Edition)
 
-Compared to the standard build (OnionHEN), the **OnionLiteHEN** edition has been completely re-engineered for maximum stability, fast performance, and a drastically reduced memory footprint on the PS5.
+Compared to the standard build (OnionHEN), the **LiteHEN** edition has been completely re-engineered for maximum stability, fast performance, and a drastically reduced memory footprint on the PS5.
 
 ### 🧠 System & Performance Optimizations
 * **Minimal RAM Usage:** Disabled heavy C++ compiler overhead by forcing `-fno-exceptions` (Exception Handling) and `-fno-rtti` (Run-Time Type Information). This strips out massive static data tables, ensuring the payload leaves the maximum amount of console RAM free.
