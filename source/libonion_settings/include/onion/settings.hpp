@@ -20,8 +20,8 @@ along with this program; see the file COPYING. If not, see
 // Single product config schema for daemon / util / shellui.
 //
 // Paths:
-//   primary  /data/liteHEN/config.ini          (elevated daemons)
-//   shellui  /user/data/liteHEN/config.ini     (SceShellUI sandbox view)
+//   primary  /data/OnionHEN/config.ini          (elevated daemons)
+//   shellui  /user/data/OnionHEN/config.ini     (SceShellUI sandbox view)
 // Load tries both; save writes all writable targets so the files stay twins.
 //
 // Process-local store: use SettingsStore for multi-threaded daemons (snapshot
@@ -45,8 +45,8 @@ extern "C++" {
 namespace onion {
 
 // Canonical filesystem paths.
-inline constexpr const char *kConfigPathPrimary = "/data/liteHEN/config.ini";
-inline constexpr const char *kConfigPathShellui = "/user/data/liteHEN/config.ini";
+inline constexpr const char *kConfigPathPrimary = "/data/OnionHEN/config.ini";
+inline constexpr const char *kConfigPathShellui = "/user/data/OnionHEN/config.ini";
 
 // Semantic config schema. This schema starts at version 1.
 inline constexpr int kSettingsSchemaVersion = 1;
