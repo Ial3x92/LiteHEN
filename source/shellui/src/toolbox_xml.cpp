@@ -243,12 +243,12 @@ void generate_account_xml(std::string& xml_buffer) {
 
 void generate_payload_xml(std::string& xml_buffer, bool list_page) {
   static const std::vector<std::string> kPayloadDirs = {
-      "/user/data/liteHEN/payloads",
-      "/data/liteHEN/payloads",
-      "/usb0/liteHEN/payloads",
-      "/usb1/liteHEN/payloads",
-      "/usb2/liteHEN/payloads",
-      "/usb3/liteHEN/payloads",
+      "/user/data/OnionHEN/payloads",
+      "/data/OnionHEN/payloads",
+      "/usb0/OnionHEN/payloads",
+      "/usb1/OnionHEN/payloads",
+      "/usb2/OnionHEN/payloads",
+      "/usb3/OnionHEN/payloads",
   };
 
   const char* root_id = list_page ? "id_payload" : "id_auto_payloads";
@@ -639,7 +639,7 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 
 
 void append_toolbox_about_group(ps5ui::Group& g) {
-  g.label("id_credit_OnionHEN", "LiteHEN is a fork of OnionHEN", ps5ui::Style::Center)
+  g.label("id_credit_OnionHEN", "OnionLiteHEN is a fork of OnionHEN", ps5ui::Style::Center)
    .label("id_credit_ial3x92", "ial3x92", ps5ui::Style::Center)
    .label("id_credit_kvnhrt", "kvnhrt", ps5ui::Style::Center)
    .label("id_credit_aydencharles", "aydencharles", ps5ui::Style::Center)
