@@ -40,8 +40,10 @@ void escapeXML(std::string& input) {
 
 namespace {
 
-/* Defined with the other dynamic control helpers below. */
 std::string toolbox_val(const char* id, const char* fallback = "0");
+
+// ... eventuali altre funzioni dichiarate qui vicino ...
+
 
 /** Payload .elf only (OnionHEN no longer supports .plugin packages). */
 template <typename G>
