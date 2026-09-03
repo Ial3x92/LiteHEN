@@ -86,7 +86,7 @@ bool bootstrap_assets_write(void) {
   for (size_t i = 0; i < sizeof(kEmbeddedIcons) / sizeof(kEmbeddedIcons[0]);
        ++i) {
     char path[256];
-    snprintf(path, sizeof(path), "/data/OnionHEN/assets/%s.png",
+    snprintf(path, sizeof(path), "/data/LiteHEN/assets/%s.png",
              kEmbeddedIcons[i].name);
     (void)write_blob_file(path, kEmbeddedIcons[i].data,
                           *kEmbeddedIcons[i].size);
