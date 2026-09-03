@@ -135,7 +135,7 @@ endif()
 set_source_files_properties(
 	${D_SRC}/daemon.c
 	PROPERTIES OBJECT_DEPENDS
-		"${_onion_daemon_elf};${_onion_util_elf};${_onion_elfldr_elf};${ONIONHEN_KSTUFF_ELF};${D_CWD}/assets/litehen_sicon.png;${_generated_icon_files}"
+		"${_onion_daemon_elf};${_onion_util_elf};${_onion_elfldr_elf};${ONIONHEN_KSTUFF_ELF};${D_CWD}/assets/onionhen_sicon.png;${_generated_icon_files}"
 )
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	ONIONHEN_DAEMON_ELF="${_onion_daemon_elf}"
