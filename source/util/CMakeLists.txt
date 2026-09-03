@@ -19,8 +19,8 @@ target_compile_options(${PROJECT_NAME} PUBLIC
 	$<$<COMPILE_LANGUAGE:ASM>:${ASM_FLAGS}>
 )
 
-# MODIFICA: Rimossa la cartella 'sync' per escludere i file di download online
-file(GLOB SrcFiles CONFIGURE_DEPENDS
+# MODIFICA: Raccoglie i file escludendo shadowmount_main.cpp e la cartella 'sync'
+file(GLOB RawSrcFiles CONFIGURE_DEPENDS
   ${D_SRC}/*.c
   ${D_SRC}/*.cpp
   ${D_SRC}/cheats/*.c
@@ -32,6 +32,13 @@ file(GLOB SrcFiles CONFIGURE_DEPENDS
   ${ONIONHEN_THIRD_PARTY_DIR}/cjson/*.cpp
   ${ONIONHEN_THIRD_PARTY_DIR}/cjson/*.hpp
 )
+
+set(SrcFiles "")
+foreach(FILE_PATH ${RawSrcFiles})
+  if(NOT FILE_PATH MATCHES "shadowmount_main.cpp")
+    list(APPEND SrcFiles ${FILE_PATH})
+  endif()
+endforeach()
 
 # The PS5 payload SDK does not ship libsqlite3, so the public-domain
 # amalgamation is vendored and compiled like the rest of third_party.
