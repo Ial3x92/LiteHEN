@@ -232,8 +232,8 @@ int main() {
   /* Raw elfldr uploads default to "payload.elf"; publish our stable name. */
   (void)syscall(SYS_thr_set_name, -1, "onion_daemon.elf");
 
-  onion_log_configure("OnionHEN", "/data/OnionHEN/OnionHEN.log");
-  onion_log_configure_crash("/data/OnionHEN/OnionHEN_crash.log");
+  onion_log_configure("OnionHEN", "/data/LiteHEN/LiteHEN.log");
+  onion_log_configure_crash("/data/LiteHEN/LiteHEN_crash.log");
   /* Real linked kernel export (not a dlsym function-pointer variable). */
   onion_notify_set_send(reinterpret_cast<onion_notify_send_fn>(
       sceKernelSendNotificationRequest));

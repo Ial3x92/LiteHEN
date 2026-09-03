@@ -34,7 +34,7 @@ void onion_payload_write_pid_file(const char *pid_path, pid_t pid);
 bool onion_payload_running(const char *title_id);
 
 /**
- * Stage ELF under /data/OnionHEN/payloads/<key>.elf and launch exclusively via
+ * Stage ELF under /data/LiteHEN/payloads/<key>.elf and launch exclusively via
  * OnionHEN's private 9020 elfldr. User payloads never fall back to the external
  * 9021 bootstrap/recovery loader and never infer a PID from process snapshots.
  *

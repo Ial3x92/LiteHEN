@@ -39,7 +39,7 @@ static int test_elf_key_from_name(void) {
   TEST_ASSERT_TRUE(onion_payload_elf_key_from_name("foo.elf", key, sizeof(key)));
   TEST_ASSERT_STREQ("foo", key);
   TEST_ASSERT_TRUE(
-      onion_payload_elf_key_from_name("/data/OnionHEN/payloads/bar.elf", key,
+      onion_payload_elf_key_from_name("/data/LiteHEN/payloads/bar.elf", key,
                                      sizeof(key)));
   TEST_ASSERT_STREQ("bar", key);
   TEST_ASSERT_TRUE(onion_payload_elf_key_from_name("noext", key, sizeof(key)));

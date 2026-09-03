@@ -44,7 +44,7 @@ static int test_toggle_button_label_attrs(void) {
   const std::string xml =
       Page("id_page", "Page")
           .label("id_lbl", "Hello", Style::Center,
-                 "/user/data/OnionHEN/assets/qr.png")
+                 "/user/data/LiteHEN/assets/qr.png")
           .toggle("id_sw", "Switch", true, "second", "desc", "tex_icon")
           .button("id_btn", "Btn", "sec", "d", "icn", Style::Center)
           .build();
@@ -80,7 +80,7 @@ static int test_list_and_items(void) {
                       .item("id_example_list_2", "Option B", "1");
                 },
                 std::nullopt, "1")
-          .button("id_example_btn", "Action", "to /data/OnionHEN/example/")
+          .button("id_example_btn", "Action", "to /data/LiteHEN/example/")
           .build();
 
   TEST_ASSERT_TRUE(
@@ -96,7 +96,7 @@ static int test_list_and_items(void) {
   TEST_ASSERT_TRUE(xml.find("id=\"id_example_btn\"") != std::string::npos);
   /* path second_title keeps single slashes */
   TEST_ASSERT_TRUE(
-      xml.find("second_title=\"to /data/OnionHEN/example/\"") !=
+      xml.find("second_title=\"to /data/LiteHEN/example/\"") !=
       std::string::npos);
   return 0;
 }
@@ -244,7 +244,7 @@ static int test_toolbox_like_skeleton(void) {
                        "PkgInstaller/data/pkginstaller.xml");
               },
               "安装 PKG 与管理附加内容",
-              "/user/data/OnionHEN/assets/icon_xml_package.png",
+              "/user/data/LiteHEN/assets/icon_xml_package.png",
               "id_game_package_installer")
           .build();
 

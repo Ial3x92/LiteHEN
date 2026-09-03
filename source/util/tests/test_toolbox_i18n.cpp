@@ -46,7 +46,7 @@ static int test_default_zh(void) {
                   "远程游玩配对已中止。") == 0);
   TEST_ASSERT_TRUE(
       std::strcmp(onion_notify_tr("notify.crash.main"),
-                  "OnionHEN 已崩溃……\n\n请将 /data/OnionHEN/"
+                  "OnionHEN 已崩溃……\n\n请将 /data/LiteHEN/"
                   "OnionHEN_crash.log 附加到 GitHub Issue：https://github.com/"
                   "kvnhrt/onionHEN/issues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
@@ -107,7 +107,7 @@ static int test_en(void) {
                   "Remote Play pairing cancelled.") == 0);
   TEST_ASSERT_TRUE(
       std::strcmp(onion_notify_tr("notify.crash.main"),
-                  "OnionHEN has crashed ...\n\nPlease attach /data/OnionHEN/"
+                  "OnionHEN has crashed ...\n\nPlease attach /data/LiteHEN/"
                   "OnionHEN_crash.log to a GitHub issue: https://github.com/"
                   "kvnhrt/onionHEN/issues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
