@@ -52,7 +52,27 @@ foreach(_svg_file IN LISTS _icon_svg_files)
 	list(APPEND _generated_icon_files "${_png_file}")
 endforeach()
 
-# MODIFICA: Rimosso completamente il ciclo foreach delle icone raster mancanti (monitor, network, avatar, donatori)
+# These raster-only icons do not have SVG sources. Copy them into the same
+# generated directory so daemon.c has one stable asset location.
+foreach(_raster_icon IN ITEMS
+		icon_xml_monitor.png
+		icon_xml_network.png
+		icon_xml_author_avatar.png
+		icon_xml_donator_ljf.png
+		icon_xml_donator_szx.png
+		icon_xml_donator_aglx.png)
+	set(_raster_source "${D_CWD}/assets/${_raster_icon}")
+	set(_raster_output "${_icon_output_dir}/${_raster_icon}")
+	add_custom_command(
+		OUTPUT "${_raster_output}"
+		COMMAND ${CMAKE_COMMAND} -E make_directory "${_icon_output_dir}"
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different "${_raster_source}" "${_raster_output}"
+		DEPENDS "${_raster_source}"
+		COMMENT "Copying ${_raster_icon}"
+		VERBATIM
+	)
+	list(APPEND _generated_icon_files "${_raster_output}")
+endforeach()
 
 # Generate the icon embedding blocks and the runtime manifest from the icon
 # list above. Previously each icon had to be added in three hand-maintained
@@ -115,7 +135,7 @@ endif()
 set_source_files_properties(
 	${D_SRC}/daemon.c
 	PROPERTIES OBJECT_DEPENDS
-		"${_onion_daemon_elf};${_onion_util_elf};${_onion_elfldr_elf};${ONIONHEN_KSTUFF_ELF};${D_CWD}/assets/litehen_sicon.png;${_generated_icon_files}"
+		"${_onion_daemon_elf};${_onion_util_elf};${_onion_elfldr_elf};${ONIONHEN_KSTUFF_ELF};${D_CWD}/assets/onionhen_sicon.png;${_generated_icon_files}"
 )
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	ONIONHEN_DAEMON_ELF="${_onion_daemon_elf}"
@@ -164,11 +184,9 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -E env "TARGET_ELF=$<TARGET_FILE:${PROJECT_NAME}>"
 			${PROJECT_ROOT}/../scripts/pack_bootstrapper.sh
 	DEPENDS ${PROJECT_NAME}
-	COMMENT "Recording size and compressing bootstrapper"
+	COMMENT "Recording size and compressing bootstrapper with lzma"
+	VERBATIM
 )
-
-# Target e dipendenza per il modulo unpacker
-add_custom_target(bootstrapper_packed
-	DEPENDS "${_bootstrapper_lzma}" "${_bootstrapper_lzma_size}"
-)
-add_dependencies(bootstrapper_packed ${PROJECT_NAME})
+add_custom_target(${PROJECT_NAME}_packed
+	DEPENDS "${_bootstrapper_lzma}" "${_bootstrapper_lzma_size}")
+add_dependencies(${PROJECT_NAME}_packed ${PROJECT_NAME})
