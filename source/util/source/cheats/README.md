@@ -41,7 +41,7 @@ IPC DOWNLOAD_CHEATS
 ## Formats / paths
 
 ```text
-/data/LiteHEN/cheats/<TITLE_ID>_<VERSION>[_<PROCESS>][_<HASH>].{json,shn,mc4,ShnExt}
+/data/OnionHEN/cheats/<TITLE_ID>_<VERSION>[_<PROCESS>][_<HASH>].{json,shn,mc4,ShnExt}
 ```
 
 `PROCESS` and 8-hex `HASH` are optional. Process-scoped names beat generic `TITLE_VERSION`; json → shn → mc4 → ShnExt.

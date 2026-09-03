@@ -125,7 +125,7 @@ int main(void) {
     sceNetCtlInit();
     sceUserServiceInitialize(NULL);
     onion_log_configure(
-        "LiteHEN utils", "/data/LiteHEN/LiteHEN_util_daemon.log");
+        "OnionHEN utils", "/data/OnionHEN/OnionHEN_util_daemon.log");
     /* Real linked kernel export (not a dlsym function-pointer variable). */
     onion_notify_set_send(reinterpret_cast<onion_notify_send_fn>(
         sceKernelSendNotificationRequest));
@@ -148,9 +148,9 @@ int main(void) {
     /* pt_* / code-cave require PTRACE_AUTHID (not DEBUG_AUTHID). */
     set_ucred_to_ptrace();
 
-    unlink("/data/LiteHEN/LiteHEN_util_crash.log");
+    unlink("/data/OnionHEN/OnionHEN_util_crash.log");
 
-    LOG_INFO("=========== starting LiteHEN Utilities... ===========");
+    LOG_INFO("=========== starting OnionHEN Utilities... ===========");
 
     LoadSettings();
 
