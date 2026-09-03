@@ -2,9 +2,9 @@
   <img src="assets/logo.png" alt="LiteHEN" height="128" width="128"/>
 </p>
 
-# LiteHEN
+# OnionLiteHEN
 
-LiteHEN is a streamlined, lightweight modification of **OnionHEN**, designed for users who want a cleaner experience without unnecessary clutter.
+OnionLiteHEN is a streamlined, lightweight modification of **OnionHEN**, designed for users who want a cleaner experience without unnecessary clutter.
 
 This project is a derivative work based on [aydencharles/onionHEN](https://github.com/aydencharles/onionHEN) and is fully compliant with the **GNU General Public License v3**.
 
