@@ -33,54 +33,6 @@ file(GLOB SrcFiles CONFIGURE_DEPENDS
   ${ONIONHEN_THIRD_PARTY_DIR}/cjson/*.hpp
 )
 
-# ftpsrv is linked into util as a library-style module.  Its standalone main
-# and platform-specific alternatives are intentionally excluded; the service
-# facade owns the worker thread and lifecycle.
-set(FTPSRV_SOURCE_DIR "${ONIONHEN_THIRD_PARTY_DIR}/ftpsrv")
-set(FTPSRV_SOURCES
-  "${FTPSRV_SOURCE_DIR}/srv.c"
-  "${FTPSRV_SOURCE_DIR}/cmd.c"
-  "${FTPSRV_SOURCE_DIR}/cmd-proc.c"
-  "${FTPSRV_SOURCE_DIR}/cmd-comp.c"
-  "${FTPSRV_SOURCE_DIR}/cmd-prospero.c"
-  "${FTPSRV_SOURCE_DIR}/notify.c"
-  "${FTPSRV_SOURCE_DIR}/io.c"
-  "${FTPSRV_SOURCE_DIR}/io-freebsd.c"
-  "${FTPSRV_SOURCE_DIR}/self.c"
-  "${FTPSRV_SOURCE_DIR}/self-prospero.c"
-)
-
-# ShadowMountPlus is linked into util the same way as ftpsrv: a pinned
-# third-party module whose standalone main is excluded; the service facade and
-# shadowmount_main.cpp own the lifecycle.
-set(SHADOWMOUNT_SOURCE_DIR "${ONIONHEN_THIRD_PARTY_DIR}/ShadowMountPlus")
-set(SHADOWMOUNT_SOURCES
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_appdb.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_config_mount.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_fakelib.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_filesystem.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_gameinfo.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_game_cache.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_game_lifecycle.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_image.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_image_cache.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_install.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_install_queue.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_kstuff.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_log.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_manual.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_mdbg.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_mount_device.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_path_state.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_path_utils.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_scan.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_scan_tree.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_scanner.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_shellcore_flags.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_stability.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_time.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_title_state.c"
-)
 
 # The PS5 payload SDK does not ship libsqlite3, so the public-domain
 # amalgamation is vendored and compiled like the rest of third_party.
