@@ -71,7 +71,7 @@ inline std::string make_welcome_toast_json(std::string_view toolbox_uri) {
       cJSON_AddNumberToObject(raw, "priority", 100) &&
       cJSON_AddStringToObject(icon, "type", "Url") &&
       cJSON_AddStringToObject(icon_params, "url",
-                             "/user/data/LiteHEN/litehen.png") &&
+                             "/user/data/OnionHEN/onionhen.png") &&
       cJSON_AddStringToObject(message_obj, "body", message.c_str()) &&
       cJSON_AddStringToObject(sub_message_obj, "body", sub_message) &&
       cJSON_AddStringToObject(action_obj, "actionName", action_name) &&

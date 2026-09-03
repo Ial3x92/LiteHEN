@@ -2,7 +2,7 @@
 
 Cross-process readiness protocol for OnionHEN services.
 
-Services publish a named marker under /system_tmp/litehen/ready/<name>.
+Services publish a named marker under /system_tmp/onionhen/ready/<name>.
 Consumers wait with timeout instead of fixed sleep() races.
 
 All runtime markers live under the shared OnionHEN system_tmp namespace.

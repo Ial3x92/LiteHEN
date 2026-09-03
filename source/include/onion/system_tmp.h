@@ -9,9 +9,9 @@
 #include <stdio.h>
 
 #if defined(ONION_HOST_TEST)
-#define ONION_SYSTEM_TMP_ROOT "/tmp/litehen"
+#define ONION_SYSTEM_TMP_ROOT "/tmp/onionhen"
 #else
-#define ONION_SYSTEM_TMP_ROOT "/system_tmp/litehen"
+#define ONION_SYSTEM_TMP_ROOT "/system_tmp/onionhen"
 #endif
 
 #define ONION_SYSTEM_TMP_IPC_ROOT ONION_SYSTEM_TMP_ROOT "/ipc"
