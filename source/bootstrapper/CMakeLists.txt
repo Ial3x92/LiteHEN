@@ -52,10 +52,8 @@ foreach(_svg_file IN LISTS _icon_svg_files)
 	list(APPEND _generated_icon_files "${_png_file}")
 endforeach()
 
-# These raster-only icons do not have SVG sources. Copy them into the same
-# generated directory so daemon.c has one stable asset location.
+# MODIFICA: Rimosso icon_xml_monitor.png per escludere shadowmountplus
 foreach(_raster_icon IN ITEMS
-		icon_xml_monitor.png
 		icon_xml_network.png
 		icon_xml_author_avatar.png
 		icon_xml_donator_ljf.png
@@ -184,9 +182,5 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -E env "TARGET_ELF=$<TARGET_FILE:${PROJECT_NAME}>"
 			${PROJECT_ROOT}/../scripts/pack_bootstrapper.sh
 	DEPENDS ${PROJECT_NAME}
-	COMMENT "Recording size and compressing bootstrapper with lzma"
-	VERBATIM
+	COMMENT "Recording size and compressing bootstrapper"
 )
-add_custom_target(${PROJECT_NAME}_packed
-	DEPENDS "${_bootstrapper_lzma}" "${_bootstrapper_lzma_size}")
-add_dependencies(${PROJECT_NAME}_packed ${PROJECT_NAME})
