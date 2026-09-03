@@ -19,7 +19,7 @@ static void format_msg(char *out, size_t out_sz, int wm, const char *fmt, ...) {
 static int test_notify_format_prefix(void) {
   char out[128];
   format_msg(out, sizeof(out), 1, "hello %s", "world");
-  TEST_ASSERT_STREQ("[LiteHEN] hello world", out);
+  TEST_ASSERT_STREQ("[OnionHEN] hello world", out);
   return 0;
 }
 
@@ -28,7 +28,7 @@ static int test_notify_format_truncates(void) {
   format_msg(out, sizeof(out), 1, "0123456789ABCDEFGHIJ");
   /* must be NUL-terminated and start with watermark prefix */
   TEST_ASSERT_TRUE(out[sizeof(out) - 1] == '\0' || strlen(out) < sizeof(out));
-  TEST_ASSERT_TRUE(strncmp(out, "[LiteHEN]", 10) == 0);
+  TEST_ASSERT_TRUE(strncmp(out, "[OnionHEN]", 10) == 0);
   return 0;
 }
 
@@ -156,47 +156,47 @@ static int test_notify_format_localized(void) {
   char out[128];
   onion_notify_set_language(ONION_NOTIFY_LANG_ZH_HANS);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] 无法提升权限", out);
+  TEST_ASSERT_STREQ("[OnionHEN] 无法提升权限", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_EN);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] Unable to raise privileges", out);
+  TEST_ASSERT_STREQ("[OnionHEN] Unable to raise privileges", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_AR);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] تعذّر رفع الامتيازات", out);
+  TEST_ASSERT_STREQ("[OnionHEN] تعذّر رفع الامتيازات", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_ZH_HANT);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] 無法提升權限", out);
+  TEST_ASSERT_STREQ("[OnionHEN] 無法提升權限", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_JA);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] 権限を昇格できません", out);
+  TEST_ASSERT_STREQ("[OnionHEN] 権限を昇格できません", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_FR);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] Impossible d’élever les privilèges", out);
+  TEST_ASSERT_STREQ("[OnionHEN] Impossible d’élever les privilèges", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_DE);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] Berechtigungen konnten nicht erhöht werden",
+  TEST_ASSERT_STREQ("[OnionHEN] Berechtigungen konnten nicht erhöht werden",
                     out);
   onion_notify_set_language(ONION_NOTIFY_LANG_KO);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] 권한을 올릴 수 없습니다", out);
+  TEST_ASSERT_STREQ("[OnionHEN] 권한을 올릴 수 없습니다", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_ES);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] No se pudieron elevar los privilegios", out);
+  TEST_ASSERT_STREQ("[OnionHEN] No se pudieron elevar los privilegios", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_PT_BR);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] Não foi possível elevar os privilégios", out);
+  TEST_ASSERT_STREQ("[OnionHEN] Não foi possível elevar os privilégios", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_IT);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] Impossibile elevare i privilegi", out);
+  TEST_ASSERT_STREQ("[OnionHEN] Impossibile elevare i privilegi", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_RU);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] Не удалось повысить привилегии", out);
+  TEST_ASSERT_STREQ("[OnionHEN] Не удалось повысить привилегии", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_PL);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] Nie udało się podnieść uprawnień", out);
+  TEST_ASSERT_STREQ("[OnionHEN] Nie udało się podnieść uprawnień", out);
   onion_notify_set_language(ONION_NOTIFY_LANG_TH);
   format_msg(out, sizeof(out), 1, "notify.priv.unable");
-  TEST_ASSERT_STREQ("[LiteHEN] ไม่สามารถยกระดับสิทธิ์ได้", out);
+  TEST_ASSERT_STREQ("[OnionHEN] ไม่สามารถยกระดับสิทธิ์ได้", out);
   return 0;
 }
 
@@ -205,13 +205,13 @@ static int test_notify_payload_localized(void) {
   onion_notify_set_language(ONION_NOTIFY_LANG_ZH_HANS);
 
   format_msg(out, sizeof(out), 1, "notify.payload.loading", "demo.elf");
-  TEST_ASSERT_STREQ("[LiteHEN] 正在加载 Payload demo.elf...", out);
+  TEST_ASSERT_STREQ("[OnionHEN] 正在加载 Payload demo.elf...", out);
 
   format_msg(out, sizeof(out), 1,
              "notify.payload.launched", "/data/demo.elf",
              "demo");
   TEST_ASSERT_STREQ(
-      "[LiteHEN] Payload 已启动\n路径：/data/demo.elf\n标识：demo", out);
+      "[OnionHEN] Payload 已启动\n路径：/data/demo.elf\n标识：demo", out);
 
   onion_notify_set_language(ONION_NOTIFY_LANG_EN);
   return 0;

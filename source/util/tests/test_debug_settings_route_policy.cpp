@@ -473,7 +473,7 @@ static int test_welcome_toast_replaces_toolbox_uri(void) {
       onion::daemon::make_welcome_toast_json(uri));
   TEST_ASSERT_TRUE(fields.valid);
   TEST_ASSERT_STREQ(uri, fields.action_url.c_str());
-  TEST_ASSERT_STREQ("welcome to LiteHEN", fields.sub_message.c_str());
+  TEST_ASSERT_STREQ("Welcome to OnionHEN", fields.sub_message.c_str());
   TEST_ASSERT_STREQ(ONIONHEN_VERSION " made by " ONIONHEN_AUTHOR,
                     fields.message.c_str());
   return 0;
