@@ -41,7 +41,7 @@ void escapeXML(std::string& input) {
 namespace {
 
 /* Defined with the other dynamic control helpers below. */
-std::string toolbox_val(const char* id, const char* fallback = "0");
+std::string toolbox_val(const char* id, const char* fallback);
 
 /** Payload .elf only (OnionHEN no longer supports .plugin packages). */
 template <typename G>
@@ -243,12 +243,12 @@ void generate_account_xml(std::string& xml_buffer) {
 
 void generate_payload_xml(std::string& xml_buffer, bool list_page) {
   static const std::vector<std::string> kPayloadDirs = {
-      "/user/data/LiteHEN/payloads",
-      "/data/LiteHEN/payloads",
-      "/usb0/LiteHEN/payloads",
-      "/usb1/LiteHEN/payloads",
-      "/usb2/LiteHEN/payloads",
-      "/usb3/LiteHEN/payloads",
+      "/user/data/liteHEN/payloads",
+      "/data/liteHEN/payloads",
+      "/usb0/liteHEN/payloads",
+      "/usb1/liteHEN/payloads",
+      "/usb2/liteHEN/payloads",
+      "/usb3/liteHEN/payloads",
   };
 
   const char* root_id = list_page ? "id_payload" : "id_auto_payloads";
@@ -459,15 +459,64 @@ void generate_plapps_xml(std::string& new_xml) {
   new_xml = page.build();
 }
 
+namespace {
+
+constexpr const char* kIconPkg =
+    "/user/data/OnionHEN/assets/icon_xml_package.png";
+constexpr const char* kIconPlugins =
+    "/user/data/OnionHEN/assets/icon_xml_plugins.png";
+constexpr const char* kIconGame = "/user/data/OnionHEN/assets/icon_xml_game.png";
+constexpr const char* kIconCheats =
+    "/user/data/OnionHEN/assets/icon_xml_cheats.png";
+constexpr const char* kIconDownload =
+    "/user/data/OnionHEN/assets/icon_xml_download.png";
+constexpr const char* kIconMonitor =
+    "/user/data/OnionHEN/assets/icon_xml_monitor.png";
+constexpr const char* kIconAccount =
+    "/user/data/OnionHEN/assets/icon_xml_account.png";
+constexpr const char* kIconSettings =
+    "/user/data/OnionHEN/assets/icon_xml_settings.png";
+constexpr const char* kIconShortcuts =
+    "/user/data/OnionHEN/assets/icon_xml_shortcuts.png";
+constexpr const char* kIconDebug =
+    "/user/data/OnionHEN/assets/icon_xml_debug.png";
+constexpr const char* kIconAbout =
+    "/user/data/OnionHEN/assets/icon_xml_about.png";
+constexpr const char* kIconOverlay =
+    "/user/data/OnionHEN/assets/icon_xml_overlay.png";
+constexpr const char* kIconTitleId =
+    "/user/data/OnionHEN/assets/icon_xml_title_id.png";
+constexpr const char* kIconMenuOption =
+    "/user/data/OnionHEN/assets/icon_xml_menu_option.png";
+constexpr const char* kIconFan =
+    "/user/data/OnionHEN/assets/icon_xml_fan.png";
+constexpr const char* kIconHardDrive =
+    "/user/data/OnionHEN/assets/icon_xml_hardrive.png";
+constexpr const char* kIconDiscLicense =
+    "/user/data/OnionHEN/assets/icon_xml_disc_license.png";
+constexpr const char* kIconDonations =
+    "/user/data/OnionHEN/assets/icon_xml_donations.png";
+constexpr const char* kIconThanks =
+    "/user/data/OnionHEN/assets/icon_xml_thanks.png";
+constexpr const char* kIconProject =
+    "/user/data/OnionHEN/assets/icon_xml_project.png";
+constexpr const char* kIconAuthorAvatar =
+    "/user/data/OnionHEN/assets/icon_xml_author_avatar.png";
+constexpr const char* kIconDonatorLjf =
+    "/user/data/OnionHEN/assets/icon_xml_donator_ljf.png";
+constexpr const char* kIconDonatorSzx =
+    "/user/data/OnionHEN/assets/icon_xml_donator_szx.png";
+constexpr const char* kIconDonatorAglx =
+    "/user/data/OnionHEN/assets/icon_xml_donator_aglx.png";
+
 bool toolbox_on(const char* id) {
   return resolve_toolbox_control_value(id) == "1";
 }
 
-std::string toolbox_val(const char* id, const char* fallback) {
+std::string toolbox_val(const char* id, const char* fallback = "0") {
   std::string v = resolve_toolbox_control_value(id);
   return v.empty() ? fallback : v;
 }
-
 
 void append_toolbox_pkg_group(ps5ui::Group& g) {
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
@@ -592,8 +641,8 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 void append_toolbox_about_group(ps5ui::Group& g) {
   g.label("id_credit_OnionHEN", "LiteHEN is a fork of OnionHEN", ps5ui::Style::Center)
    .label("id_credit_ial3x92", "ial3x92", ps5ui::Style::Center)
-   .label("id_credit_aydencharles", "aydencharles", ps5ui::Style::Center)
    .label("id_credit_kvnhrt", "kvnhrt", ps5ui::Style::Center)
+   .label("id_credit_aydencharles", "aydencharles", ps5ui::Style::Center)
    .label("id_credit_lightningmods", "LightningMods", ps5ui::Style::Center)
    .label("id_credit_sistr0", "SiSTR0", ps5ui::Style::Center)
    .label("id_credit_echostretch", "EchoStretch", ps5ui::Style::Center)
