@@ -33,55 +33,6 @@ file(GLOB SrcFiles CONFIGURE_DEPENDS
   ${ONIONHEN_THIRD_PARTY_DIR}/cjson/*.hpp
 )
 
-# ftpsrv is linked into util as a library-style module.  Its standalone main
-# and platform-specific alternatives are intentionally excluded; the service
-# facade owns the worker thread and lifecycle.
-set(FTPSRV_SOURCE_DIR "${ONIONHEN_THIRD_PARTY_DIR}/ftpsrv")
-set(FTPSRV_SOURCES
-  "${FTPSRV_SOURCE_DIR}/srv.c"
-  "${FTPSRV_SOURCE_DIR}/cmd.c"
-  "${FTPSRV_SOURCE_DIR}/cmd-proc.c"
-  "${FTPSRV_SOURCE_DIR}/cmd-comp.c"
-  "${FTPSRV_SOURCE_DIR}/cmd-prospero.c"
-  "${FTPSRV_SOURCE_DIR}/notify.c"
-  "${FTPSRV_SOURCE_DIR}/io.c"
-  "${FTPSRV_SOURCE_DIR}/io-freebsd.c"
-  "${FTPSRV_SOURCE_DIR}/self.c"
-  "${FTPSRV_SOURCE_DIR}/self-prospero.c"
-)
-
-# ShadowMountPlus is linked into util the same way as ftpsrv: a pinned
-# third-party module whose standalone main is excluded; the service facade and
-# shadowmount_main.cpp own the lifecycle.
-set(SHADOWMOUNT_SOURCE_DIR "${ONIONHEN_THIRD_PARTY_DIR}/ShadowMountPlus")
-set(SHADOWMOUNT_SOURCES
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_appdb.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_config_mount.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_fakelib.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_filesystem.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_gameinfo.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_game_cache.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_game_lifecycle.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_image.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_image_cache.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_install.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_install_queue.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_kstuff.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_log.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_manual.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_mdbg.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_mount_device.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_path_state.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_path_utils.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_scan.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_scan_tree.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_scanner.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_shellcore_flags.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_stability.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_time.c"
-  "${SHADOWMOUNT_SOURCE_DIR}/src/sm_title_state.c"
-)
-
 # The PS5 payload SDK does not ship libsqlite3, so the public-domain
 # amalgamation is vendored and compiled like the rest of third_party.
 set(ONION_SQLITE_SOURCES "${ONIONHEN_THIRD_PARTY_DIR}/sqlite/sqlite3.c")
@@ -90,10 +41,14 @@ set(CMAKE_C_FLAGS "${ONION_PS5_TARGET_FLAGS} ")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-keyword-macro -fPIC -fPIE -march=znver2 -Wall -Werror -fstack-protector-all -Wno-unused-const-variable -Wno-deprecated-declarations")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -gfull -gdwarf-2 -pedantic -pedantic-errors")
 
-target_sources(${PROJECT_NAME} PRIVATE ${SrcFiles} ${FTPSRV_SOURCES}
-  ${SHADOWMOUNT_SOURCES} ${ONION_SQLITE_SOURCES}
-  "${ONIONHEN_COMMON_DIR}/elfldr_remote.c")
+target_sources(${PROJECT_NAME} PRIVATE 
+  ${SrcFiles} 
+  ${ONION_SQLITE_SOURCES}
+  "${ONIONHEN_COMMON_DIR}/elfldr_remote.c"
+)
+
 onion_target_debug_define(${PROJECT_NAME})
+
 target_include_directories(${PROJECT_NAME} PRIVATE
   "${D_CWD}/include"
   "${ONIONHEN_THIRD_PARTY_DIR}/cjson"
@@ -109,6 +64,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
   "${PROJECT_ROOT}/libonion_elfldr/include"
   "${PROJECT_ROOT}/include"
 )
+
 # CBC for MC4 / ShnExt AES
 target_compile_definitions(${PROJECT_NAME} PRIVATE CBC=1)
 
@@ -126,17 +82,11 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE CBC=1)
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	CURL_STATICLIB
 	ONION_CURL_CA_BUNDLE="${ONION_CURL_CA_BUNDLE}"
-  VERSION_TAG="OnionHEN ftpsrv module"
-  SHADOWMOUNT_VERSION="OnionHEN shadowmount module"
-  ONIONHEN_SHADOWMOUNT_TEMPLATE="${SHADOWMOUNT_SOURCE_DIR}/config.ini.example"
-  ONIONHEN_SHADOWMOUNT_ICON="${SHADOWMOUNT_SOURCE_DIR}/smp_icon.png"
 )
+
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE
 	"${ONION_CURL_ROOT}/include")
-target_include_directories(${PROJECT_NAME} PRIVATE "${FTPSRV_SOURCE_DIR}")
 target_include_directories(${PROJECT_NAME} PRIVATE
-  "${SHADOWMOUNT_SOURCE_DIR}"
-  "${SHADOWMOUNT_SOURCE_DIR}/include"
   "${ONIONHEN_THIRD_PARTY_DIR}/sqlite")
 
 # DISABILITATO: Dipendenza dal file del certificato CA rimossa
@@ -145,22 +95,20 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 # 	PROPERTIES OBJECT_DEPENDS "${ONION_CURL_CA_BUNDLE}"
 # )
 
-# Upstream ftpsrv is compiled with a less strict warning profile than the
-# OnionHEN util sources.  Keep the shared target's -Werror for our code while
-# allowing the pinned third-party modules to retain their upstream
-# implementation.
-set_source_files_properties(${FTPSRV_SOURCES} PROPERTIES
-  COMPILE_FLAGS "-Wno-error -Wno-unused-parameter -Wno-sign-compare")
-set_source_files_properties(${SHADOWMOUNT_SOURCES} ${ONION_SQLITE_SOURCES}
+# Upstream compilation profiles for third-party modules.
+set_source_files_properties(${ONION_SQLITE_SOURCES}
   PROPERTIES COMPILE_FLAGS
   "-Wno-error -Wno-unused-parameter -Wno-sign-compare -Wno-unused-function")
+
 target_link_directories(${PROJECT_NAME} PUBLIC
   "${ONIONHEN_PS5_STUB_DIR}"
   "${ONIONHEN_THIRD_PARTY_DIR}/keystone/lib"
   "${ONION_CURL_ROOT}/lib"
   "${PS5_PAYLOAD_SDK}/target/lib"
 )
+
 add_dependencies(${PROJECT_NAME} hijacker onion_settings onion_ipc onion_proc onion_platform onion_payload onion_ready onion_elfldr)
+
 # keystone: ShnExt ASM only
 target_link_libraries(${PROJECT_NAME} PUBLIC
     onion_ipc
@@ -181,6 +129,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     kernel_sys
     # MODIFICA: Rimosse le librerie zstd e z che causavano l'errore del linker
 )
+
 set_source_files_properties(
   ${ONIONHEN_THIRD_PARTY_DIR}/cheat_support/aes.c
   ${ONIONHEN_THIRD_PARTY_DIR}/cheat_support/base64.c
