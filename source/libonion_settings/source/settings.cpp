@@ -530,7 +530,7 @@ bool apply_parser(IniParser *parser, Settings *out) {
   out->display_tids = parse_bool(
       ini_get(parser, "home_screen.show_title_ids"), out->display_tids);
   out->onionhen_game_opts =
-      parse_bool(ini_get(parser, "game_menu.show_onionhen_options"),
+      parse_bool(ini_get(parser, "game_menu.show_litehen_options"),
                  out->onionhen_game_opts);
   out->libhijacker_cheats = parse_libhijacker_backend(
       ini_get(parser, "cheats.memory_backend"), out->libhijacker_cheats);
@@ -673,9 +673,9 @@ std::string settings_serialize(const Settings &in) {
   b += "show_title_ids=" + bool_text(in.display_tids) + "\n";
   b += "\n";
   b += "[game_menu]\n";
-  b += "# show_onionhen_options adds LiteHEN entries to the game options menu.\n";
+  b += "# show_litehen_options adds LiteHEN entries to the game options menu.\n";
   b += "# Available values: true, false\n";
-  b += "show_onionhen_options=" + bool_text(in.onionhen_game_opts) + "\n";
+  b += "show_litehen_options=" + bool_text(in.onionhen_game_opts) + "\n";
   b += "\n";
   b += "[cheats]\n";
   b += "# memory_backend selects the cheat memory access implementation.\n";
