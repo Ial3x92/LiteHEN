@@ -467,10 +467,11 @@ bool toolbox_on(const char* id) {
 
 }
 
-std::string toolbox_val(const char* id, const char* fallback = "0") {
+std::string toolbox_val(const char* id, const char* fallback) {
   std::string v = resolve_toolbox_control_value(id);
   return v.empty() ? fallback : v;
 }
+
 
 void append_toolbox_pkg_group(ps5ui::Group& g) {
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
@@ -611,7 +612,6 @@ void append_toolbox_about_group(ps5ui::Group& g) {
    .label("id_credit_miniz", "miniz", ps5ui::Style::Center);
 }
 
-} // namespace
 
 void generate_toolbox_xml(std::string& new_xml) {
   ps5ui::Page page("id_debug_settings", toolbox_i18n::tr("root.title"));
