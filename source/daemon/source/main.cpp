@@ -261,7 +261,7 @@ int main() {
   payload_args_t* args = payload_get_args();
   kernel_base = args->kdata_base_addr;
 
-  LOG_INFO("=========== starting OnionHEN (0x%X) ... ===========", fw_ver);
+  LOG_INFO("=========== starting LiteHEN (0x%X) ... ===========", fw_ver);
   (void)sceKernelMprotect(&buz[0], 100, 0x7); // probe mprotect / kstuff state
   const bool toolbox_only = (fw_ver >= 0x10000);
   is_800 = (fw_ver >= 0x800);
@@ -295,7 +295,7 @@ int main() {
       debug_settings_route.toolbox_uri(
           onion::debug_settings_route::UriKind::Simple));
   sceNotificationSend(0xFE, true, welcome_toast_json.c_str());
-  LOG_INFO("StartUp thread created!! - welcome to OnionHEN");
+  LOG_INFO("StartUp thread created!! - welcome to LiteHEN");
 
   onion::daemon::apply_startup_destination(boot_settings);
 

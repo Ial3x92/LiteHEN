@@ -36,7 +36,7 @@ static bool remount(const char *device, const char *path) {
 }
 
 void bootstrap_filesystem_create_directories(void) {
-  mkdir("/data/OnionHEN", 0777);
+  mkdir("/data/LiteHEN", 0777);
   mkdir("/data/LiteHEN/payloads", 0777);
   mkdir("/data/LiteHEN/assets", 0777);
   mkdir("/data/LiteHEN/games", 0777);

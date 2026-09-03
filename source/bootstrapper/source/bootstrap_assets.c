@@ -77,7 +77,7 @@ static bool write_blob_file(const char *path, const void *data, size_t size) {
 }
 
 bool bootstrap_assets_write(void) {
-  mkdir("/data/OnionHEN", 0777);
+  mkdir("/data/LiteHEN", 0777);
   mkdir("/data/LiteHEN/assets", 0777);
 
   const bool startup_icon_ready = write_blob_file(

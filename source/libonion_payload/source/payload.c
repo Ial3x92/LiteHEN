@@ -150,7 +150,7 @@ pid_t onion_payload_launch_elfldr(const char *title_id, const uint8_t *elf,
     return -1;
   }
 
-  mkdir("/data/OnionHEN", 0777);
+  mkdir("/data/LiteHEN", 0777);
   mkdir("/data/LiteHEN/payloads", 0777);
 
   char epath[256];

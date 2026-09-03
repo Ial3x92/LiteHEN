@@ -150,7 +150,7 @@ int main(void) {
 
     unlink("/data/LiteHEN/OnionHEN_util_crash.log");
 
-    LOG_INFO("=========== starting OnionHEN Utilities... ===========");
+    LOG_INFO("=========== starting LiteHEN Utilities... ===========");
 
     LoadSettings();
 
