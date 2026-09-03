@@ -235,7 +235,7 @@ static int test_text_field_and_confirm(void) {
 
 static int test_toolbox_like_skeleton(void) {
   const std::string xml =
-      Page("id_debug_settings", "★OnionHEN 工具箱")
+      Page("id_debug_settings", "★LiteHEN 工具箱")
           .root_focus("id_group_pkg")
           .group(
               "id_group_pkg", "内容安装与管理",
