@@ -19,7 +19,7 @@ find_program(RSVG_CONVERT_EXECUTABLE NAMES rsvg-convert)
 if(NOT RSVG_CONVERT_EXECUTABLE)
 	find_program(IMAGEMAGICK_EXECUTABLE NAMES magick convert)
 endif()
-if(NOT RSVG_CONVERT_EXECUTABLE and NOT IMAGEMAGICK_EXECUTABLE)
+if(NOT RSVG_CONVERT_EXECUTABLE AND NOT IMAGEMAGICK_EXECUTABLE)
 	message(FATAL_ERROR
 		"SVG icon conversion requires rsvg-convert (preferred) or ImageMagick")
 endif()
@@ -167,7 +167,7 @@ add_custom_command(
 	COMMENT "Recording size and compressing bootstrapper"
 )
 
-# MODIFICA: Ripristinato il target e la dipendenza necessari per il modulo unpacker
+# Target e dipendenza per il modulo unpacker
 add_custom_target(bootstrapper_packed
 	DEPENDS "${_bootstrapper_lzma}" "${_bootstrapper_lzma_size}"
 )
