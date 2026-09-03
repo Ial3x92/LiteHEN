@@ -459,10 +459,17 @@ void generate_plapps_xml(std::string& new_xml) {
   new_xml = page.build();
 }
 
-std::string toolbox_val(const char* id, const char* fallback = "0") {
+// Funzione per correggere l'errore "undeclared identifier 'toolbox_on'"
+bool toolbox_on(const char* id) {
+  return resolve_toolbox_control_value(id) == "1";
+}
+
+// Funzione allineata alla dichiarazione di riga 44
+std::string toolbox_val(const char* id, const char* fallback) {
   std::string v = resolve_toolbox_control_value(id);
   return v.empty() ? fallback : v;
 }
+
 
 
 void append_toolbox_pkg_group(ps5ui::Group& g) {
