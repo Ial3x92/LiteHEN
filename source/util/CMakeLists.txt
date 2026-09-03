@@ -42,8 +42,9 @@ set(CMAKE_C_FLAGS "${ONION_PS5_TARGET_FLAGS} ")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-keyword-macro -fPIC -fPIE -march=znver2 -Wall -Werror -fstack-protector-all -Wno-unused-const-variable -Wno-deprecated-declarations")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -gfull -gdwarf-2 -pedantic -pedantic-errors")
 
+# MODIFICA: Rimossa la variabile ${SHADOWMOUNT_SOURCES} dalle sorgenti del target
 target_sources(${PROJECT_NAME} PRIVATE ${SrcFiles} ${FTPSRV_SOURCES}
-  ${SHADOWMOUNT_SOURCES} ${ONION_SQLITE_SOURCES}
+  ${ONION_SQLITE_SOURCES}
   "${ONIONHEN_COMMON_DIR}/elfldr_remote.c")
 onion_target_debug_define(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -75,20 +76,18 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE CBC=1)
 # 		"(looked in ${ONION_CURL_ROOT}).")
 # endif()
 
+# MODIFICA: Rimosse tutte le definizioni di precompilazione legate a SHADOWMOUNT
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	CURL_STATICLIB
 	ONION_CURL_CA_BUNDLE="${ONION_CURL_CA_BUNDLE}"
   VERSION_TAG="OnionHEN ftpsrv module"
-  SHADOWMOUNT_VERSION="OnionHEN shadowmount module"
-  ONIONHEN_SHADOWMOUNT_TEMPLATE="${SHADOWMOUNT_SOURCE_DIR}/config.ini.example"
-  ONIONHEN_SHADOWMOUNT_ICON="${SHADOWMOUNT_SOURCE_DIR}/smp_icon.png"
 )
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE
 	"${ONION_CURL_ROOT}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${FTPSRV_SOURCE_DIR}")
+
+# MODIFICA: Rimosse le directory di inclusione del modulo shadowmount (${SHADOWMOUNT_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE
-  "${SHADOWMOUNT_SOURCE_DIR}"
-  "${SHADOWMOUNT_SOURCE_DIR}/include"
   "${ONIONHEN_THIRD_PARTY_DIR}/sqlite")
 
 # DISABILITATO: Dipendenza dal file del certificato CA rimossa
@@ -103,7 +102,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 # implementation.
 set_source_files_properties(${FTPSRV_SOURCES} PROPERTIES
   COMPILE_FLAGS "-Wno-error -Wno-unused-parameter -Wno-sign-compare")
-set_source_files_properties(${SHADOWMOUNT_SOURCES} ${ONION_SQLITE_SOURCES}
+
+# MODIFICA: Rimossa la variabile ${SHADOWMOUNT_SOURCES} dalle proprietà dei file sorgente
+set_source_files_properties(${ONION_SQLITE_SOURCES}
   PROPERTIES COMPILE_FLAGS
   "-Wno-error -Wno-unused-parameter -Wno-sign-compare -Wno-unused-function")
 target_link_directories(${PROJECT_NAME} PUBLIC
