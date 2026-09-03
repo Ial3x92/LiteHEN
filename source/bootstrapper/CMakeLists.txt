@@ -19,7 +19,7 @@ find_program(RSVG_CONVERT_EXECUTABLE NAMES rsvg-convert)
 if(NOT RSVG_CONVERT_EXECUTABLE)
 	find_program(IMAGEMAGICK_EXECUTABLE NAMES magick convert)
 endif()
-if(NOT RSVG_CONVERT_EXECUTABLE AND NOT IMAGEMAGICK_EXECUTABLE)
+if(NOT RSVG_CONVERT_EXECUTABLE and NOT IMAGEMAGICK_EXECUTABLE)
 	message(FATAL_ERROR
 		"SVG icon conversion requires rsvg-convert (preferred) or ImageMagick")
 endif()
@@ -52,25 +52,7 @@ foreach(_svg_file IN LISTS _icon_svg_files)
 	list(APPEND _generated_icon_files "${_png_file}")
 endforeach()
 
-# MODIFICA: Rimosso icon_xml_monitor.png per escludere shadowmountplus
-foreach(_raster_icon IN ITEMS
-		icon_xml_network.png
-		icon_xml_author_avatar.png
-		icon_xml_donator_ljf.png
-		icon_xml_donator_szx.png
-		icon_xml_donator_aglx.png)
-	set(_raster_source "${D_CWD}/assets/${_raster_icon}")
-	set(_raster_output "${_icon_output_dir}/${_raster_icon}")
-	add_custom_command(
-		OUTPUT "${_raster_output}"
-		COMMAND ${CMAKE_COMMAND} -E make_directory "${_icon_output_dir}"
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different "${_raster_source}" "${_raster_output}"
-		DEPENDS "${_raster_source}"
-		COMMENT "Copying ${_raster_icon}"
-		VERBATIM
-	)
-	list(APPEND _generated_icon_files "${_raster_output}")
-endforeach()
+# MODIFICA: Rimosso completamente il ciclo foreach delle icone raster mancanti (monitor, network, avatar, donatori)
 
 # Generate the icon embedding blocks and the runtime manifest from the icon
 # list above. Previously each icon had to be added in three hand-maintained
