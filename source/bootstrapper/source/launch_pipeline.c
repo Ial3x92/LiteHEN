@@ -3,7 +3,6 @@
 #include "launch_pipeline.h"
 
 #include "bootstrap_notify.h"
-#include "kstuff_probe.h"
 
 #include <elfldr_remote.h>
 #include <onion/log.h>
@@ -98,6 +97,7 @@ static bool ensure_private_loader(void) {
   return false;
 }
 
+
 static bool launch_blob(LaunchContext *context, const uint8_t *elf, size_t size,
                         const char *label, const char *wait_name) {
   if (context->loader_port != ELFLDR_REMOTE_PORT &&
@@ -151,54 +151,13 @@ static bool launch_util(LaunchContext *context) {
 
 static void launch_kstuff(LaunchContext *context, uint32_t firmware_version,
                           bool autoload) {
-  char probe[100] = {0};
-  const bool disabled_by_usb = if_exists("/mnt/usb0/no_kstuff");
-  if (disabled_by_usb || !autoload) {
-    LOG_DEBUG("kstuff disabled (%s)",
-              disabled_by_usb ? "usb no_kstuff" : "kstuff.autoload=false");
-    onion_ready_signal(ONION_READY_KSTUFF);
-    return;
-  }
-
-  if (firmware_version < 0x3000000) {
-    onion_ready_signal(ONION_READY_KSTUFF);
-    return;
-  }
-
-  if (kstuff_already_running()) {
-    LOG_WARN("kstuff already running / mprotect OK -- skip launch");
-    onion_ready_signal(ONION_READY_KSTUFF);
-    return;
-  }
-
-  LOG_DEBUG("Loading kstuff via %u (before daemon/toolbox) ...",
-            context->loader_port);
-  size_t override_size = 0;
-  uint8_t *override_elf = NULL;
-  if (if_exists("/data/OnionHEN/kstuff.elf"))
-    override_elf = onion_payload_read_file("/data/OnionHEN/kstuff.elf",
-                                           &override_size);
-
-  const uint8_t *elf = override_elf ? override_elf : kstuff_start;
-  const size_t size = override_elf ? override_size : (size_t)kstuff_size;
-  const bool sent =
-      launch_blob(context, elf, size, "kstuff", "kstuff.elf");
-  free(override_elf);
-  if (!sent) {
-    bootstrap_notify("notify.kstuff.load_elfldr_failed");
-    return;
-  }
-
-  for (int waited = 0; waited <= 15; ++waited) {
-    if (sceKernelMprotect(probe, sizeof(probe), 0x7) == 0) {
-      LOG_DEBUG("kstuff mprotect OK -- signal ready");
-      onion_ready_signal(ONION_READY_KSTUFF);
-      sleep(1);
-      return;
-    }
-    sleep(1);
-  }
-  bootstrap_notify("notify.kstuff.load_failed");
+  (void)context;
+  (void)firmware_version;
+  (void)autoload;
+  
+  // kstuff disabilitato nella versione LiteHEN
+  LOG_DEBUG("kstuff bypassed (disabled in Lite build)");
+  onion_ready_signal(ONION_READY_KSTUFF);
 }
 
 static bool launch_daemon(LaunchContext *context) {
