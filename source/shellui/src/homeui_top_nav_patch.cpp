@@ -1163,7 +1163,7 @@ void patch_homeui_top_nav(unsigned char *buffer, int *size_ptr,
    *   host function: ApplicationErrorEventTrigger (already a 77-byte button)
    *   body:          full 77-byte useInteractivePress OnionHEN button
    *   Fps:           restore/leave stock showFps implementation
-   *   focus icon:    SetIconSource hook mirrors onionhen.png → invertedIcon
+   *   focus icon:    SetIconSource hook mirrors litehen.png → invertedIcon
    *
    * Object table still retargets:
    *   iconId string → /system_ex/vsh_asset/litehen.png
