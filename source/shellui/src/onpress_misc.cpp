@@ -14,12 +14,12 @@ OnPressResult onpress_kstuff_autoload(OnPressContext &ctx) {
 
   g_settings.kstuff_autoload = enabled;
   if (enabled) {
-    unlink("/user/data/LiteHEN/no_kstuff");
-    unlink("/data/LiteHEN/no_kstuff");
+    unlink("/user/data/OnionHEN/no_kstuff");
+    unlink("/data/OnionHEN/no_kstuff");
     notify("notify.kstuff.next_boot_on");
   } else {
-    touch_file("/user/data/LiteHEN/no_kstuff");
-    touch_file("/data/LiteHEN/no_kstuff");
+    touch_file("/user/data/OnionHEN/no_kstuff");
+    touch_file("/data/OnionHEN/no_kstuff");
     notify("notify.kstuff.next_boot_off");
   }
   return OnPressResult::Handled;
@@ -54,7 +54,7 @@ static OnPressResult id_download_cheats(OnPressContext &ctx) {
 
 OnPressResult onpress_delete_kstuff(OnPressContext &ctx) {
   (void)ctx;
-  unlink("/user/data/LiteHEN/kstuff.elf");
+  unlink("/user/data/OnionHEN/kstuff.elf");
   notify("notify.kstuff.deleted");
   return OnPressResult::Handled;
 }

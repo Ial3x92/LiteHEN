@@ -50,7 +50,7 @@ constexpr size_t kHbcSourceHashSize = 20;
 constexpr size_t kHbcFileLengthOffset = 0x20;
 constexpr size_t kHbcFooterSha1Size = 20;
 constexpr const char *kOnionHenTopNavIconPath =
-    "/system_ex/vsh_asset/litehen.png";
+    "/system_ex/vsh_asset/onionhen.png";
 
 static const unsigned char kLegacyOldIconOrder[] = {
     '[', '"', 'F', 'p', 's', '"', ',', '"', 'S', 'e', 'a', 'r', 'c', 'h',
@@ -68,7 +68,7 @@ static const char kLegacyOldAppErrorSource[] =
     "var h=(0,u().memo)((function(){var e=(0,m.default)().sendClientApplicationErrorEvent;return u().default.createElement(d.default,{iconId:\"download_error\",onPress:function(){var t=new Error(\"homeui ApplicationErrorEvent test\");e({errorMessage:t.message,stack:t.stack,severity:\"info\"})},title:\"Trigger AppError\",__source:{fileName:_,lineNumber:80}})}));t.ApplicationErrorEventTrigger=h;";
 /* Module 231 forwards iconId directly to PUI Button.icon. */
 static const char kLegacyNewAppErrorSourcePrefix[] =
-    "var h=(0,u().memo)((function(){var e=(0,f.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return u().default.createElement(d.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\",__source:{fileName:_,lineNumber:80}})}));t.ApplicationErrorEventTrigger=h;";
+    "var h=(0,u().memo)((function(){var e=(0,f.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return u().default.createElement(d.default,{iconId:{uri:\"/system_ex/vsh_asset/onionhen.png\"},onPress:e,title:\"\",__source:{fileName:_,lineNumber:80}})}));t.ApplicationErrorEventTrigger=h;";
 /* 2.30/2.50 predate Fps/AppError system icons; reuse a debug-only Startup slot. */
 static const unsigned char kLegacy2xOldIconOrder[] =
     "[\"StartupAnimation\",\"HiddenStartupAnimation\",\"Search\",\"Settings\",\"Profile\"]";
@@ -82,7 +82,7 @@ static const unsigned char kLegacy2xNewExportAlias[] =
 static const char kLegacy2xOldButtonSource[] =
     "var _=(0,s().memo)((function(){var e=(0,s().useContext)(o().AppConfigContext).appConfig,t=(0,c.useInteractivePress)({action:\"click ani\",link:\"pshomeui:navigateToHome?intro=login\"});return e.isEnabled(\"showStartupButton\")?s().default.createElement(l.default,{iconId:\"trophy_rarity1_ultrarare\",onPress:function(){t()},title:\"Trigger Startup\",__source:{fileName:f,lineNumber:48}}):null}));";
 static const char kLegacy2xNewButtonSourcePrefix[] =
-    "var _=(0,s().memo)((function(){var e=(0,c.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return s().default.createElement(l.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\",__source:{fileName:f,lineNumber:48}})}));";
+    "var _=(0,s().memo)((function(){var e=(0,c.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return s().default.createElement(l.default,{iconId:{uri:\"/system_ex/vsh_asset/onionhen.png\"},onPress:e,title:\"\",__source:{fileName:f,lineNumber:48}})}));";
 /* 3.00 through 3.21 use different minified identifiers than 4.x. */
 static const unsigned char kLegacy3xOldExportAlias[] = {
     't', '.', 'F', 'p', 's', '=', 'S'};
@@ -91,7 +91,7 @@ static const unsigned char kLegacy3xNewExportAlias[] = {
 static const char kLegacy3xOldAppErrorSource[] =
     "var E=(0,s().memo)((function(){var e=(0,c.default)().sendClientApplicationErrorEvent;return s().default.createElement(f.default,{iconId:\"download_error\",onPress:function(){var t=new Error(\"homeui ApplicationErrorEvent test\");e({errorMessage:t.message,stack:t.stack,severity:\"info\"})},title:\"Trigger AppError\",__source:{fileName:d,lineNumber:77}})}));t.ApplicationErrorEventTrigger=E;";
 static const char kLegacy3xNewAppErrorSourcePrefix[] =
-    "var E=(0,s().memo)((function(){var e=(0,l.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return s().default.createElement(f.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\",__source:{fileName:d,lineNumber:77}})}));t.ApplicationErrorEventTrigger=E;";
+    "var E=(0,s().memo)((function(){var e=(0,l.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return s().default.createElement(f.default,{iconId:{uri:\"/system_ex/vsh_asset/onionhen.png\"},onPress:e,title:\"\",__source:{fileName:d,lineNumber:77}})}));t.ApplicationErrorEventTrigger=E;";
 /* 5.10 through 7.61 share this minified SystemIcon module shape. */
 static const unsigned char kLegacy5x7xOldExportAlias[] = {
     't', '.', 'F', 'p', 's', '=', 'h'};
@@ -100,7 +100,7 @@ static const unsigned char kLegacy5x7xNewExportAlias[] = {
 static const char kLegacy5x7xOldAppErrorSource[] =
     "var b=(0,u().memo)((function(){var e=(0,f.default)().sendClientApplicationErrorEvent;return u().default.createElement(p.default,{iconId:\"download_error\",onPress:function(){var t=new Error(\"homeui ApplicationErrorEvent test\");e({errorMessage:t.message,stack:t.stack,severity:\"info\"})},title:\"Trigger AppError\",__source:{fileName:v,lineNumber:80,columnNumber:10}})}));t.ApplicationErrorEventTrigger=b;";
 static const char kLegacy5x7xNewAppErrorSourcePrefix[] =
-    "var b=(0,u().memo)((function(){var e=(0,c.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return u().default.createElement(p.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\",__source:{fileName:v,lineNumber:80,columnNumber:10}})}));t.ApplicationErrorEventTrigger=b;";
+    "var b=(0,u().memo)((function(){var e=(0,c.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return u().default.createElement(p.default,{iconId:{uri:\"/system_ex/vsh_asset/onionhen.png\"},onPress:e,title:\"\",__source:{fileName:v,lineNumber:80,columnNumber:10}})}));t.ApplicationErrorEventTrigger=b;";
 
 static const unsigned char kPlainJsOldExportAlias[] = {
     't', '.', 'F', 'p', 's', '=', 'I'};
@@ -109,7 +109,7 @@ static const unsigned char kPlainJsNewExportAlias[] = {
 static const char kPlainJsOldAppErrorSource[] =
     "var b=(0,a.memo)((function(){var e=(0,l.default)().sendClientApplicationErrorEvent;return(0,f.jsx)(m.default,{iconId:\"download_error\",onPress:function(){var t=new Error(\"homeui ApplicationErrorEvent test\");e({errorMessage:t.message,stack:t.stack,severity:\"info\"})},title:\"Trigger AppError\"})}));t.ApplicationErrorEventTrigger=b;";
 static const char kPlainJsNewAppErrorSourcePrefix[] =
-    "var b=(0,a.memo)((function(){var e=(0,d.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return(0,f.jsx)(m.default,{iconId:{uri:\"/system_ex/vsh_asset/litehen.png\"},onPress:e,title:\"\"})}));t.ApplicationErrorEventTrigger=b;";
+    "var b=(0,a.memo)((function(){var e=(0,d.useInteractivePress)({link:\"OnionHEN?NavUI=1\"});return(0,f.jsx)(m.default,{iconId:{uri:\"/system_ex/vsh_asset/onionhen.png\"},onPress:e,title:\"\"})}));t.ApplicationErrorEventTrigger=b;";
 
 enum class SourceBundleKind {
   LegacyRnps,
@@ -1163,10 +1163,10 @@ void patch_homeui_top_nav(unsigned char *buffer, int *size_ptr,
    *   host function: ApplicationErrorEventTrigger (already a 77-byte button)
    *   body:          full 77-byte useInteractivePress OnionHEN button
    *   Fps:           restore/leave stock showFps implementation
-   *   focus icon:    SetIconSource hook mirrors litehen.png → invertedIcon
+   *   focus icon:    SetIconSource hook mirrors onionhen.png → invertedIcon
    *
    * Object table still retargets:
-   *   iconId string → /system_ex/vsh_asset/litehen.png
+   *   iconId string → /system_ex/vsh_asset/onionhen.png
    *   title id      → empty
    *   Trigger AppError string slot → OnionHEN?NavUI=1 (hook_boot → toolbox)
    *

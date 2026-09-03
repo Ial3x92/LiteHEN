@@ -222,9 +222,9 @@ MonoString * CxmlUri_Hook(MonoObject * Instance, MonoString * uri) {
   if (uri_string.find("icon_setting") != std::string::npos) {
 #if SHELL_DEBUG == 1
     LOG_DEBUG("CxmlUri_Hook: intercepted Settings icon -> "
-              "/system_ex/vsh_asset/litehen.png");
+              "/system_ex/vsh_asset/onionhen.png");
 #endif
-    return mono_str_ui("/system_ex/vsh_asset/litehen.png");
+    return mono_str_ui("/system_ex/vsh_asset/onionhen.png");
   }
   if (uri_string.rfind("tex_game_icon") != std::string::npos) {
     //LOG_DEBUG("CxmlUri_Hook: Returning store icon");

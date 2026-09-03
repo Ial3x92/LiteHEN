@@ -201,7 +201,7 @@ int main() {
 
   LOG_DEBUG("Bootstrapping OnionHEN.elf...");
 
-  /* Do not write OnionHEN.bin under /data/LiteHEN — keep the payload in RAM
+  /* Do not write OnionHEN.bin under /data/OnionHEN — keep the payload in RAM
    * only and hand it straight to elfldr :9021. */
 
   if(!send_to_elfldr(decompressed, decompress_size)) {

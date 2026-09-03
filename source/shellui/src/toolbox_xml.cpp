@@ -243,12 +243,12 @@ void generate_account_xml(std::string& xml_buffer) {
 
 void generate_payload_xml(std::string& xml_buffer, bool list_page) {
   static const std::vector<std::string> kPayloadDirs = {
-      "/user/data/liteHEN/payloads",
-      "/data/liteHEN/payloads",
-      "/usb0/liteHEN/payloads",
-      "/usb1/liteHEN/payloads",
-      "/usb2/liteHEN/payloads",
-      "/usb3/liteHEN/payloads",
+      "/user/data/OnionHEN/payloads",
+      "/data/OnionHEN/payloads",
+      "/usb0/OnionHEN/payloads",
+      "/usb1/OnionHEN/payloads",
+      "/usb2/OnionHEN/payloads",
+      "/usb3/OnionHEN/payloads",
   };
 
   const char* root_id = list_page ? "id_payload" : "id_auto_payloads";
@@ -462,52 +462,52 @@ void generate_plapps_xml(std::string& new_xml) {
 namespace {
 
 constexpr const char* kIconPkg =
-    "/user/data/LiteHEN/assets/icon_xml_package.png";
+    "/user/data/OnionHEN/assets/icon_xml_package.png";
 constexpr const char* kIconPlugins =
-    "/user/data/LiteHEN/assets/icon_xml_plugins.png";
-constexpr const char* kIconGame = "/user/data/LiteHEN/assets/icon_xml_game.png";
+    "/user/data/OnionHEN/assets/icon_xml_plugins.png";
+constexpr const char* kIconGame = "/user/data/OnionHEN/assets/icon_xml_game.png";
 constexpr const char* kIconCheats =
-    "/user/data/LiteHEN/assets/icon_xml_cheats.png";
+    "/user/data/OnionHEN/assets/icon_xml_cheats.png";
 constexpr const char* kIconDownload =
-    "/user/data/LiteHEN/assets/icon_xml_download.png";
+    "/user/data/OnionHEN/assets/icon_xml_download.png";
 constexpr const char* kIconMonitor =
-    "/user/data/LiteHEN/assets/icon_xml_monitor.png";
+    "/user/data/OnionHEN/assets/icon_xml_monitor.png";
 constexpr const char* kIconAccount =
-    "/user/data/LiteHEN/assets/icon_xml_account.png";
+    "/user/data/OnionHEN/assets/icon_xml_account.png";
 constexpr const char* kIconSettings =
-    "/user/data/LiteHEN/assets/icon_xml_settings.png";
+    "/user/data/OnionHEN/assets/icon_xml_settings.png";
 constexpr const char* kIconShortcuts =
-    "/user/data/LiteHEN/assets/icon_xml_shortcuts.png";
+    "/user/data/OnionHEN/assets/icon_xml_shortcuts.png";
 constexpr const char* kIconDebug =
-    "/user/data/LiteHEN/assets/icon_xml_debug.png";
+    "/user/data/OnionHEN/assets/icon_xml_debug.png";
 constexpr const char* kIconAbout =
-    "/user/data/LiteHEN/assets/icon_xml_about.png";
+    "/user/data/OnionHEN/assets/icon_xml_about.png";
 constexpr const char* kIconOverlay =
-    "/user/data/LiteHEN/assets/icon_xml_overlay.png";
+    "/user/data/OnionHEN/assets/icon_xml_overlay.png";
 constexpr const char* kIconTitleId =
-    "/user/data/LiteHEN/assets/icon_xml_title_id.png";
+    "/user/data/OnionHEN/assets/icon_xml_title_id.png";
 constexpr const char* kIconMenuOption =
-    "/user/data/LiteHEN/assets/icon_xml_menu_option.png";
+    "/user/data/OnionHEN/assets/icon_xml_menu_option.png";
 constexpr const char* kIconFan =
-    "/user/data/LiteHEN/assets/icon_xml_fan.png";
+    "/user/data/OnionHEN/assets/icon_xml_fan.png";
 constexpr const char* kIconHardDrive =
-    "/user/data/LiteHEN/assets/icon_xml_hardrive.png";
+    "/user/data/OnionHEN/assets/icon_xml_hardrive.png";
 constexpr const char* kIconDiscLicense =
-    "/user/data/LiteHEN/assets/icon_xml_disc_license.png";
+    "/user/data/OnionHEN/assets/icon_xml_disc_license.png";
 constexpr const char* kIconDonations =
-    "/user/data/LiteHEN/assets/icon_xml_donations.png";
+    "/user/data/OnionHEN/assets/icon_xml_donations.png";
 constexpr const char* kIconThanks =
-    "/user/data/LiteHEN/assets/icon_xml_thanks.png";
+    "/user/data/OnionHEN/assets/icon_xml_thanks.png";
 constexpr const char* kIconProject =
-    "/user/data/LiteHEN/assets/icon_xml_project.png";
+    "/user/data/OnionHEN/assets/icon_xml_project.png";
 constexpr const char* kIconAuthorAvatar =
-    "/user/data/LiteHEN/assets/icon_xml_author_avatar.png";
+    "/user/data/OnionHEN/assets/icon_xml_author_avatar.png";
 constexpr const char* kIconDonatorLjf =
-    "/user/data/LiteHEN/assets/icon_xml_donator_ljf.png";
+    "/user/data/OnionHEN/assets/icon_xml_donator_ljf.png";
 constexpr const char* kIconDonatorSzx =
-    "/user/data/LiteHEN/assets/icon_xml_donator_szx.png";
+    "/user/data/OnionHEN/assets/icon_xml_donator_szx.png";
 constexpr const char* kIconDonatorAglx =
-    "/user/data/LiteHEN/assets/icon_xml_donator_aglx.png";
+    "/user/data/OnionHEN/assets/icon_xml_donator_aglx.png";
 
 bool toolbox_on(const char* id) {
   return resolve_toolbox_control_value(id) == "1";
@@ -639,7 +639,7 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 
 
 void append_toolbox_about_group(ps5ui::Group& g) {
-  g.label("id_credit_OnionHEN", "LiteHEN is a fork of OnionHEN", ps5ui::Style::Center)
+  g.label("id_credit_OnionHEN", "OnionLiteHEN is a fork of OnionHEN", ps5ui::Style::Center)
    .label("id_credit_ial3x92", "ial3x92", ps5ui::Style::Center)
    .label("id_credit_kvnhrt", "kvnhrt", ps5ui::Style::Center)
    .label("id_credit_aydencharles", "aydencharles", ps5ui::Style::Center)
