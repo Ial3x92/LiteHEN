@@ -40,8 +40,8 @@ void escapeXML(std::string& input) {
 
 namespace {
 
-/* Defined with the other dynamic control helpers below. */
-std::string toolbox_val(const char* id, const char* fallback);
+/* Forward declaration unificata con valore di default */
+std::string toolbox_val(const char* id, const char* fallback = "0");
 
 /** Payload .elf only (OnionHEN no longer supports .plugin packages). */
 template <typename G>
@@ -56,6 +56,7 @@ void append_payload_entry(G& page, const std::string& directory, const char* fil
     LOG_ERROR("Skipping invalid payload name: %s", filename);
     return;
   }
+
   /* Confirm file is readable (ELF magic checked at launch). */
   const int fd = open(path.c_str(), O_RDONLY, 0);
   if (fd < 0) {
@@ -509,16 +510,19 @@ constexpr const char* kIconDonatorSzx =
 constexpr const char* kIconDonatorAglx =
     "/user/data/OnionHEN/assets/icon_xml_donator_aglx.png";
 
+// Questo blocco sostituisce interamente l'elenco delle costanti kIcon e la vecchia toolbox_val
+
 bool toolbox_on(const char* id) {
   return resolve_toolbox_control_value(id) == "1";
 }
 
-std::string toolbox_val(const char* id, const char* fallback = "0") {
+std::string toolbox_val(const char* id, const char* fallback) {
   std::string v = resolve_toolbox_control_value(id);
   return v.empty() ? fallback : v;
 }
 
 void append_toolbox_pkg_group(ps5ui::Group& g) {
+
   g.link("id_game_package_installer", toolbox_i18n::tr("pkg.installer"),
          "PkgInstaller/data/pkginstaller.xml",
          "")
