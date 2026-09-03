@@ -81,7 +81,7 @@ bool bootstrap_assets_write(void) {
   mkdir("/data/LiteHEN/assets", 0777);
 
   const bool startup_icon_ready = write_blob_file(
-      "/data/LiteHEN/onionhen.png", sicon_start, sicon_size);
+      "/data/LiteHEN/litehen.png", sicon_start, sicon_size);
 
   for (size_t i = 0; i < sizeof(kEmbeddedIcons) / sizeof(kEmbeddedIcons[0]);
        ++i) {
@@ -93,7 +93,7 @@ bool bootstrap_assets_write(void) {
   }
 
   mkdir("/system_ex/vsh_asset", 0777);
-  (void)write_blob_file("/system_ex/vsh_asset/onionhen.png", sicon_start,
+  (void)write_blob_file("/system_ex/vsh_asset/litehen.png", sicon_start,
                         sicon_size);
   return startup_icon_ready;
 }

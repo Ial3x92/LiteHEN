@@ -148,7 +148,7 @@ int main(void) {
     /* pt_* / code-cave require PTRACE_AUTHID (not DEBUG_AUTHID). */
     set_ucred_to_ptrace();
 
-    unlink("/data/LiteHEN/OnionHEN_util_crash.log");
+    unlink("/data/LiteHEN/LiteHEN_util_crash.log");
 
     LOG_INFO("=========== starting LiteHEN Utilities... ===========");
 

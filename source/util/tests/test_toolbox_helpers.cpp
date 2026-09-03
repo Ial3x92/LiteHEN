@@ -16,9 +16,9 @@ static int test_display_strip_user(void) {
 }
 
 static int test_display_map_usb(void) {
-  std::string a = display_path_for_ui("/usb0/onionhen/payloads/a.elf");
+  std::string a = display_path_for_ui("/usb0/litehen/payloads/a.elf");
   std::string b = display_path_for_ui("/usb3/x");
-  TEST_ASSERT_STREQ("/mnt/usb0/onionhen/payloads/a.elf", a.c_str());
+  TEST_ASSERT_STREQ("/mnt/usb0/litehen/payloads/a.elf", a.c_str());
   TEST_ASSERT_STREQ("/mnt/usb3/x", b.c_str());
   return 0;
 }

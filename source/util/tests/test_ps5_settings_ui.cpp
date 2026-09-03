@@ -17,7 +17,7 @@ static int test_escape_special_chars(void) {
   TEST_ASSERT_STREQ("&lt;tag&gt;", b.c_str());
   TEST_ASSERT_STREQ("&quot;q&quot;", c.c_str());
   /* escape() is for icon paths: / → // ; escape_xml keeps single / for display */
-  TEST_ASSERT_STREQ("//user//data//OnionHEN", d.c_str());
+  TEST_ASSERT_STREQ("//user//data//LiteHEN", d.c_str());
   const std::string d_xml = escape_xml("/user/data/LiteHEN");
   TEST_ASSERT_STREQ("/user/data/LiteHEN", d_xml.c_str());
   /* CJK unchanged */

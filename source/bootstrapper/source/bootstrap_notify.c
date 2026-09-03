@@ -21,6 +21,6 @@ void bootstrap_notify_starting(bool custom_icon_ready) {
     return;
   }
   onion_notify_rich("notify.brand", "notify.boot.starting",
-                    "/user/data/LiteHEN/onionhen.png", "download",
+                    "/user/data/LiteHEN/litehen.png", "download",
                     "588193128");
 }

@@ -26,9 +26,9 @@ typedef struct PayloadList {
 } PayloadList;
 
 static const char *const kPayloadDirectories[] = {
-    "/mnt/usb0/onionhen/payloads", "/mnt/usb0/LiteHEN/payloads",
-    "/mnt/usb1/onionhen/payloads", "/mnt/usb2/onionhen/payloads",
-    "/mnt/usb3/onionhen/payloads", "/user/data/LiteHEN/payloads",
+    "/mnt/usb0/litehen/payloads", "/mnt/usb0/LiteHEN/payloads",
+    "/mnt/usb1/litehen/payloads", "/mnt/usb2/litehen/payloads",
+    "/mnt/usb3/litehen/payloads", "/user/data/LiteHEN/payloads",
     "/user/data/LiteHEN/payloads", "/data/LiteHEN/payloads",
 };
 
