@@ -51,7 +51,7 @@ static int test_toggle_button_label_attrs(void) {
 
   TEST_ASSERT_TRUE(
       xml.find("<label id=\"id_lbl\" title=\"Hello\" "
-               "icon=\"//user//data//OnionHEN//assets//qr.png\" "
+               "icon=\"//user//data//LiteHEN//assets//qr.png\" "
                "style=\"center\"/>") != std::string::npos);
   TEST_ASSERT_TRUE(xml.find("<toggle_switch id=\"id_sw\" title=\"Switch\" "
                             "second_title=\"second\" description=\"desc\" "
@@ -254,7 +254,7 @@ static int test_toolbox_like_skeleton(void) {
   TEST_ASSERT_TRUE(xml.find("id=\"id_group_pkg\"") != std::string::npos);
   /* icon doubles slashes; file (plugin resource) keeps single / */
   TEST_ASSERT_TRUE(
-      xml.find("icon=\"//user//data//OnionHEN//assets//icon_xml_package.png\"") !=
+      xml.find("icon=\"//user//data//LiteHEN//assets//icon_xml_package.png\"") !=
       std::string::npos);
   TEST_ASSERT_TRUE(xml.find("file=\"PkgInstaller/data/pkginstaller.xml\"") !=
                    std::string::npos);
