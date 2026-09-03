@@ -184,3 +184,9 @@ add_custom_command(
 	DEPENDS ${PROJECT_NAME}
 	COMMENT "Recording size and compressing bootstrapper"
 )
+
+# MODIFICA: Ripristinato il target e la dipendenza necessari per il modulo unpacker
+add_custom_target(bootstrapper_packed
+	DEPENDS "${_bootstrapper_lzma}" "${_bootstrapper_lzma_size}"
+)
+add_dependencies(bootstrapper_packed ${PROJECT_NAME})
