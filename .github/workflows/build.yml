@@ -35,10 +35,12 @@ jobs:
           LLVM_CONFIG: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-llvm-config
           CC: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang
           CXX: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang++
-          # 🛡️ IMPOSTAZIONI ANTI-KP, MINIMO PESO, MINIMA RAM E MASSIMA VELOCITÀ 🛡️
-          CFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
-          CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
-          LDFLAGS: "-flto -s -Wl,--gc-sections"
+          # 🛡️ OTTIMIZZAZIONI AGGRESSIVE PER DIMENSIONE E STABILITÀ ANTI-KP 🛡️
+          # Sostituito -Os con -Oz (Clang ottimizza ancora di più il peso)
+          # Aggiunto -flto (Link Time Optimization) per fondere le librerie terze parti ed eliminare i duplicati
+          CFLAGS: "-Oz -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
+          CXXFLAGS: "-Oz -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
+          LDFLAGS: "-flto -s -Wl,--gc-sections -Wl,--strip-all"
         run: |
           rm -rf build
           chmod +x ./scripts/*.sh
@@ -47,22 +49,40 @@ jobs:
             ./scripts/sync_dependencies.sh --init-submodules --stub-missing
           fi
           
+          # Rimozione forzata di flag di Debug o Warning bloccanti in tutto il codice sorgente
           find . -name "CMakeLists.txt" -exec sed -i 's/-Werror//g' {} +
+          find . -name "CMakeLists.txt" -exec sed -i 's/-g//g' {} +
+          
           if [ -f "source/util/source/ftp_server.cpp" ]; then
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
           fi
 
-          ./scripts/build.sh --release
+          # COMPILAZIONE FORZATA IN RELEASE CON FLAGS COMPATTI
+          # Passiamo i flag direttamente a CMake per impedire che OnionTarget o preset interni li sovrascrivano
+          cmake -B build -S source \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_FLAGS="-Oz -flto -s -ffunction-sections -fdata-sections" \
+            -DCMAKE_CXX_FLAGS="-Oz -flto -s -ffunction-sections -fdata-sections" \
+            -DCMAKE_EXE_LINKER_FLAGS="-flto -s -Wl,--gc-sections -Wl,--strip-all"
+          
+          # Eseguiamo la compilazione effettiva tramite lo script nativo o direttamente con cmake
+          if [ -f "./scripts/build.sh" ]; then
+            ./scripts/build.sh --release
+          else
+            cmake --build build --config Release
+          fi
 
-          # Rileviamo automaticamente il file compilato (sia esso OnionHEN o LiteHEN) 
-          # e standardizziamo il nome finale per l'upload in LiteHEN.elf
+          # Pulizia e Stripping manuale di sicurezza sui binari finali se il compilatore ha ignorato i flag
           if [ -f "build/bin/LiteHEN.elf" ]; then
+            strip --strip-all build/bin/LiteHEN.elf || true
             echo "LiteHEN.elf generato nativamente."
           elif [ -f "build/bin/OnionHEN.elf" ]; then
+            strip --strip-all build/bin/OnionHEN.elf || true
             cp build/bin/OnionHEN.elf build/bin/LiteHEN.elf
           else
             echo "Tentativo di fallback sui file generati..."
             cp build/bin/*.elf build/bin/LiteHEN.elf 2>/dev/null || true
+            strip --strip-all build/bin/LiteHEN.elf || true
           fi
 
       - name: Upload LiteHEN.elf
