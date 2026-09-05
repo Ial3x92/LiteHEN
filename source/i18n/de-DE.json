@@ -6,7 +6,7 @@
   },
   "toolbox": {
     "root.title": "LiteHEN",
-    "group.pkg": "Inhalte installieren und verwalten",
+    "group.pkg": "PKG und Payloads",
     "group.pkg.sub": "PKGs installieren und Zusatzinhalte verwalten",
     "group.payloads": "Payloads",
     "group.payloads.sub": "Benutzer- und Autostart-Payloads; Kstuff-, FTP- und ShadowMount+-Plugins",
