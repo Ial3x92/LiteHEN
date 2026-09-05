@@ -640,21 +640,9 @@ void append_toolbox_system_group(ps5ui::Group& g) {
 
 void append_toolbox_about_group(ps5ui::Group& g) {
   g.label("id_credit_OnionHEN", "OnionLiteHEN is a fork of OnionHEN", ps5ui::Style::Center)
-   .label("id_credit_ial3x92", "ial3x92", ps5ui::Style::Center)
-   .label("id_credit_kvnhrt", "kvnhrt", ps5ui::Style::Center)
-   .label("id_credit_aydencharles", "aydencharles", ps5ui::Style::Center)
-   .label("id_credit_lightningmods", "LightningMods", ps5ui::Style::Center)
-   .label("id_credit_sistr0", "SiSTR0", ps5ui::Style::Center)
-   .label("id_credit_echostretch", "EchoStretch", ps5ui::Style::Center)
-   .label("id_credit_sleirsgoevy", "sleirsgoevy", ps5ui::Style::Center)
-   .label("id_credit_itsplk", "itsplk", ps5ui::Style::Center)
-   .label("id_credit_teekay87", "TeeKay87", ps5ui::Style::Center)
-   .label("id_credit_arksama", "ArkSama", ps5ui::Style::Center)
-   .label("id_credit_drakmor", "drakmor", ps5ui::Style::Center)
-   .label("id_credit_astrelsky", "astrelsky", ps5ui::Style::Center)
-   .label("id_credit_buzzer_re", "buzzer-re", ps5ui::Style::Center)
-   .label("id_credit_cjson", "cJSON", ps5ui::Style::Center)
-   .label("id_credit_miniz", "miniz", ps5ui::Style::Center);
+   .label("id_credits_r1", "Ial3x92 - aydencharles - kvnhrt - LightningMods - SiSTR0", ps5ui::Style::Center)
+   .label("id_credits_r2", "EchoStretch - sleirsgoevy - itsplk - TeeKay87 - ArkSama", ps5ui::Style::Center)
+   .label("id_credits_r3", "drakmor - astrelsky - buzzer-re - cJSON - miniz", ps5ui::Style::Center);
 }
 
 } // namespace
