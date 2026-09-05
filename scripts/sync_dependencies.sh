@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Sync / build external dependencies for OnionHEN.
 #
-# Embedded payload input: kstuff.elf
+# Embedded payload input: kstuff.elf (FORZATO A STUB IN LITEHEN SLIM)
 # Also built from source: onion_elfldr.elf (private 9020 runtime loader)
 # Removed: external elfldr.elf (9021 service), ps5debug, ps5-app-dumper, Byepervisor/hen.bin
 #
@@ -130,7 +130,6 @@ kstuff_looks_cached() {
   [[ -f "${path}" ]] || return 1
   local sz
   sz="$(wc -c < "${path}" | tr -d ' ')"
-  # Reject empty / OnionHEN-STUB placeholders from --stub-missing.
   if [[ "${sz}" -lt "${KSTUFF_MIN_BYTES}" ]]; then
     return 1
   fi
@@ -140,46 +139,15 @@ kstuff_looks_cached() {
   return 0
 }
 
+# 🛡️ BLOCCO INTEGRATO ANTI-PESO PER LITEHEN SLIM 🛡️
 sync_kstuff() {
   local dest="${CACHE}/kstuff.elf"
 
-  # Default path: reuse local blob so every build.sh does not re-hit GitHub.
-  if [[ "${FORCE_DOWNLOAD}" -eq 0 && "${FROM_SOURCE}" -eq 0 ]] &&
-      kstuff_looks_cached "${dest}"; then
-    ok "kstuff.elf already present ($(wc -c < "${dest}" | tr -d ' ') bytes) — skip download"
-    return 0
-  fi
-
-  if [[ "${FROM_SOURCE}" -eq 0 ]]; then
-    log "kstuff: download kstuff-lite release"
-    if download "${KSTUFF_URL}" "${dest}"; then
-      ok "kstuff.elf (kstuff-lite v1.10)"
-      return 0
-    fi
-    warn "download failed, trying submodule build"
-  fi
-
-  if [[ -d "${KSTUFF_SOURCE_DIR}" ]]; then
-    need_sdk
-    log "kstuff: build third_party/kstuff-lite (best-effort)"
-    if [[ -x "${KSTUFF_SOURCE_DIR}/ci-ps5-kstuff-ldr.sh" ]]; then
-      (cd "${KSTUFF_SOURCE_DIR}" && bash ./ci-ps5-kstuff-ldr.sh) || true
-    elif [[ -f "${KSTUFF_SOURCE_DIR}/Makefile" ]]; then
-      make -C "${KSTUFF_SOURCE_DIR}" -j4 || true
-    fi
-    local found
-    found="$(find "${KSTUFF_SOURCE_DIR}" -name 'kstuff.elf' 2>/dev/null | head -1 || true)"
-    if [[ -n "${found}" ]]; then
-      place "${found}" "${dest}"
-      return 0
-    fi
-  fi
-
-  if [[ "${STUB_MISSING}" -eq 1 ]]; then
-    stub "${dest}" "kstuff.elf"
-    return 0
-  fi
-  die "kstuff.elf unavailable (prefer release download)"
+  # Forziamo direttamente la creazione dello stub leggero a pochissimi byte
+  # ignorando totalmente qualsiasi download remoto o compilazione pesante
+  log "kstuff: Forzatura rimozione Kstuff (LiteHEN Slim Build)"
+  stub "${dest}" "kstuff.elf"
+  return 0
 }
 
 main() {
