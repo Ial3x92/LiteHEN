@@ -47,6 +47,12 @@ jobs:
             ./scripts/sync_dependencies.sh --init-submodules --stub-missing
           fi
           
+          # 🛑 RIMOZIONE INTEGRALE SERVER FTP ALL'ORIGINE 🛑
+          # Commenta le chiamate di avvio dell'FTP in tutto il codice sorgente.
+          # Grazie a "-Wl,--gc-sections", il linker escluderà l'intero modulo FTP dal file finale.
+          find source/ -type f \( -name "*.cpp" -o -name "*.c" -o -name "*.hpp" -o -name "*.h" \) -exec sed -i 's/ftp_server_start/ \/\/ ftp_server_start/g' {} +
+          find source/ -type f \( -name "*.cpp" -o -name "*.c" -o -name "*.hpp" -o -name "*.h" \) -exec sed -i 's/start_ftp_server/ \/\/ start_ftp_server/g' {} +
+
           find . -name "CMakeLists.txt" -exec sed -i 's/-Werror//g' {} +
           if [ -f "source/util/source/ftp_server.cpp" ]; then
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
