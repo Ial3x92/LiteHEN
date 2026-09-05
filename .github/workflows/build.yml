@@ -35,12 +35,6 @@ jobs:
           LLVM_CONFIG: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-llvm-config
           CC: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang
           CXX: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang++
-          # 🛡️ OTTIMIZZAZIONI AGGRESSIVE PER DIMENSIONE E STABILITÀ ANTI-KP 🛡️
-          # Sostituito -Os con -Oz (Clang ottimizza ancora di più il peso)
-          # Aggiunto -flto (Link Time Optimization) per fondere le librerie terze parti ed eliminare i duplicati
-          CFLAGS: "-Oz -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
-          CXXFLAGS: "-Oz -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
-          LDFLAGS: "-flto -s -Wl,--gc-sections -Wl,--strip-all"
         run: |
           rm -rf build
           chmod +x ./scripts/*.sh
@@ -49,7 +43,8 @@ jobs:
             ./scripts/sync_dependencies.sh --init-submodules --stub-missing
           fi
           
-          # Rimozione forzata di flag di Debug o Warning bloccanti in tutto il codice sorgente
+          # 🧼 PULIZIA AGGRESSIVA PRE-BUILD 🧼
+          # Rimuove forzatamente qualsiasi flag di debug o di avvertimento bloccante dai CMakeLists prima che parta la build
           find . -name "CMakeLists.txt" -exec sed -i 's/-Werror//g' {} +
           find . -name "CMakeLists.txt" -exec sed -i 's/-g//g' {} +
           
@@ -57,22 +52,16 @@ jobs:
             sed -i 's/\bg_running\b/g_ftp_running/g' source/util/source/ftp_server.cpp
           fi
 
-          # COMPILAZIONE FORZATA IN RELEASE CON FLAGS COMPATTI
-          # Passiamo i flag direttamente a CMake per impedire che OnionTarget o preset interni li sovrascrivano
-          cmake -B build -S source \
-            -DCMAKE_BUILD_TYPE=Release \
+          # 🛡️ COSTRUTTORE OTTIMIZZATO PER RIDUZIONE PESO E STABILITÀ ANTI-KP 🛡️
+          # Lasciamo che build.sh gestisca l'ambiente corretto, ma gli passiamo i flag corretti
+          # usiamo l'ottimizzazione -Oz e forziamo la rimozione del codice morto con gc-sections e lto
+          ./scripts/build.sh --release \
             -DCMAKE_C_FLAGS="-Oz -flto -s -ffunction-sections -fdata-sections" \
             -DCMAKE_CXX_FLAGS="-Oz -flto -s -ffunction-sections -fdata-sections" \
             -DCMAKE_EXE_LINKER_FLAGS="-flto -s -Wl,--gc-sections -Wl,--strip-all"
-          
-          # Eseguiamo la compilazione effettiva tramite lo script nativo o direttamente con cmake
-          if [ -f "./scripts/build.sh" ]; then
-            ./scripts/build.sh --release
-          else
-            cmake --build build --config Release
-          fi
 
-          # Pulizia e Stripping manuale di sicurezza sui binari finali se il compilatore ha ignorato i flag
+          # ✂️ STRIPPING FINALE DI SICUREZZA ✂️
+          # Se il compilatore ha ignorato qualcosa, il comando 'strip' rimuove ogni informazione di debug residua dal file finale
           if [ -f "build/bin/LiteHEN.elf" ]; then
             strip --strip-all build/bin/LiteHEN.elf || true
             echo "LiteHEN.elf generato nativamente."
