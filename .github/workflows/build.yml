@@ -37,7 +37,7 @@ jobs:
           CXX: /home/runner/ps5-sdk/ps5-payload-sdk/bin/prospero-clang++
           # 🛡️ IMPOSTAZIONI ANTI-KP, MINIMO PESO, MINIMA RAM E MASSIMA VELOCITÀ 🛡️
           CFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
-          CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections"
+          CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti"
           LDFLAGS: "-flto -s -Wl,--gc-sections"
         run: |
           rm -rf build
