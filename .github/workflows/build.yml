@@ -40,6 +40,8 @@ jobs:
           CXXFLAGS: "-Os -fno-strict-aliasing -fno-omit-frame-pointer -flto -s -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti"
           LDFLAGS: "-flto -s -Wl,--gc-sections"
         run: |
+          # Forza la cancellazione di ogni vecchia traccia o build precedente
+          git clean -fdx || true
           rm -rf build
           chmod +x ./scripts/*.sh
              
@@ -48,18 +50,15 @@ jobs:
           fi
           
           # 🛑 TRANCIO NETTO DEL SERVER FTP DAL COMPILATORE 🛑
-          # 1. Rimuoviamo il file ftp_server.cpp dalla lista dei file da compilare nel CMakeLists.txt di util
           if [ -f "source/util/CMakeLists.txt" ]; then
             sed -i 's/source\/ftp_server.cpp//g' source/util/CMakeLists.txt
             sed -i 's/ftp_server.cpp//g' source/util/CMakeLists.txt
           fi
           
-          # 2. Svuotiamo il contenuto del file ftp_server.cpp per sicurezza in modo che non contenga codice compilabile
           if [ -f "source/util/source/ftp_server.cpp" ]; then
             echo -n "" > source/util/source/ftp_server.cpp
           fi
 
-          # Commenta le chiamate di avvio dell'FTP nel resto del codice sorgente per evitare errori di compilazione
           find source/ -type f \( -name "*.cpp" -o -name "*.c" -o -name "*.hpp" -o -name "*.h" \) -exec sed -i 's/ftp_server_start/ \/\/ ftp_server_start/g' {} +
           find source/ -type f \( -name "*.cpp" -o -name "*.c" -o -name "*.hpp" -o -name "*.h" \) -exec sed -i 's/start_ftp_server/ \/\/ start_ftp_server/g' {} +
 
@@ -70,8 +69,6 @@ jobs:
 
           ./scripts/build.sh --release
 
-          # Rileviamo automaticamente il file compilato (sia esso OnionHEN o LiteHEN) 
-          # e standardizziamo il nome finale per l'upload in LiteHEN.elf
           if [ -f "build/bin/LiteHEN.elf" ]; then
             echo "LiteHEN.elf generato nativamente."
           elif [ -f "build/bin/OnionHEN.elf" ]; then
