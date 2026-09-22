@@ -1,307 +1,196 @@
 #include <onion/log.h>
-#include <onion/notify.h>
-#include <onion/proc_query.h>
-
 #include "cheats/cheat_service.hpp"
+
 #include "onion_cjson.hpp"
 
-#include <cstdarg>
 #include <cstdio>
-#include <cctype>
-#include <cstdlib>
 #include <cstring>
 #include <fstream>
-#include <set>
 
 extern "C" {
 int sceKernelGetProcessName(int pid, char *name);
 }
 
 namespace onion::cheats {
-namespace {
-
-std::string status_tr(const char *key, ...) {
-  char buf[384];
-  va_list ap;
-  va_start(ap, key);
-  onion_notify_format(buf, sizeof(buf), 0, key, ap);
-  va_end(ap);
-  return buf;
-}
-
-const char *mode_name(CheatViewMode mode) {
-  return mode == CheatViewMode::Runtime ? "runtime" : "browse";
-}
-
-bool same_process(const ProcessIdentity &lhs, const ProcessIdentity &rhs) {
-  return lhs.pid == rhs.pid && lhs.appid == rhs.appid &&
-         lhs.process_name == rhs.process_name &&
-         lhs.session_generation == rhs.session_generation;
-}
-
-bool parse_key(const std::string &serialized, CheatKey &out) {
-  const size_t first = serialized.find('|');
-  const size_t last = serialized.rfind('|');
-  if (first == std::string::npos || first == last || last + 1 >= serialized.size()) {
-    return false;
-  }
-  const std::string index = serialized.substr(last + 1);
-  char *end = nullptr;
-  const unsigned long parsed = std::strtoul(index.c_str(), &end, 10);
-  if (end == index.c_str() || *end != '\0') {
-    return false;
-  }
-  out.source_id = serialized.substr(0, first);
-  out.source_path = serialized.substr(first + 1, last - first - 1);
-  out.local_index = static_cast<size_t>(parsed);
-  return !out.source_path.empty();
-}
-
-void fill_context(const CheatRequest &request, game_context_t &out) {
-  std::memset(&out, 0, sizeof(out));
-  out.pid = request.process ? request.process->pid : 0;
-  out.appid = request.process ? request.process->appid : 0;
-  std::snprintf(out.title_id, sizeof(out.title_id), "%s",
-                request.game.title_id.c_str());
-  std::snprintf(out.version, sizeof(out.version), "%s",
-                request.game.version.c_str());
-  if (request.process) {
-    std::snprintf(out.process_name, sizeof(out.process_name), "%s",
-                  request.process->process_name.c_str());
-  }
-  util_game_platform_from_title_id(request.game.title_id.c_str(), out.platform,
-                                   sizeof(out.platform));
-}
-
-int load_sources(const std::vector<CheatSourceDescriptor> &sources,
-                 std::vector<std::unique_ptr<LoadedCheatFile>> &out) {
-  out.clear();
-  out.reserve(sources.size());
-  for (const CheatSourceDescriptor &source : sources) {
-    auto loaded = std::make_unique<LoadedCheatFile>();
-    loaded->path = source.path;
-    if (!CheatRepository::statSignature(source.path, loaded->signature)) {
-      out.clear();
-      return -1;
-    }
-    const size_t slash = source.path.find_last_of('/');
-    const std::string name = source.path.substr(slash + 1);
-    if (onion_cheat_parse_filename(name.c_str(), &loaded->filename) < 0 ||
-        CheatRepository::loadFile(source.path, loaded->file) < 0) {
-      out.clear();
-      return -1;
-    }
-    out.push_back(std::move(loaded));
-  }
-  return out.empty() ? -1 : 0;
-}
-
-} // namespace
 
 CheatService &CheatService::instance() {
-  static CheatService service;
-  return service;
+  static CheatService svc;
+  return svc;
 }
 
-CheatService::CheatService() = default;
+CheatService::CheatService() {
+  std::memset(&game_, 0, sizeof(game_));
+  std::memset(&file_, 0, sizeof(file_));
+  file_.master_code_id = -1;
+}
 
 CheatService::~CheatService() {
   std::lock_guard<std::mutex> lock(mu_);
-  clearRuntimeLocked();
+  onion_cheat_file_clear(&file_);
 }
 
 void CheatService::ensureDir() { CheatRepository::ensureCheatsDir(); }
 
-void CheatService::clearRuntimeLocked() {
-  if (!runtime_) {
+void CheatService::onGameExec(pid_t pid, const char *title_id, int appid) {
+  std::lock_guard<std::mutex> lock(mu_);
+  disableEnabledLocked("game exec");
+  clearFileLocked();
+  has_tracked_game_ = true;
+  tracked_pid_ = pid;
+  std::memset(&game_, 0, sizeof(game_));
+  game_.pid = pid;
+  game_.appid = appid;
+  if (title_id) {
+    std::snprintf(game_.title_id, sizeof(game_.title_id), "%s", title_id);
+  }
+  LOG_INFO("[service] cheat track exec title=%s pid=%d",
+               title_id ? title_id : "?", (int)pid);
+}
+
+void CheatService::onGameExit(pid_t pid) {
+  std::lock_guard<std::mutex> lock(mu_);
+  if (!has_tracked_game_ || tracked_pid_ != pid) {
     return;
   }
-  (void)disableRuntimeLocked("session cleared");
-  runtime_->applier.clearOwnership();
-  runtime_.reset();
+  LOG_INFO("[service] cheat track exit title=%s pid=%d", game_.title_id,
+               (int)pid);
+  has_tracked_game_ = false;
+  tracked_pid_ = 0;
+  disableEnabledLocked("game exit");
+  clearFileLocked();
+  std::memset(&game_, 0, sizeof(game_));
 }
 
-bool CheatService::disableRuntimeLocked(const char *reason) {
-  if (!runtime_) {
-    return true;
+int CheatService::fillGame(game_context_t &game, const std::string &title_id,
+                           const std::string &version, int pid, int appid) {
+  if (title_id.empty()) {
+    return -1;
   }
-  bool ok = true;
-  for (const auto &loaded : runtime_->files) {
-    for (size_t index = 0; index < loaded->file.cheat_count; ++index) {
-      if (!loaded->file.cheats[index].enabled) {
-        continue;
+  std::memset(&game, 0, sizeof(game));
+  std::snprintf(game.title_id, sizeof(game.title_id), "%s", title_id.c_str());
+  game.pid = pid;
+  game.appid = appid;
+  util_game_platform_from_title_id(title_id.c_str(), game.platform,
+                                   sizeof(game.platform));
+
+  if (!version.empty() && version != "unknown") {
+    std::snprintf(game.version, sizeof(game.version), "%s", version.c_str());
+  } else if (util_resolve_game_version(title_id.c_str(), game.version,
+                                       sizeof(game.version)) < 0) {
+    std::snprintf(game.version, sizeof(game.version), "unknown");
+  }
+
+  if (pid > 0) {
+    game_context_t live{};
+    if (util_get_running_bigapp(&live) == 0 &&
+        title_id == live.title_id) {
+      std::snprintf(game.process_name, sizeof(game.process_name), "%s",
+                    live.process_name);
+      if (game.appid == 0) {
+        game.appid = live.appid;
       }
-      std::string status;
-      if (runtime_->applier.toggle(runtime_->context, loaded->file,
-                                    static_cast<int>(index), status,
-                                    loaded->path) < 0) {
-        ok = false;
-        LOG_WARN("[service] failed to disable %s index=%zu reason=%s: %s",
-                 loaded->path.c_str(), index, reason ? reason : "unknown",
-                 status.c_str());
-      }
+    } else {
+      sceKernelGetProcessName(pid, game.process_name);
     }
   }
-  return ok;
-}
-
-int CheatService::ensureRuntimeLocked(const CheatRequest &request) {
-  if (request.mode != CheatViewMode::Runtime || !request.process ||
-      !request.process->valid()) {
-    return -1;
-  }
-
-  const bool live_same_game =
-      runtime_ && runtime_->game == request.game &&
-      onion_proc_is_alive(runtime_->process.pid);
-  const ProcessIdentity requested =
-      live_same_game ? runtime_->process : *request.process;
-  const bool same = live_same_game ||
-                    (runtime_ && runtime_->game == request.game &&
-                     same_process(runtime_->process, requested));
-  const std::vector<CheatSourceDescriptor> sources =
-      CheatRepository::resolveRuntime(request.game, requested);
-  if (sources.empty()) {
-    LOG_ERROR("[cheats] runtime sources unavailable title='%s' version='%s' "
-              "process='%s' pid=%d",
-              request.game.title_id.c_str(), request.game.version.c_str(),
-              requested.process_name.c_str(), static_cast<int>(requested.pid));
-    clearRuntimeLocked();
-    return -1;
-  }
-
-  bool unchanged = same && runtime_->files.size() == sources.size();
-  if (unchanged) {
-    for (size_t i = 0; i < sources.size(); ++i) {
-      FileSignature signature;
-      if (!CheatRepository::statSignature(sources[i].path, signature) ||
-          runtime_->files[i]->path != sources[i].path ||
-          runtime_->files[i]->signature != signature) {
-        unchanged = false;
-        break;
-      }
-    }
-  }
-  if (unchanged) {
-    return 0;
-  }
-
-  clearRuntimeLocked();
-  auto next = std::make_unique<RuntimeState>();
-  next->game = request.game;
-  next->process = requested;
-  next->session_id = "cheat-" + std::to_string(next_session_id_++) + "-" +
-                     std::to_string(static_cast<int>(requested.pid)) + "-" +
-                     std::to_string(requested.session_generation);
-  CheatRequest bound = request;
-  bound.process = next->process;
-  fill_context(bound, next->context);
-  if (load_sources(sources, next->files) < 0) {
-    LOG_ERROR("[cheats] failed to load runtime sources title='%s'",
-              request.game.title_id.c_str());
-    return -1;
-  }
-  LOG_INFO("[service] runtime session=%s title=%s pid=%d files=%zu",
-           next->session_id.c_str(), request.game.title_id.c_str(),
-           static_cast<int>(requested.pid), next->files.size());
-  runtime_ = std::move(next);
   return 0;
 }
 
-int CheatService::writeListJson(
-    const CheatListMetadata &metadata,
-    const std::vector<std::unique_ptr<LoadedCheatFile>> &files,
-    const std::string &out_path) const {
+void CheatService::disableEnabledLocked(const char *reason) {
+  if (!loaded_) {
+    return;
+  }
+  for (size_t i = 0; i < file_.cheat_count; ++i) {
+    if (!file_.cheats[i].enabled) {
+      continue;
+    }
+    std::string status;
+    if (applier_.toggle(game_, file_, static_cast<int>(i), status) < 0) {
+      LOG_WARN("[service] disable stale cheat %zu (%s): %s", i,
+                   reason ? reason : "?", status.c_str());
+    }
+  }
+}
+
+void CheatService::clearFileLocked() {
+  onion_cheat_file_clear(&file_);
+  loaded_ = false;
+  sig_ = {};
+}
+
+int CheatService::refreshLocked(const game_context_t &game) {
+  if (loaded_ && !sig_.path.empty() &&
+      std::strcmp(game_.title_id, game.title_id) == 0 &&
+      (game.version[0] == '\0' || std::strcmp(game.version, "unknown") == 0)) {
+    game_.pid = game.pid;
+    game_.appid = game.appid;
+    return 0;
+  }
+
+  game_ = game;
+  const std::string path = CheatRepository::resolvePath(game);
+  if (path.empty() || !CheatRepository::fileExists(path)) {
+    disableEnabledLocked("path unresolved");
+    clearFileLocked();
+    return -1;
+  }
+
+  FileSignature sig;
+  if (!CheatRepository::statSignature(path, sig)) {
+    disableEnabledLocked("stat failed");
+    clearFileLocked();
+    return -1;
+  }
+
+  if (!loaded_ || sig != sig_) {
+    disableEnabledLocked("reload");
+    onion_cheat_file_clear(&file_);
+    if (CheatRepository::loadFile(path, file_) < 0) {
+      clearFileLocked();
+      return -1;
+    }
+    sig_ = std::move(sig);
+    loaded_ = true;
+    LOG_INFO("[service] loaded %s cheats=%zu", path.c_str(),
+                 file_.cheat_count);
+  }
+  return 0;
+}
+
+int CheatService::writeListJson(const std::string &out_path) const {
   cJSON *root = cJSON_CreateObject();
   cJSON *authors = nullptr;
   cJSON *cheats = nullptr;
-  cJSON *groups = nullptr;
-  if (!root || !cJSON_AddStringToObject(root, "mode", mode_name(metadata.mode)) ||
-      !cJSON_AddStringToObject(root, "sessionId", metadata.session_id.c_str()) ||
-      !cJSON_AddBoolToObject(root, "canToggle", metadata.can_toggle) ||
-      !cJSON_AddStringToObject(root, "name",
-                               files.empty() ? "" : files.front()->file.name) ||
+  if (!root || !cJSON_AddStringToObject(root, "name", file_.name) ||
       !(authors = cJSON_AddArrayToObject(root, "authors")) ||
-      !(cheats = cJSON_AddArrayToObject(root, "cheats")) ||
-      !(groups = cJSON_AddArrayToObject(root, "groups"))) {
+      !(cheats = cJSON_AddArrayToObject(root, "cheats"))) {
     cJSON_Delete(root);
     return -1;
   }
 
-  std::set<std::string> seen_authors;
-  for (const auto &loaded : files) {
-    for (size_t i = 0; i < loaded->file.author_count; ++i) {
-      if (!seen_authors.insert(loaded->file.authors[i]).second) {
-        continue;
-      }
-      cJSON *author = cJSON_CreateString(loaded->file.authors[i]);
-      if (!author || !cJSON_AddItemToArray(authors, author)) {
-        cJSON_Delete(author);
-        cJSON_Delete(root);
-        return -1;
-      }
-    }
-  }
-
-  for (const auto &loaded : files) {
-    cJSON *group = cJSON_CreateObject();
-    cJSON *group_authors = nullptr;
-    cJSON *group_cheats = nullptr;
-    const char *extension =
-        onion_cheat_extension_for_rank(loaded->filename.extension_rank);
-    std::string format = extension ? extension : "";
-    for (char &ch : format) {
-      ch = static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
-    }
-    if (!group || !cJSON_AddStringToObject(group, "format", format.c_str()) ||
-        !cJSON_AddStringToObject(group, "sourceId", loaded->filename.source_id) ||
-        !cJSON_AddStringToObject(group, "process", loaded->filename.process) ||
-        !(group_authors = cJSON_AddArrayToObject(group, "authors")) ||
-        !(group_cheats = cJSON_AddArrayToObject(group, "cheats")) ||
-        !cJSON_AddItemToArray(groups, group)) {
-      cJSON_Delete(group);
+  for (size_t a = 0; a < file_.author_count; ++a) {
+    cJSON *author = cJSON_CreateString(file_.authors[a]);
+    if (!author || !cJSON_AddItemToArray(authors, author)) {
+      cJSON_Delete(author);
       cJSON_Delete(root);
       return -1;
     }
-    for (size_t i = 0; i < loaded->file.author_count; ++i) {
-      cJSON *author = cJSON_CreateString(loaded->file.authors[i]);
-      if (!author || !cJSON_AddItemToArray(group_authors, author)) {
-        cJSON_Delete(author);
-        cJSON_Delete(root);
-        return -1;
-      }
+  }
+
+  for (size_t i = 0; i < file_.cheat_count; ++i) {
+    cJSON *cheat = cJSON_CreateObject();
+    if (!cheat || !cJSON_AddItemToArray(cheats, cheat)) {
+      cJSON_Delete(cheat);
+      cJSON_Delete(root);
+      return -1;
     }
-    for (size_t local = 0; local < loaded->file.cheat_count; ++local) {
-      CheatKey key{loaded->path, loaded->filename.source_id, local};
-      cJSON *cheat = cJSON_CreateObject();
-      if (!cheat || !cJSON_AddStringToObject(cheat, "key", key.serialize().c_str()) ||
-          !cJSON_AddStringToObject(cheat, "name",
-                                   loaded->file.cheats[local].name) ||
-          !cJSON_AddBoolToObject(cheat, "enabled",
-                                 loaded->file.cheats[local].enabled) ||
-          !cJSON_AddStringToObject(cheat, "description",
-                                   loaded->file.cheats[local].description)) {
-        cJSON_Delete(cheat);
-        cJSON_Delete(root);
-        return -1;
-      }
-      cJSON *flat = cJSON_Duplicate(cheat, 1);
-      if (!flat) {
-        cJSON_Delete(cheat);
-        cJSON_Delete(root);
-        return -1;
-      }
-      if (!cJSON_AddItemToArray(group_cheats, cheat)) {
-        cJSON_Delete(flat);
-        cJSON_Delete(cheat);
-        cJSON_Delete(root);
-        return -1;
-      }
-      if (!cJSON_AddItemToArray(cheats, flat)) {
-        cJSON_Delete(flat);
-        cJSON_Delete(root);
-        return -1;
-      }
+    if (!cJSON_AddStringToObject(cheat, "name", file_.cheats[i].name) ||
+        !cJSON_AddNumberToObject(cheat, "id", i) ||
+        !cJSON_AddBoolToObject(cheat, "enabled", file_.cheats[i].enabled) ||
+        !cJSON_AddStringToObject(cheat, "description",
+                                 file_.cheats[i].description)) {
+      cJSON_Delete(root);
+      return -1;
     }
   }
 
@@ -309,84 +198,56 @@ int CheatService::writeListJson(
   if (body.empty()) {
     return -1;
   }
-  std::ofstream output(out_path, std::ios::trunc);
-  if (!output) {
+  std::ofstream ofs(out_path, std::ios::trunc);
+  if (!ofs) {
     return -1;
   }
-  output.write(body.data(), static_cast<std::streamsize>(body.size()));
-  return output.good() ? 0 : -1;
+  ofs.write(body.data(), static_cast<std::streamsize>(body.size()));
+  return ofs.good() ? 0 : -1;
 }
 
-int CheatService::exportList(const CheatRequest &request,
+int CheatService::exportList(const std::string &title_id,
+                             const std::string &version, int pid, int appid,
                              const std::string &out_path) {
+  game_context_t game{};
+  if (fillGame(game, title_id, version, pid, appid) < 0) {
+    return -1;
+  }
   std::lock_guard<std::mutex> lock(mu_);
-  if (runtime_ && !onion_proc_is_alive(runtime_->process.pid)) {
-    LOG_INFO("[service] runtime process pid=%d is gone; clearing session=%s",
-             static_cast<int>(runtime_->process.pid),
-             runtime_->session_id.c_str());
-    clearRuntimeLocked();
-  }
-  if (request.game.title_id.empty() || request.game.version.empty()) {
+  if (refreshLocked(game) < 0) {
     return -1;
   }
-  if (request.mode == CheatViewMode::Browse) {
-    if (request.process) {
-      LOG_ERROR("[cheats] browse request must not include process identity");
-      return -1;
-    }
-    const std::vector<CheatSourceDescriptor> sources =
-        CheatRepository::resolveBrowse(request.game);
-    std::vector<std::unique_ptr<LoadedCheatFile>> files;
-    if (load_sources(sources, files) < 0) {
-      return -1;
-    }
-    return writeListJson({CheatViewMode::Browse, {}, false}, files, out_path);
-  }
-  if (ensureRuntimeLocked(request) < 0) {
-    return -1;
-  }
-  return writeListJson({CheatViewMode::Runtime, runtime_->session_id, true},
-                       runtime_->files, out_path);
+  return writeListJson(out_path);
 }
 
-int CheatService::toggle(const std::string &session_id,
-                         const std::string &serialized_key, bool enabled,
+int CheatService::toggle(int pid, int appid, const std::string &title_id,
+                         const std::string &version, int index,
                          std::string &status) {
-  std::lock_guard<std::mutex> lock(mu_);
+  game_context_t game{};
   status.clear();
-  if (!runtime_ || session_id.empty() || runtime_->session_id != session_id) {
-    status = status_tr("notify.cheats.invalid_mapping");
+  if (fillGame(game, title_id, version, pid, appid) < 0) {
+    status = "invalid game context";
     return -1;
   }
-  CheatKey key;
-  if (!parse_key(serialized_key, key)) {
-    status = status_tr("notify.cheats.invalid_mapping");
+  if (pid > 0) {
+    game.pid = pid;
+  }
+  if (appid != 0) {
+    game.appid = appid;
+  }
+
+  std::lock_guard<std::mutex> lock(mu_);
+  if (refreshLocked(game) < 0) {
+    status = "unable to load cheat file";
     return -1;
   }
-  for (const auto &loaded : runtime_->files) {
-    if (loaded->path != key.source_path ||
-        std::strcmp(loaded->filename.source_id, key.source_id.c_str()) != 0 ||
-        key.local_index >= loaded->file.cheat_count) {
-      continue;
-    }
-    FileSignature current;
-    if (!CheatRepository::statSignature(loaded->path, current) ||
-        current != loaded->signature) {
-      status = status_tr("notify.cheats.invalid_mapping");
-      LOG_WARN("[service] rejected stale cheat key for %s", loaded->path.c_str());
-      return -1;
-    }
-    auto &entry = loaded->file.cheats[key.local_index];
-    if (entry.enabled == enabled) {
-      status = std::string(entry.name) + (enabled ? " -> enabled" : " -> disabled");
-      return 0;
-    }
-    return runtime_->applier.toggle(runtime_->context, loaded->file,
-                                    static_cast<int>(key.local_index), status,
-                                    loaded->path);
+  if (index < 0 || static_cast<size_t>(index) >= file_.cheat_count) {
+    status = "invalid cheat index";
+    return -1;
   }
-  status = status_tr("notify.cheats.invalid_mapping");
-  return -1;
+  game_.pid = game.pid;
+  game_.appid = game.appid;
+  return applier_.toggle(game_, file_, index, status);
 }
 
 } // namespace onion::cheats

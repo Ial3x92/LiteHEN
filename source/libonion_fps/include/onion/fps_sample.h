@@ -29,8 +29,7 @@ enum OnionFpsSource {
   ONION_FPS_SRC_RING = 1u << 1,
   ONION_FPS_SRC_GLOBAL = 1u << 2,
   ONION_FPS_SRC_HYBRID = 1u << 3,
-  ONION_FPS_SRC_MULTIPASS = 1u << 4,
-  ONION_FPS_SRC_BC = 1u << 5
+  ONION_FPS_SRC_MULTIPASS = 1u << 4
 };
 
 struct OnionFpsSample {

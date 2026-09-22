@@ -3,13 +3,11 @@
  */
 #pragma once
 #include "external_symbols.hpp"
-#include "overlay_layout.hpp"
 #include <string>
 #include <vector>
 #include <iostream>
 #include "defs.h"
 #include <onion/settings.hpp>
-#include <onion/payload_config.h>
 
 #define MAX_LINE 256
 #define MAX_PAIRS 100
@@ -42,7 +40,6 @@ enum RemoveWidget {
     REMOVE_CPU_OVERLAY,
     REMOVE_RAM_OVERLAY,
     REMOVE_IP_OVERLAY,
-    REMOVE_FAN_OVERLAY,
     REMOVE_FPS_OVERLAY,
     REMOVE_ALL_OVERLAYS,
 };
@@ -52,7 +49,6 @@ enum CreateWidget {
     CREATE_CPU_OVERLAY,
     CREATE_RAM_OVERLAY,
     CREATE_IP_OVERLAY,
-    CREATE_FAN_OVERLAY,
     CREATE_FPS_OVERLAY,
     CREATE_ALL_OVERLAYS,
 };
@@ -80,16 +76,34 @@ struct LaunchAppParam
 };
 
 /** List entry for a payload .elf in the toolbox. */
-typedef struct PayloadEntry {
+typedef struct {
     std::string path;
     std::string shellui_path;
-    std::string tid;  /* path-derived key for PID / launch */
-    std::string id;   /* stable resource/control suffix */
+    std::string tid;  /* stem key for PID / launch */
+    std::string id;
     std::string name;
     std::string version;
-    OnionPayloadConfig config{};
 } PayloadEntry;
 
+typedef struct {
+    std::string path;
+    std::string shellui_path;
+    std::string id;
+    std::string name;
+    std::string version;
+} Payloads_Apps;
+
+struct GameEntry {
+    std::string tid;
+    std::string title;
+    std::string version;
+    std::string path;
+    std::string dir_name;
+    std::string icon_path;
+    std::string id;
+};
+
+// games_list: see shellui_state.hpp (ToolboxUiState)
 // all_cpu_usage: overlay.cpu_usage_mode=per_core (config.ini)
 enum Cheats_Shortcut{
     CHEATS_SC_OFF = 0,
@@ -108,21 +122,43 @@ enum Cheats_Shortcut{
  };
 
  /**
-  * Vertical edge for the Game++-style single-row monitor bar.
-  * Values 1/3 keep the legacy TR/BR mapping → same as top/bottom.
+  * Anchor for the Game++-style single-row monitor bar.
+  * Content is always horizontally centered; pos only picks top vs bottom.
+  * Values 1/3 keep legacy TR/BR mapping → same as top/bottom center.
   */
  enum overlay_positions{
-    OVERLAY_POS_TOP_LEFT = 0,
-    OVERLAY_POS_TOP_RIGHT,
-    OVERLAY_POS_BOTTOM_LEFT,
-    OVERLAY_POS_BOTTOM_RIGHT
+    OVERLAY_POS_TOP_LEFT = 0,     /* top-center bar */
+    OVERLAY_POS_TOP_RIGHT,        /* top-center (legacy alias) */
+    OVERLAY_POS_BOTTOM_LEFT,      /* bottom-center bar */
+    OVERLAY_POS_BOTTOM_RIGHT      /* bottom-center (legacy alias) */
  };
 
 extern onion::Settings g_settings;
 
 /**
- * Overlay layout: full-width edge strip + left-, center-, or right-packed metrics.
+ * Overlay layout: full-width edge strip + centered metric segments.
  * bar_x/bar_w are always 0 / screen width; bar_y is 0 or (H - bar_h).
+ * label_margin_top is relative to each metric cell and used with
+ * PositionType=1; labels do not use X/Y.
  */
-using OverlayLayout = onion::overlay::Layout;
+struct OverlayLayout {
+    /* Zero means RootWidget logical dimensions have not been resolved yet. */
+    float screen_w = 0.0f;
+    float screen_h = 0.0f;
+    float bar_x = 0.0f;
+    float bar_y = 0.0f;
+    float bar_w = 0.0f;
+    float bar_h = 24.0f;
+    float label_margin_top = 5.0f;
+    float overlay_cpu_x = 160.0f;
+    float overlay_cpu_y = 12.0f;
+    float overlay_gpu_x = 360.0f;
+    float overlay_gpu_y = 12.0f;
+    float overlay_ram_x = 560.0f;
+    float overlay_ram_y = 12.0f;
+    float overlay_ip_x = 740.0f;
+    float overlay_ip_y = 12.0f;
+    float overlay_fps_x = 40.0f;
+    float overlay_fps_y = 12.0f;
+};
 extern OverlayLayout g_overlay_layout;

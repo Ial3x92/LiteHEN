@@ -26,37 +26,22 @@ DUPLICATED_INTERNAL_SPACE = re.compile(r"\S {2,}\S")
 
 REQUIRED_TOKENS = {
     "toolbox": {
-        "group.payloads.sub": ("Kstuff",),
-        "plugins.link.sub": ("Kstuff",),
+        "group.payloads.sub": (),
+        "plugins.link.sub": (),
     },
     "notifications": {
-        "notify.kstuff.loading": ("Kstuff",),
-        "notify.kstuff.load_failed": ("Kstuff",),
-        "notify.kstuff.load_elfldr_failed": ("Kstuff",),
-        "notify.kstuff.deleted": ("Kstuff",),
-        "notify.crash.main": (
-            "OnionHEN_crash.log",
-            "https://github.com/aydencharles/onionHEN/issues",
-        ),
+        "notify.crash.main": (),
     },
 }
 
 FILENAME_IDS = {
     "en-US.json": ("en", True),
-    "zh-CN.json": ("zh-Hans", False),
-    "zh-TW.json": ("zh-Hant", False),
-    "ja-JP.json": ("ja", False),
-    "ko-KR.json": ("ko", False),
     "fr-FR.json": ("fr", False),
     "de-DE.json": ("de", False),
     "it-IT.json": ("it", False),
     "es-ES.json": ("es", False),
-    "pt-BR.json": ("pt-BR", False),
-    "pl-PL.json": ("pl", False),
-    "ru-RU.json": ("ru", False),
-    "ar-SA.json": ("ar", False),
-    "th-TH.json": ("th", False),
 }
+
 
 
 def printf_conversions(value: str) -> list[str]:

@@ -14,16 +14,14 @@ enum class OnPressDomain : unsigned char {
   PassThrough = 0,
   Root,
   Payloads,
-  PayloadConfig,
-  Sprx,
   Plugins,
   PluginConfig,
   AutoPayloads,
   Cheats,
   Account,
+  Plapps,
   Progress,
   RemotePlay,
-  DynamicPlugin,
 };
 
 /**
@@ -36,14 +34,6 @@ constexpr OnPressDomain onpress_domain_for_page(Page page) {
     return OnPressDomain::Root;
   case Page::Payloads:
     return OnPressDomain::Payloads;
-  case Page::PayloadConfig:
-    return OnPressDomain::PayloadConfig;
-  case Page::OverlayMetrics:
-  case Page::OverlayMetricConfig:
-    return OnPressDomain::Root;
-  case Page::Sprx:
-  case Page::SprxConfig:
-    return OnPressDomain::Sprx;
   case Page::Plugins:
     return OnPressDomain::Plugins;
   case Page::PluginConfig:
@@ -54,13 +44,12 @@ constexpr OnPressDomain onpress_domain_for_page(Page page) {
     return OnPressDomain::Cheats;
   case Page::Account:
     return OnPressDomain::Account;
+  case Page::Plapps:
+    return OnPressDomain::Plapps;
   case Page::CheatProgress:
-  case Page::PluginProgress:
     return OnPressDomain::Progress;
   case Page::RemotePlay:
     return OnPressDomain::RemotePlay;
-  case Page::DynamicPlugin:
-    return OnPressDomain::DynamicPlugin;
   case Page::None:
   case Page::SuperuserPass:
   case Page::RedirectOgDebug:

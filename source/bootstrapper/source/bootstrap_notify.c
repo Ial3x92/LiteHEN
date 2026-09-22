@@ -2,6 +2,7 @@
 
 #include "bootstrap_notify.h"
 
+#include <onion/log.h>
 #include <onion/notify.h>
 
 #include <stdarg.h>
@@ -14,7 +15,12 @@ void bootstrap_notify(const char *text, ...) {
 }
 
 void bootstrap_notify_starting(bool custom_icon_ready) {
+  if (!custom_icon_ready) {
+    LOG_WARN("Startup icon unavailable; using system notification icon");
+    bootstrap_notify("notify.boot.starting");
+    return;
+  }
   onion_notify_rich("notify.brand", "notify.boot.starting",
-                    custom_icon_ready ? ONION_NOTIFY_ICON_PATH : "",
-                    "download", "588193128");
+                    "/user/data/OnionHEN/onionhen.png", "download",
+                    "588193128");
 }

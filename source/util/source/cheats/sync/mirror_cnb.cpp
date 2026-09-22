@@ -14,7 +14,7 @@ public:
     std::string url = "https://cnb.cool/";
     url += catalog.slugFor(id());
     url += "/-/git/archive/refs/heads/";
-    url += "chinese-build";
+    url += catalog.defaultBranch();
     url += ".zip";
     return url;
   }

@@ -1,12 +1,9 @@
 /* Copyright (C) 2025 OnionHEN / LightningMods */
 
 #include "toolbox_i18n.hpp"
-#include <onion/log.h>
 #include <onion/notify_i18n.h>
 
-#ifdef ONION_HOST_TEST
-extern "C" int sceSystemServiceParamGetInt(int param_id, int *value);
-#else
+#ifndef ONION_HOST_TEST
 #include "external_symbols.hpp"
 #endif
 
@@ -173,24 +170,6 @@ int locale_index_for_lang(Lang lang) {
   return kI18nLocaleFallback;
 }
 
-/* SCE_SYSTEM_SERVICE_PARAM_ID_LANG */
-constexpr int kSystemServiceParamIdLang = 1;
-
-bool read_system_language(int *out) {
-#ifndef ONION_HOST_TEST
-  if (!sceSystemServiceParamGetInt)
-    return false;
-#endif
-  int language = 0;
-  const int result =
-      sceSystemServiceParamGetInt(kSystemServiceParamIdLang, &language);
-  if (result < 0 || language < 0)
-    return false;
-  if (out)
-    *out = language;
-  return true;
-}
-
 } // namespace
 
 Lang active_lang() { return lang_from_notify(onion_notify_get_language()); }
@@ -246,12 +225,11 @@ void apply_system_or_ui_lang(int ui_lang) {
     return;
   }
 
-  int system_language = 0;
-  if (!read_system_language(&system_language)) {
-    LOG_WARN("system language query failed; keeping %d",
-             static_cast<int>(active_lang()));
-    return;
-  }
+  int system_language = 1;
+#ifndef ONION_HOST_TEST
+  if (sceSystemServiceParamGetInt)
+    (void)sceSystemServiceParamGetInt(1, &system_language);
+#endif
   set_lang(lang_from_notify(onion_notify_resolve_language(0, system_language)));
 }
 

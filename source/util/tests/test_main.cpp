@@ -5,9 +5,6 @@ extern "C" int test_cheat_parsers_suite(void);
 extern "C" int test_cheat_repository_suite(void);
 extern "C" int test_cheat_flatten_suite(void);
 extern "C" int test_payload_suite(void);
-extern "C" int test_payload_config_suite(void);
-extern "C" int test_payload_autostart_suite(void);
-extern "C" int test_conflict_suite(void);
 extern "C" int test_base64_suite(void);
 extern "C" int test_aes_cbc_suite(void);
 extern "C" int test_hde64_suite(void);
@@ -26,7 +23,6 @@ extern "C" int test_platform_notify_suite(void);
 extern "C" int test_util_language_suite(void);
 extern "C" int test_msg_protocol_suite(void);
 extern "C" int test_app_jailbreak_policy_suite(void);
-extern "C" int test_big_app_collect_policy_suite(void);
 extern "C" int test_debug_settings_route_policy_suite(void);
 extern "C" int test_ipc_harden_suite(void);
 extern "C" int test_toolbox_injection_suite(void);
@@ -39,18 +35,7 @@ extern "C" int test_onpress_policy_suite(void);
 extern "C" int test_toolbox_helpers_suite(void);
 extern "C" int test_toolbox_i18n_suite(void);
 extern "C" int test_overlay_text_metrics_suite(void);
-extern "C" int test_overlay_layout_suite(void);
 extern "C" int test_fps_formula_suite(void);
-extern "C" int test_app_lifecycle_suite(void);
-extern "C" int test_sprx_loader_suite(void);
-extern "C" int test_sprx_catalog_suite(void);
-extern "C" int test_sprx_plugin_manager_suite(void);
-extern "C" int test_plugin_ui_suite(void);
-extern "C" int test_plugin_sprx_pages_suite(void);
-extern "C" int test_plugin_progress_suite(void);
-extern "C" int test_progress_auto_return_suite(void);
-extern "C" int test_settings_page_update_suite(void);
-extern "C" int test_plugin_manager_suite(void);
 
 int main() {
   int failures = 0;
@@ -60,9 +45,6 @@ int main() {
   failures += test_cheat_repository_suite();
   failures += test_cheat_flatten_suite();
   failures += test_payload_suite();
-  failures += test_payload_config_suite();
-  failures += test_payload_autostart_suite();
-  failures += test_conflict_suite();
   failures += test_base64_suite();
   failures += test_aes_cbc_suite();
   failures += test_hde64_suite();
@@ -81,7 +63,6 @@ int main() {
   failures += test_util_language_suite();
   failures += test_msg_protocol_suite();
   failures += test_app_jailbreak_policy_suite();
-  failures += test_big_app_collect_policy_suite();
   failures += test_debug_settings_route_policy_suite();
   failures += test_ipc_harden_suite();
   failures += test_toolbox_injection_suite();
@@ -94,18 +75,7 @@ int main() {
   failures += test_toolbox_helpers_suite();
   failures += test_toolbox_i18n_suite();
   failures += test_overlay_text_metrics_suite();
-  failures += test_overlay_layout_suite();
   failures += test_fps_formula_suite();
-  failures += test_app_lifecycle_suite();
-  failures += test_sprx_loader_suite();
-  failures += test_sprx_catalog_suite();
-  failures += test_sprx_plugin_manager_suite();
-  failures += test_plugin_ui_suite();
-  failures += test_plugin_sprx_pages_suite();
-  failures += test_plugin_progress_suite();
-  failures += test_progress_auto_return_suite();
-  failures += test_settings_page_update_suite();
-  failures += test_plugin_manager_suite();
 
   if (failures == 0) {
     std::fprintf(stderr, "All util host tests passed.\n");

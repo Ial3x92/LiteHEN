@@ -7,17 +7,21 @@
 #include <cstring>
 #include <string>
 
-extern "C" void onion_test_system_language_configure(int result, int value);
-
 using namespace toolbox_i18n;
 
 static int test_default_zh(void) {
   set_lang(Lang::ZhHans);
   TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★OnionHEN 工具箱") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.pkg"), "内容安装与管理") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("group.payloads.sub"),
+                               "用户与自动启动 Payload；Kstuff、FTP、ShadowMount+ 插件") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.game"), "游戏辅助") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.game.sub"),
                                "管理游戏金手指与下载金手指合集") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.group"), "FTP 服务器") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.run"), "立即运行 FTP 服务器") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.autoload"),
+                               "随 OnionHEN 启动 FTP") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.display"), "监控与显示") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.display.sub"),
                                "游戏覆盖层、主菜单显示与游戏选项入口") == 0);
@@ -34,7 +38,6 @@ static int test_default_zh(void) {
                                "打开系统安装界面，用于安装 PKG 游戏或应用") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("fan.enable.sub"),
                                "关闭时使用系统默认风扇策略") == 0);
-  TEST_ASSERT_TRUE(std::strcmp(tr("rest.delay"), "延迟工具箱激活（秒）") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("account.warning"),
                                "激活账号后，你可能会丢失现有存档（账号 ID 会改变）。"
                                "请确认你接受这个风险后再继续。") == 0);
@@ -45,24 +48,15 @@ static int test_default_zh(void) {
       std::strcmp(onion_notify_tr("notify.crash.main"),
                   "OnionHEN 已崩溃……\n\n请将 /data/OnionHEN/"
                   "OnionHEN_crash.log 附加到 GitHub Issue：https://github.com/"
-                  "aydencharles/onionHEN/issues") == 0);
-  TEST_ASSERT_TRUE(std::strcmp(tr("overlay.pos.top"), "顶部贴边") == 0);
-  TEST_ASSERT_TRUE(std::strcmp(tr("overlay.align.center"), "居中") == 0);
+                  "kvnhrt/onionHEN/issues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
                                "为 %s 启用/禁用 %s") == 0);
-  TEST_ASSERT_TRUE(std::strcmp(tr("cheats.group.unnamed"), "来源") == 0);
-  TEST_ASSERT_TRUE(
-      std::strcmp(onion_notify_tr("notify.cheats.conflict"),
-                  "%s 与 %s 冲突（%s）于 0x%s") == 0);
-  TEST_ASSERT_TRUE(
-      std::strcmp(onion_notify_tr("notify.boot.conflict"),
-                  "OnionHEN 已拒绝启动：%s 正在运行") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.game_menu"),
                                "★ OnionHEN 金手指") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download"),
                                "下载金手指合集") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download.desc"),
-                               "鸣谢 TeeKay87（官方金手指仓库）& PS5_Xiexiyu（中文镜像仓库）") == 0);
+                               "鸣谢 TeeKay87") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.mirror.auto"), "自动") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("pkg.msg.options"),
                                "PKG 安装器选项") == 0);
@@ -76,10 +70,18 @@ static int test_en(void) {
   set_lang(Lang::En);
   TEST_ASSERT_TRUE(std::strcmp(tr("root.title"), "★OnionHEN Toolbox") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.pkg"), "Content Install & Management") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("group.payloads.sub"),
+                               "User and auto-start payloads; Kstuff, FTP, "
+                               "and ShadowMount+ plugins") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.game"), "Game Tools") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.game.sub"),
                                "Manage cheats and download the cheat "
                                "collection") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.group"), "FTP Server") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.run"), "Run FTP server now") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("ftp.autoload"), "Start FTP with OnionHEN") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("shadowmount.run"), "Run ShadowMount+ now") == 0);
+  TEST_ASSERT_TRUE(std::strcmp(tr("plugin.shadowmount.title"), "ShadowMount+") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("group.display.sub"),
                                "In-game overlay, home menu display, and game "
                                "options entry") == 0);
@@ -107,30 +109,20 @@ static int test_en(void) {
       std::strcmp(onion_notify_tr("notify.crash.main"),
                   "OnionHEN has crashed ...\n\nPlease attach /data/OnionHEN/"
                   "OnionHEN_crash.log to a GitHub issue: https://github.com/"
-                  "aydencharles/onionHEN/issues") == 0);
+                  "kvnhrt/onionHEN/issues") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.enable_fmt"),
                                "Enable/disable %s for %s") == 0);
-  TEST_ASSERT_TRUE(std::strcmp(tr("cheats.group.unnamed"), "Source") == 0);
-  TEST_ASSERT_TRUE(
-      std::strcmp(onion_notify_tr("notify.cheats.conflict"),
-                  "%s conflicts with %s (%s) at 0x%s") == 0);
-  TEST_ASSERT_TRUE(
-      std::strcmp(onion_notify_tr("notify.boot.conflict"),
-                  "OnionHEN refused to start: %s is already running") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("payload.start_stop_fmt"),
                                "Start/stop %s (path: %s) (%s)") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("debug.np_env.sub"),
                                "Change the PlayStation Network environment "
                                "string; the console reboots after saving") == 0);
-  TEST_ASSERT_TRUE(std::strcmp(tr("rest.delay"),
-                               "Delay toolbox activation (seconds)") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.game_menu"),
                                "★ OnionHEN Cheats") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download"),
                                "Download cheat collection") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("cheats.repo.download.desc"),
-                               "Thanks to TeeKay87 (Official Cheats Repo) & "
-                               "PS5_Xiexiyu (Chinese Mirror Repo).") == 0);
+                               "Credits to TeeKay87") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("pkg.msg.installing"),
                                "OnionHEN is installing the selected PKG") == 0);
   TEST_ASSERT_TRUE(std::strcmp(tr("pkg.msg.select_all"), "Select all") == 0);
@@ -314,37 +306,11 @@ static int test_apply_ui_lang(void) {
   return 0;
 }
 
-static int test_system_lang_follows_query(void) {
-  onion_test_system_language_configure(0, 11);
-  apply_system_or_ui_lang(0);
-  TEST_ASSERT_TRUE(active_lang() == Lang::ZhHans);
-
-  onion_test_system_language_configure(0, 1);
-  apply_system_or_ui_lang(0);
-  TEST_ASSERT_TRUE(active_lang() == Lang::En);
-
+static int test_system_lang_host_fallback(void) {
   apply_system_or_ui_lang(2);
   TEST_ASSERT_TRUE(active_lang() == Lang::En);
-  onion_test_system_language_configure(0, 11);
-  apply_system_or_ui_lang(2);
-  TEST_ASSERT_TRUE(active_lang() == Lang::En);
-
-  onion_test_system_language_configure(0, 1);
-  return 0;
-}
-
-static int test_system_lang_query_failure_keeps_current(void) {
-  set_lang(Lang::ZhHans);
-  onion_test_system_language_configure(-1, 1);
-  apply_system_or_ui_lang(0);
-  TEST_ASSERT_TRUE(active_lang() == Lang::ZhHans);
-
-  set_lang(Lang::En);
-  onion_test_system_language_configure(-1, 11);
   apply_system_or_ui_lang(0);
   TEST_ASSERT_TRUE(active_lang() == Lang::En);
-
-  onion_test_system_language_configure(0, 1);
   return 0;
 }
 
@@ -418,10 +384,8 @@ extern "C" int test_toolbox_i18n_suite(void) {
   fails += onion_test_run("i18n.pl", test_pl);
   fails += onion_test_run("i18n.th", test_th);
   fails += onion_test_run("i18n.apply_ui_lang", test_apply_ui_lang);
-  fails += onion_test_run("i18n.system_lang_follows_query",
-                          test_system_lang_follows_query);
-  fails += onion_test_run("i18n.system_lang_query_failure_keeps_current",
-                          test_system_lang_query_failure_keeps_current);
+  fails += onion_test_run("i18n.system_lang_host_fallback",
+                          test_system_lang_host_fallback);
   fails += onion_test_run("i18n.missing_key", test_missing_key);
   fails += onion_test_run("i18n.format", test_format);
   return fails;

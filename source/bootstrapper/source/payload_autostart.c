@@ -7,7 +7,6 @@
 #include <elfldr_remote.h>
 #include <onion/log.h>
 #include <onion/payload.h>
-#include <onion/payload_config.h>
 #include <onion/platform.h>
 
 #include <dirent.h>
@@ -15,12 +14,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 typedef struct PayloadEntry {
   char *path;
   char *filename;
-  OnionPayloadConfig config;
 } PayloadEntry;
 
 typedef struct PayloadList {
@@ -30,12 +27,9 @@ typedef struct PayloadList {
 
 static const char *const kPayloadDirectories[] = {
     "/mnt/usb0/onionhen/payloads", "/mnt/usb0/OnionHEN/payloads",
-    "/mnt/usb1/onionhen/payloads", "/mnt/usb1/OnionHEN/payloads",
-    "/mnt/usb2/onionhen/payloads", "/mnt/usb2/OnionHEN/payloads",
-    "/mnt/usb3/onionhen/payloads", "/mnt/usb3/OnionHEN/payloads",
-    "/user/data/OnionHEN/payloads",
+    "/mnt/usb1/onionhen/payloads", "/mnt/usb2/onionhen/payloads",
+    "/mnt/usb3/onionhen/payloads", "/user/data/OnionHEN/payloads",
     "/user/data/onionhen/payloads", "/data/OnionHEN/payloads",
-    "/data/onionhen/payloads",
 };
 
 static void payload_list_destroy(PayloadList *list) {
@@ -50,10 +44,10 @@ static void payload_list_destroy(PayloadList *list) {
   list->count = 0;
 }
 
-static bool payload_list_contains_path(const PayloadList *list,
-                                       const char *path) {
+static bool payload_list_contains(const PayloadList *list,
+                                  const char *filename) {
   for (size_t i = 0; i < list->count; ++i) {
-    if (strcmp(list->entries[i].path, path) == 0)
+    if (strcmp(list->entries[i].filename, filename) == 0)
       return true;
   }
   return false;
@@ -70,8 +64,6 @@ static bool payload_list_append(PayloadList *list, const char *path,
   PayloadEntry *entry = &list->entries[list->count];
   entry->path = strdup(path);
   entry->filename = strdup(filename);
-  if (!onion_payload_config_load(path, &entry->config))
-    LOG_WARN("Invalid payload config, using defaults: %s", path);
   if (!entry->path || !entry->filename) {
     free(entry->path);
     free(entry->filename);
@@ -115,26 +107,16 @@ static void scan_payload_directory(PayloadList *list, const char *directory) {
       LOG_WARN("skipping auto start for payload: %s", path);
       continue;
     }
-    char canonical[ONION_PAYLOAD_PATH_SIZE];
-    if (!onion_payload_canonical_path(path, canonical, sizeof(canonical)))
-      continue;
-    if (payload_list_contains_path(list, canonical)) {
-      LOG_WARN("skipping duplicate payload path: %s", path);
+    if (payload_list_contains(list, entry->d_name)) {
+      LOG_WARN("skipping duplicate payload: %s", path);
       continue;
     }
-    if (!payload_list_append(list, canonical, entry->d_name)) {
+    if (!payload_list_append(list, path, entry->d_name)) {
       LOG_ERROR("failed to record payload for auto start: %s", path);
       break;
     }
   }
   closedir(dir);
-}
-
-static int compare_payload_entries(const void *a, const void *b) {
-  const PayloadEntry *first = (const PayloadEntry *)a;
-  const PayloadEntry *second = (const PayloadEntry *)b;
-  return onion_payload_compare(first->config.priority, first->path,
-                                second->config.priority, second->path);
 }
 
 static PayloadList find_autostart_payloads(void) {
@@ -143,8 +125,6 @@ static PayloadList find_autostart_payloads(void) {
        i < sizeof(kPayloadDirectories) / sizeof(kPayloadDirectories[0]); ++i) {
     scan_payload_directory(&list, kPayloadDirectories[i]);
   }
-  if (list.count > 1)
-    qsort(list.entries, list.count, sizeof(*list.entries), compare_payload_entries);
   return list;
 }
 
@@ -162,18 +142,8 @@ void bootstrap_payload_autostart(void) {
     if (strstr(entry->filename, "elfldr") != NULL)
       continue;
 
-    char identity[ONION_PAYLOAD_IDENTITY_SIZE];
-    const char *key = onion_payload_identity_from_path(
-        entry->path, identity, sizeof(identity)) ? identity : NULL;
-    if (key && onion_payload_running(key))
-      continue;
-
-    LOG_INFO("Auto-start payload: %s priority=%d delay=%ds", entry->path,
-             entry->config.priority, entry->config.delay_seconds);
-    unsigned int remaining = (unsigned int)entry->config.delay_seconds;
-    while (remaining)
-      remaining = sleep(remaining);
-    if (!onion_payload_load_with_key(entry->path, entry->filename, key)) {
+    LOG_DEBUG("Loading payload: %s", entry->path);
+    if (!onion_payload_load(entry->path, entry->filename)) {
       bootstrap_notify("notify.payload.load_failed_path", entry->path);
       LOG_ERROR("FAILED!");
       continue;

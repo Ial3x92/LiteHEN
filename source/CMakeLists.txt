@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.20)
 
-project("OnionHEN")
+project("LiteHEN")
 
 set(PROJECT_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -24,13 +24,13 @@ add_custom_target(onion_version
 		"-DOUTPUT_FILE=${ONIONHEN_VERSION_HEADER}"
 		-P "${PROJECT_ROOT}/cmake/GenerateVersionHeader.cmake"
 	BYPRODUCTS "${ONIONHEN_VERSION_HEADER}"
-	COMMENT "Generating OnionHEN build version"
+	COMMENT "Generating LiteHEN build version"
 	VERBATIM
 )
 
 # ---------------------------------------------------------------------------
 # Artifact layout
-#   ${CMAKE_BINARY_DIR}/bin  — ELFs (daemon, util, bootstrapper, OnionHEN, …)
+#   ${CMAKE_BINARY_DIR}/bin  — ELFs (daemon, util, bootstrapper, LiteHEN, …)
 #   ${CMAKE_BINARY_DIR}/lib  — built static libs (libonion_*, …)
 # PS5 system-library stubs stay under source/platform/ps5/stubs.
 #
@@ -57,25 +57,18 @@ link_directories("${ONIONHEN_OUT_LIB}" "${ONIONHEN_PS5_STUB_DIR}")
 add_subdirectory(libhijacker)
 add_subdirectory(libNidResolver)
 # add_subdirectory(libRPI)
-# libSelfDecryptor removed from OnionHEN.
+# libSelfDecryptor removed from LiteHEN (FTP uses local decrypt_self only)
 # Shared proc/ucred before NineS (inject path links these symbols).
 add_subdirectory(libonion_proc)
 add_subdirectory(libonion_fps)
 add_subdirectory(libonion_platform)
 add_subdirectory(libonion_payload)
-add_subdirectory(libonion_conflict)
 add_subdirectory(libonion_ipc)
 add_subdirectory(libonion_settings)
 add_subdirectory(libonion_detour)
 add_subdirectory(libonion_ready)
-add_subdirectory(libonion_lifecycle)
-add_subdirectory(libonion_plugin_ui)
-add_subdirectory(libonion_plugin_bridge)
-add_subdirectory(libonion_plugin_session)
-add_subdirectory(libonion_plugin_manager)
 # Shared ptrace + ELF inject (authid elevated once at inject entry, not per syscall).
 add_subdirectory(libonion_elfldr)
-add_subdirectory(libonion_sprx)
 add_subdirectory(onion_elfldr_server)
 add_subdirectory(libNineS)
 add_subdirectory(shellui)

@@ -19,22 +19,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       lld-18 \
       llvm-18 \
       make \
-      nodejs \
-      npm \
       meson \
       ninja-build \
-      passwd \
       pkg-config \
       python3 \
-      python3-pip \
       python3-pyelftools \
       socat \
       unzip \
       wget \
       xz-utils \
       libssl-dev \
-    librsvg2-bin \
-            git \
+      librsvg2-bin \
+      git \
     && ln -sf /usr/lib/llvm-18/bin/llvm-config /usr/local/bin/llvm-config && \
     rm -rf /var/lib/apt/lists/*
 
@@ -53,16 +49,6 @@ RUN find /workspace -type f \( -name "*.sh" -o -name "*.bash" \) -print0 | xargs
     cd /workspace && \
     rm -rf /tmp/ps5-payload-sdk-src
 
-# Keystone engine for host unit tests. The wheel ships libkeystone.so inside
-# the python package; expose it under /usr/local/lib where the tests Makefile
-# (KEYSTONE_PREFIX=/usr/local) and the runtime loader both find it. Headers
-# come from third_party/keystone/include, already vendored in the repo.
-RUN pip3 install --break-system-packages --no-cache-dir keystone-engine && \
-    KSO=$(python3 -c 'import keystone, os; print(os.path.join(os.path.dirname(keystone.__file__), "libkeystone.so"))') && \
-    ln -sf "$KSO" /usr/local/lib/libkeystone.so && \
-    ln -sf "$KSO" /usr/local/lib/libkeystone.so.0 && \
-    ldconfig
-
 RUN if getent group "${HOST_GID}" >/dev/null; then \
             builder_group="$(getent group "${HOST_GID}" | cut -d: -f1)"; \
         else \
@@ -80,4 +66,4 @@ RUN if getent group "${HOST_GID}" >/dev/null; then \
         chown -R builder:"${builder_group}" /workspace
 
 USER builder
-    CMD ["/bin/bash", "-lc", "set -euo pipefail; rm -rf /tmp/onionhen-build; cp -a /workspace/. /tmp/onionhen-build; python3 -c \"from pathlib import Path; files=list(Path('/tmp/onionhen-build').rglob('*.sh'))+list(Path('/tmp/onionhen-build').rglob('*.bash')); [p.write_bytes(p.read_bytes().replace(bytes([13]), bytes())) for p in files]\"; git -C /tmp/onionhen-build submodule update --init --recursive; cd /tmp/onionhen-build; export PS5_PAYLOAD_SDK=/opt/ps5-payload-sdk; export PATH=/usr/lib/llvm-18/bin:${PS5_PAYLOAD_SDK}/bin:${PATH}; export LLVM_CONFIG=/usr/lib/llvm-18/bin/llvm-config; ./scripts/build.sh --jobs 8; rm -rf /workspace/build; cp -a /tmp/onionhen-build/build /workspace/build"]
+CMD ["/bin/bash", "-lc", "set -euo pipefail; rm -rf /tmp/litehen-build; cp -a /workspace/. /tmp/litehen-build; python3 -c \"from pathlib import Path; files=list(Path('/tmp/litehen-build').rglob('*.sh'))+list(Path('/tmp/litehen-build').rglob('*.bash')); [p.write_bytes(p.read_bytes().replace(bytes([13]), bytes())) for p in files]\"; git -C /tmp/litehen-build submodule update --init --recursive; cd /tmp/litehen-build; export PS5_PAYLOAD_SDK=/opt/ps5-payload-sdk; export PATH=/usr/lib/llvm-18/bin:${PS5_PAYLOAD_SDK}/bin:${PATH}; export LLVM_CONFIG=/usr/lib/llvm-18/bin/llvm-config; ./scripts/build.sh --jobs 8; rm -rf /workspace/build; cp -a /tmp/litehen-build/build /workspace/build"]

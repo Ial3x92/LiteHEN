@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.20)
 
 set(basename "unpacker")
-project(${basename} C CXX ASM)
+project(${basename} C ASM)
 
 onion_module_prologue(C_STANDARD 11 CXX_STANDARD 20)
 
@@ -30,14 +30,8 @@ set(LZMA_LIB ${LZMA_ROOT}/LzmaLib.c ${LZMA_ROOT}/Alloc.c
 				${LZMA_ROOT}/Threads.c
 				${LZMA_ROOT}/LzFindOpt.c)
 
-# Unpacker: embedded LZMA payload, disk cache, 9021 via elfldr_remote.
-set(SrcFiles
-	${D_SRC}/main.c
-	${D_SRC}/bootstrap_payload.c
-	${D_SRC}/bootstrap_cache.c
-	${D_SRC}/sha1.c
-	${ONIONHEN_COMMON_DIR}/elfldr_remote.c
-	${LZMA_LIB})
+# main.c only — initial bootstrap is sent to external elfldr 9021.
+set(SrcFiles ${D_SRC}/main.c ${LZMA_LIB})
 
 set(CMAKE_C_FLAGS "${ONION_PS5_TARGET_FLAGS} ")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-keyword-macro -fPIC -fPIE -march=znver2 -Wall -Werror -fstack-protector-all")
@@ -45,9 +39,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 
 target_sources(${PROJECT_NAME} PRIVATE ${SrcFiles})
 set_source_files_properties(
-	${D_SRC}/bootstrap_payload.c
+	${D_SRC}/main.c
 	PROPERTIES OBJECT_DEPENDS
-		"${ONIONHEN_OUT_BIN}/bootstrapper.elf.lzma;${ONIONHEN_OUT_BIN}/bootstrapper.elf.lzma.size;${ONIONHEN_OUT_BIN}/bootstrapper.elf.sha1"
+		"${ONIONHEN_OUT_BIN}/bootstrapper.elf.lzma;${ONIONHEN_OUT_BIN}/bootstrapper.elf.lzma.size"
 )
 onion_target_debug_define(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -55,13 +49,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	"${LZMA_ROOT}"
 	"${PROJECT_ROOT}/libonion_platform/include"
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE onion_platform onion_conflict)
-add_dependencies(${PROJECT_NAME} onion_platform onion_conflict)
-set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+target_link_libraries(${PROJECT_NAME} PRIVATE onion_platform)
+add_dependencies(${PROJECT_NAME} onion_platform)
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	ONIONHEN_BOOTSTRAPPER_LZMA="${ONIONHEN_OUT_BIN}/bootstrapper.elf.lzma"
 	ONIONHEN_BOOTSTRAPPER_SIZE="${ONIONHEN_OUT_BIN}/bootstrapper.elf.lzma.size"
-	ONIONHEN_BOOTSTRAPPER_SHA1="${ONIONHEN_OUT_BIN}/bootstrapper.elf.sha1"
 )
 add_dependencies(${PROJECT_NAME} bootstrapper_packed)
 

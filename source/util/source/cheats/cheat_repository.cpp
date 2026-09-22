@@ -1,17 +1,18 @@
 #include <onion/fs.h>
+#include <onion/log.h>
 #include "cheats/cheat_repository.hpp"
 
 #include <cctype>
 #include <cstdio>
 #include <cstring>
 #include <dirent.h>
-#include <algorithm>
+#include <mutex>
 #include <strings.h>
 #include <string_view>
 #include <sys/stat.h>
+#include <unordered_map>
 #include <unistd.h>
 
-#include <onion/log.h>
 #include "cheats/i_cheat_parser.hpp"
 #include "cheats/cheat_engine.h"
 #include "cheats/runtime.h"
@@ -20,12 +21,29 @@ namespace onion::cheats {
 
 namespace {
 
+struct ResolveCacheEntry {
+  FileSignature directory;
+  std::string path;
+};
+
+std::mutex g_resolve_cache_mutex;
+std::unordered_map<std::string, ResolveCacheEntry> g_resolve_cache;
+
 void uppercaseAscii(char *value) {
   if (value == nullptr) {
     return;
   }
   for (size_t i = 0; value[i] != '\0'; ++i) {
     value[i] = static_cast<char>(std::toupper(static_cast<unsigned char>(value[i])));
+  }
+}
+
+void lowercaseAscii(char *value) {
+  if (value == nullptr) {
+    return;
+  }
+  for (size_t i = 0; value[i] != '\0'; ++i) {
+    value[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(value[i])));
   }
 }
 
@@ -56,12 +74,27 @@ void fillSignature(FileSignature &out, const std::string &path,
   out.ctime_nsec = statCtimeNsec(st);
 }
 
-bool cheatDirectoryAvailable() {
+bool readDirectorySignature(FileSignature &out) {
   struct stat st {};
   if (::stat(ONION_CHEATS_DIR, &st) != 0 || !S_ISDIR(st.st_mode)) {
     return false;
   }
+  fillSignature(out, ONION_CHEATS_DIR, st);
   return true;
+}
+
+std::string findExactPath(const std::string &basename) {
+  for (int rank = 0;; ++rank) {
+    const char *extension = onion_cheat_extension_for_rank(rank);
+    if (extension == nullptr) {
+      return {};
+    }
+    const std::string path = std::string(ONION_CHEATS_DIR) + "/" + basename +
+                             "." + extension;
+    if (CheatRepository::fileExists(path)) {
+      return path;
+    }
+  }
 }
 
 bool isRegularEntry(const char *directory, const struct dirent *entry) {
@@ -94,113 +127,129 @@ struct ScannedCandidate {
   std::string name;
 };
 
-std::vector<ScannedCandidate> scanMatchingPaths(
-    const char *title_id, const std::string &version, std::string_view process,
-    bool allow_any_process) {
-  std::vector<ScannedCandidate> matches;
+std::string scanMatchingPath(const char *title_id, const std::string &version,
+                             std::string_view process,
+                             std::string_view hash) {
   DIR *directory = ::opendir(ONION_CHEATS_DIR);
   if (directory == nullptr) {
-    return matches;
+    return {};
   }
 
+  ScannedCandidate best;
+  size_t match_count = 0;
   while (const struct dirent *entry = ::readdir(directory)) {
-    if (entry->d_name[0] == '.') {
-      continue;
-    }
     onion_cheat_filename_t parts{};
-    if (onion_cheat_parse_filename(entry->d_name, &parts) < 0) {
-      LOG_DEBUG("[cheats] skip %s: filename parse failed", entry->d_name);
+    if (onion_cheat_parse_filename(entry->d_name, &parts) < 0 ||
+        strcasecmp(parts.title_id, title_id) != 0 ||
+        std::strcmp(parts.version, version.c_str()) != 0 ||
+        !onion_cheat_filename_compatible(&parts, process.data(), hash.data()) ||
+        !isRegularEntry(ONION_CHEATS_DIR, entry)) {
       continue;
     }
-    if (strcasecmp(parts.title_id, title_id) != 0 ||
-        std::strcmp(parts.version, version.c_str()) != 0) {
-      continue;
+
+    ++match_count;
+    if (best.name.empty() ||
+        onion_cheat_filename_compare(&parts, entry->d_name, &best.parts,
+                                     best.name.c_str(), process.data(),
+                                     hash.data()) < 0) {
+      best.parts = parts;
+      best.name = entry->d_name;
     }
-    if (!isRegularEntry(ONION_CHEATS_DIR, entry)) {
-      LOG_DEBUG("[cheats] skip %s: not a regular file", entry->d_name);
-      continue;
-    }
-    if (!allow_any_process &&
-        !onion_cheat_filename_compatible(&parts, process.data())) {
-      LOG_DEBUG("[cheats] skip %s: process mismatch file_process='%s' "
-                "runtime_process='%s' suffix='%s' source_id='%s'",
-                entry->d_name, parts.process, process.data(), parts.suffix,
-                parts.source_id);
-      continue;
-    }
-    LOG_DEBUG("[cheats] match %s: process='%s' source_id='%s'%s", entry->d_name,
-              parts.process, parts.source_id,
-              allow_any_process ? " (title browsing)" : "");
-    matches.push_back({parts, entry->d_name});
   }
   ::closedir(directory);
-  std::sort(matches.begin(), matches.end(),
-            [](const ScannedCandidate &lhs, const ScannedCandidate &rhs) {
-              return onion_cheat_filename_compare(&lhs.parts, lhs.name.c_str(),
-                                                  &rhs.parts,
-                                                  rhs.name.c_str()) < 0;
-            });
-  return matches;
+
+  if (best.name.empty()) {
+    return {};
+  }
+
+  const std::string path = std::string(ONION_CHEATS_DIR) + "/" + best.name;
+  if (match_count > 1 && best.parts.hash[0] != '\0' && hash.empty()) {
+    LOG_WARN("[repository] multiple hashed cheats for %s %s; using %s",
+             title_id, version.c_str(), best.name.c_str());
+  } else if (best.parts.hash[0] != '\0' || best.parts.process[0] != '\0') {
+    LOG_DEBUG("[repository] using cheat %s", path.c_str());
+  }
+  return path;
 }
 
-std::vector<CheatSourceDescriptor> toDescriptors(
-    const std::vector<ScannedCandidate> &candidates) {
-  std::vector<CheatSourceDescriptor> result;
-  result.reserve(candidates.size());
-  for (const ScannedCandidate &candidate : candidates) {
-    CheatSourceDescriptor descriptor;
-    descriptor.path = std::string(ONION_CHEATS_DIR) + "/" + candidate.name;
-    descriptor.source_id = candidate.parts.source_id;
-    descriptor.process = candidate.parts.process;
-    descriptor.extension_rank = candidate.parts.extension_rank;
-    result.push_back(std::move(descriptor));
+std::string resolveScannedPath(const char *title_id, const std::string &version,
+                               std::string_view process,
+                               std::string_view hash) {
+  FileSignature directory;
+  if (!readDirectorySignature(directory)) {
+    return {};
   }
-  return result;
-}
 
-bool normalizeGame(const GameKey &game, std::string &title_id,
-                   std::string &version) {
-  if (game.title_id.empty() || game.version.empty() ||
-      game.version == "unknown") {
-    return false;
+  const std::string key = std::string(title_id) + "\n" + version + "\n" +
+                          std::string(process) + "\n" + std::string(hash);
+  bool cache_hit = false;
+  std::string cached_path;
+  {
+    std::lock_guard<std::mutex> lock(g_resolve_cache_mutex);
+    const auto it = g_resolve_cache.find(key);
+    if (it != g_resolve_cache.end() &&
+        it->second.directory.sameIdentity(directory)) {
+      cache_hit = true;
+      cached_path = it->second.path;
+    }
   }
-  char title[32];
-  char ver[32];
-  std::snprintf(title, sizeof(title), "%s", game.title_id.c_str());
-  uppercaseAscii(title);
-  onion_cheat_normalize_filename_token(game.version.c_str(), ver, sizeof(ver));
-  title_id = title;
-  version = ver;
-  return !title_id.empty() && !version.empty();
+  if (cache_hit &&
+      (cached_path.empty() || CheatRepository::fileExists(cached_path))) {
+    return cached_path;
+  }
+
+  const std::string path = scanMatchingPath(title_id, version, process, hash);
+  {
+    std::lock_guard<std::mutex> lock(g_resolve_cache_mutex);
+    g_resolve_cache[key] = {directory, path};
+  }
+  return path;
 }
 
 } // namespace
 
-std::vector<CheatSourceDescriptor> CheatRepository::resolveBrowse(
-    const GameKey &game) {
-  std::string title_id;
-  std::string version;
-  if (!normalizeGame(game, title_id, version) ||
-      !cheatDirectoryAvailable()) {
-    return {};
-  }
-  return toDescriptors(
-      scanMatchingPaths(title_id.c_str(), version, {}, true));
-}
+std::string CheatRepository::resolvePath(const game_context_t &game) {
+  char title_id[sizeof(game.title_id)];
+  char version[32];
+  char process[sizeof(game.process_name)];
+  char hash[sizeof(game.process_hash)];
 
-std::vector<CheatSourceDescriptor> CheatRepository::resolveRuntime(
-    const GameKey &game, const ProcessIdentity &process_identity) {
-  std::string title_id;
-  std::string version;
-  char process[ONION_CHEAT_PROCESS_LEN] = {};
-  onion_cheat_normalize_filename_token(process_identity.process_name.c_str(),
-                                        process, sizeof(process));
-  if (!normalizeGame(game, title_id, version) || process[0] == '\0' ||
-      !cheatDirectoryAvailable()) {
+  if (game.title_id[0] == '\0' || game.version[0] == '\0' ||
+      std::strcmp(game.version, "unknown") == 0) {
     return {};
   }
-  return toDescriptors(
-      scanMatchingPaths(title_id.c_str(), version, process, false));
+  std::snprintf(title_id, sizeof(title_id), "%s", game.title_id);
+  uppercaseAscii(title_id);
+  onion_cheat_normalize_filename_token(game.version, version, sizeof(version));
+  onion_cheat_normalize_filename_token(game.process_name, process,
+                                       sizeof(process));
+  onion_cheat_normalize_filename_token(game.process_hash, hash, sizeof(hash));
+  lowercaseAscii(hash);
+
+  const std::string basename = std::string(title_id) + "_" + version;
+  if (process[0] != '\0') {
+    if (const std::string path = findExactPath(basename + "_" + process);
+        !path.empty()) {
+      return path;
+    }
+  }
+  if (const std::string path = findExactPath(basename); !path.empty()) {
+    return path;
+  }
+  if (hash[0] != '\0') {
+    if (process[0] != '\0' && !onion_cheat_is_eboot_process(process)) {
+      if (const std::string path =
+              findExactPath(basename + "_" + process + "_" + hash);
+          !path.empty()) {
+        return path;
+      }
+    } else if (const std::string path = findExactPath(basename + "_" + hash);
+               !path.empty()) {
+      return path;
+    }
+  }
+
+  return resolveScannedPath(title_id, version, process, hash);
 }
 
 bool CheatRepository::fileExists(const std::string &path) {

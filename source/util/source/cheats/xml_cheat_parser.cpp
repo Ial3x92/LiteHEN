@@ -38,7 +38,6 @@ const char *findXmlTagValue(const char *start, const char *tag, char *out,
   }
   std::memcpy(out, open, len);
   out[len] = '\0';
-  onion_cheat_xml_unescape(out);
   return close + std::strlen(close_tag);
 }
 
@@ -71,7 +70,6 @@ int findXmlAttr(const char *start, const char *tag, const char *attr, char *out,
   }
   std::memcpy(out, val, len);
   out[len] = '\0';
-  onion_cheat_xml_unescape(out);
   return 0;
 }
 

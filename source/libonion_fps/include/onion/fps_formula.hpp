@@ -50,7 +50,7 @@ struct HybridOut {
  */
 HybridOut compose(const HybridIn &in);
 
-/** True for PPSA* / PPSB* (PS5 native retail + digital). */
+/** True for PPSA* / PPSB*. */
 bool is_ps5_native_title(const char *title_id);
 
 /** True for CUSA* and other PS4 BC prefixes PHU treats as GnmCompat. */

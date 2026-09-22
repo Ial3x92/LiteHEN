@@ -22,7 +22,6 @@ along with this program; see the file COPYING. If not, see
 #include <cstdint>
 #include <mutex>
 #include <string>
-#include <vector>
 
 // ---------------------------------------------------------------------------
 // Shared injectee-side IPC client (crit + util daemons).
@@ -41,24 +40,6 @@ along with this program; see the file COPYING. If not, see
 // Optional: host may install a notify sink (e.g. shellui bubble). Default: none.
 using OnionIpcNotifyFn = void (*)(const char *text);
 void onion_ipc_set_notify(OnionIpcNotifyFn fn);
-
-struct PluginInventoryItem {
-  std::string plugin_id;
-  std::string version;
-  std::string name;
-  bool running = false;
-  bool auto_start = false;
-};
-
-struct SprxInventoryItem {
-  std::string id;
-  std::string path;
-  bool enabled = true;
-  bool auto_start = false;
-  int priority = 0;
-  bool matches_current_target = false;
-  bool loaded_for_current_target = false;
-};
 
 class IPC_Client {
 public:
@@ -91,8 +72,12 @@ public:
   // High-level commands
   int GetDaemonPid();
   IPC_Ret ToggleSetting(DaemonCommands cmd, bool turn_on);
-  /** Push a fresh console system language to util for live re-apply. */
-  bool SetSystemLanguage(int language);
+  /** Query the in-process FTP module without inspecting a PID marker. */
+  bool FtpStatus();
+  /** Ask util to rebind an enabled FTP listener after network resume. */
+  bool RecoverFtp();
+  /** Query the in-process ShadowMount+ module without inspecting a PID marker. */
+  bool ShadowMountStatus();
   void KillDaemon();
   /** Crit Unix IPC: util → restart ShellUI → daemon exit (BREW_SHUTDOWN_STACK). */
   void ShutdownStack();
@@ -101,12 +86,11 @@ public:
   IPC_Ret LaunchPayload(std::string payload_path, std::string tid);
   bool GameVerFromTid(std::string tid, std::string &out_ver);
   bool Remount(const char *src, const char *dest);
-  bool GetGameCheats(const std::string &tid, std::string &cheats,
-                     const std::string &mode, int pid = 0, int appid = 0,
-                     const std::string &process = {}, uint64_t generation = 0);
-  bool ToggleGameCheat(const std::string &session_id,
-                       const std::string &cheat_key, bool enabled,
-                       std::string &cheat_status);
+  bool GetGameCheats(const std::string &tid, const std::string &ver,
+                     std::string &cheats);
+  bool ToggleGameCheat(int pid, const std::string &tid, int cheat_index,
+                       std::string &cheat_enabled,
+                       const std::string &version = "");
   bool DownloadCheats(const char *catalog, const char *mirror,
                       std::string &out);
   bool CheatSyncStatus(std::string &out);
@@ -116,16 +100,6 @@ public:
   bool Set_Fan_Threshold(int temp, bool enabled);
   /** Crit: inject ShellUI toolbox (BREW_ENABLE_TOOLBOX). */
   bool EnableToolbox();
-  bool ListPlugins(std::vector<PluginInventoryItem> &plugins);
-  bool StartPlugin(const std::string &plugin_id);
-  bool StopPlugin(const std::string &plugin_id);
-  bool ReloadPlugin(const std::string &plugin_id);
-  bool DeletePlugin(const std::string &plugin_id);
-  bool SetPluginAutoStart(const std::string &plugin_id, bool enabled);
-  bool ListSprx(std::vector<SprxInventoryItem> &sprx);
-  bool SetSprxEnabled(const std::string &id, bool enabled);
-  /** Removes the catalog entry; it does not delete or unload the SPRX file. */
-  bool DeleteSprx(const std::string &id);
 
   // Kept for call-site readability (matches historical public field).
   // Prefer is_util(); do not reassign after construction.
@@ -142,10 +116,6 @@ private:
   const char *socket_path() const;
   bool require_util(const char *what) const;
   bool require_crit(const char *what) const;
-  bool PluginOperation(DaemonCommands command,
-                       const std::string &plugin_id);
-  bool SprxOperation(DaemonCommands command, const std::string &id,
-                     bool enabled = false);
 
   /** Unlocked: full-frame send of IPCMessage. */
   int send_frame_unlocked(const IPCMessage &msg);
