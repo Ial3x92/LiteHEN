@@ -1,58 +1,66 @@
 #pragma once
 
+#include <cstdint>
+#include <memory>
 #include <mutex>
 #include <string>
+#include <vector>
 
 #include "cheats/cheat_applier.hpp"
 #include "cheats/cheat_repository.hpp"
-#include "cheats/cheat_engine.h"
-#include "cheats/runtime.h"
-#include "util_platform.h"
+#include "cheats/cheat_types.hpp"
 
 namespace onion::cheats {
 
-/**
- * Facade for IPC and lifecycle. Thread-safe process-wide service.
- *
- * Patterns: Facade + Singleton (process lifetime) + RAII locking.
- */
+struct LoadedCheatFile {
+  std::string path;
+  FileSignature signature;
+  onion_cheat_filename_t filename{};
+  onion_cheat_file_t file{};
+
+  LoadedCheatFile() { file.master_code_id = -1; }
+  ~LoadedCheatFile() { onion_cheat_file_clear(&file); }
+  LoadedCheatFile(const LoadedCheatFile &) = delete;
+  LoadedCheatFile &operator=(const LoadedCheatFile &) = delete;
+};
+
+/** Routes explicit read-only browse requests and one writable runtime session. */
 class CheatService {
 public:
   static CheatService &instance();
 
   void ensureDir();
-  void onGameExec(pid_t pid, const char *title_id, int appid);
-  void onGameExit(pid_t pid);
+  int exportList(const CheatRequest &request, const std::string &out_path);
 
-  /** Write ShellUI list JSON to outPath. 0 = ok. */
-  int exportList(const std::string &title_id, const std::string &version,
-                 int pid, int appid, const std::string &out_path);
-
-  int toggle(int pid, int appid, const std::string &title_id,
-             const std::string &version, int index, std::string &status);
+  int toggle(const std::string &session_id, const std::string &cheat_key,
+             bool enabled, std::string &status);
 
   CheatService(const CheatService &) = delete;
   CheatService &operator=(const CheatService &) = delete;
 
 private:
+  struct RuntimeState {
+    GameKey game;
+    ProcessIdentity process;
+    std::string session_id;
+    game_context_t context{};
+    std::vector<std::unique_ptr<LoadedCheatFile>> files;
+    CheatApplier applier;
+  };
+
   CheatService();
   ~CheatService();
 
-  int fillGame(game_context_t &game, const std::string &title_id,
-               const std::string &version, int pid, int appid);
-  int refreshLocked(const game_context_t &game);
-  void disableEnabledLocked(const char *reason);
-  void clearFileLocked();
-  int writeListJson(const std::string &out_path) const;
+  int writeListJson(const CheatListMetadata &metadata,
+                    const std::vector<std::unique_ptr<LoadedCheatFile>> &files,
+                    const std::string &out_path) const;
+  int ensureRuntimeLocked(const CheatRequest &request);
+  bool disableRuntimeLocked(const char *reason);
+  void clearRuntimeLocked();
 
   mutable std::mutex mu_;
-  bool loaded_ = false;
-  bool has_tracked_game_ = false;
-  pid_t tracked_pid_ = 0;
-  game_context_t game_{};
-  onion_cheat_file_t file_{};
-  FileSignature sig_{};
-  CheatApplier applier_{};
+  std::unique_ptr<RuntimeState> runtime_;
+  uint64_t next_session_id_ = 1;
 };
 
 } // namespace onion::cheats

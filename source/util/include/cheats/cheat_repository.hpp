@@ -2,10 +2,11 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #include "cheats/cheat_engine.h"
+#include "cheats/cheat_types.hpp"
 #include "cheats/runtime.h"
-#include "util_platform.h"
 
 namespace onion::cheats {
 
@@ -29,21 +30,24 @@ struct FileSignature {
   bool operator!=(const FileSignature &o) const { return !(*this == o); }
 };
 
+struct CheatSourceDescriptor {
+  std::string path;
+  std::string source_id;
+  std::string process;
+  int extension_rank = -1;
+};
+
 /**
  * Resolves flat cheat paths and loads format-specific files
  * via CheatParserFactory (Strategy: json / shn / mc4 / ShnExt).
  */
 class CheatRepository {
 public:
-  /**
-   * Resolve an existing cheat file for title + version + process + optional
-   * hash. Names are TITLEID_VERSION[_PROCESS][_HASH].ext.
-   *
-   * Process-scoped files win over generic TITLE_VERSION.ext. Hashed
-   * collection names are used when no exact name exists; an exact process
-   * hash wins when game.process_hash is set.
-   */
-  static std::string resolvePath(const game_context_t &game);
+  static std::vector<CheatSourceDescriptor>
+  resolveBrowse(const GameKey &game);
+
+  static std::vector<CheatSourceDescriptor>
+  resolveRuntime(const GameKey &game, const ProcessIdentity &process);
 
   static bool fileExists(const std::string &path);
   static bool statSignature(const std::string &path, FileSignature &out);
@@ -52,7 +56,7 @@ public:
   static int loadFile(const std::string &path, onion_cheat_file_t &out);
 
   static void ensureCheatsDir();
-  /** Flatten nested repo tree into ONION_CHEATS_DIR. */
+  /** Copy HENCC json/shn/mc4 files into ONION_CHEATS_DIR, keeping names. */
   static int flattenInstallTree(const std::string &root,
                                 onion_cheat_progress_fn progress,
                                 void *progress_user,

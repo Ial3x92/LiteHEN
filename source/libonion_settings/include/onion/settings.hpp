@@ -50,8 +50,6 @@ inline constexpr const char *kConfigPathShellui = "/user/data/OnionHEN/config.in
 
 // Semantic config schema. This schema starts at version 1.
 inline constexpr int kSettingsSchemaVersion = 1;
-inline constexpr int kFtpPortDefault = 1337;
-
 inline constexpr int kUiLanguageSystem = 0;
 inline constexpr int kUiLanguageZhHans = 1;
 inline constexpr int kUiLanguageEn = 2;
@@ -86,9 +84,124 @@ inline constexpr int kLogLevelInfo = 3;
 inline constexpr int kLogLevelDebug = 4;
 inline constexpr int kLogLevelTrace = 5;
 
+inline constexpr int kOverlayAlignLeft = 0;
+inline constexpr int kOverlayAlignCenter = 1;
+inline constexpr int kOverlayAlignRight = 2;
+
+inline constexpr int kOverlayMetricCount = 6;
+inline constexpr int kOverlayMetricFps = 0;
+inline constexpr int kOverlayMetricCpu = 1;
+inline constexpr int kOverlayMetricGpu = 2;
+inline constexpr int kOverlayMetricMemory = 3;
+inline constexpr int kOverlayMetricIp = 4;
+inline constexpr int kOverlayMetricFan = 5;
+
+inline constexpr int kOverlayFontSmall = 0;
+inline constexpr int kOverlayFontMedium = 1;
+inline constexpr int kOverlayFontLarge = 2;
+
+inline constexpr int kOverlayFontPtSmall = 14;
+inline constexpr int kOverlayFontPtMedium = 18;
+inline constexpr int kOverlayFontPtLarge = 24;
+
+inline constexpr std::array<int, kOverlayMetricCount> kOverlayOrderDefault = {
+    kOverlayMetricFps, kOverlayMetricCpu, kOverlayMetricGpu,
+    kOverlayMetricMemory, kOverlayMetricIp, kOverlayMetricFan};
+
+inline int overlay_font_pt(int font_size) {
+  if (font_size == kOverlayFontSmall)
+    return kOverlayFontPtSmall;
+  if (font_size == kOverlayFontLarge)
+    return kOverlayFontPtLarge;
+  return kOverlayFontPtMedium;
+}
+
+inline const char *overlay_font_size_name(int font_size) {
+  if (font_size == kOverlayFontSmall)
+    return "small";
+  if (font_size == kOverlayFontLarge)
+    return "large";
+  return "medium";
+}
+
+inline const char *overlay_metric_name(int metric) {
+  switch (metric) {
+  case kOverlayMetricCpu:
+    return "cpu";
+  case kOverlayMetricGpu:
+    return "gpu";
+  case kOverlayMetricMemory:
+    return "memory";
+  case kOverlayMetricIp:
+    return "ip";
+  case kOverlayMetricFan:
+    return "fan";
+  case kOverlayMetricFps:
+  default:
+    return "fps";
+  }
+}
+
+inline void
+overlay_normalize_order(std::array<int, kOverlayMetricCount> &order) {
+  bool seen[kOverlayMetricCount] = {};
+  std::array<int, kOverlayMetricCount> out{};
+  int n = 0;
+  for (int metric : order) {
+    if (metric < 0 || metric >= kOverlayMetricCount || seen[metric])
+      continue;
+    seen[metric] = true;
+    out[n++] = metric;
+  }
+  for (int metric = 0; metric < kOverlayMetricCount; ++metric) {
+    if (seen[metric])
+      continue;
+    out[n++] = metric;
+  }
+  order = out;
+}
+
+inline int overlay_metric_position(
+    const std::array<int, kOverlayMetricCount> &order, int metric) {
+  for (int i = 0; i < kOverlayMetricCount; ++i) {
+    if (order[i] == metric)
+      return i + 1;
+  }
+  return metric + 1;
+}
+
+inline void overlay_move_metric(std::array<int, kOverlayMetricCount> &order,
+                                int metric, int position_1based) {
+  overlay_normalize_order(order);
+  if (metric < 0 || metric >= kOverlayMetricCount)
+    return;
+  int from = 0;
+  while (from < kOverlayMetricCount && order[from] != metric)
+    ++from;
+  int to = position_1based - 1;
+  if (to < 0)
+    to = 0;
+  if (to >= kOverlayMetricCount)
+    to = kOverlayMetricCount - 1;
+  if (from >= kOverlayMetricCount || from == to)
+    return;
+  const int id = order[from];
+  if (from < to) {
+    for (int i = from; i < to; ++i)
+      order[i] = order[i + 1];
+  } else {
+    for (int i = from; i > to; --i)
+      order[i] = order[i - 1];
+  }
+  order[to] = id;
+}
+
 inline constexpr int kFanThresholdMinCelsius = 0;
 inline constexpr int kFanThresholdMaxCelsius = 100;
 inline constexpr int kFanAutomaticThresholdCelsius = 77;
+inline constexpr int kRestModeDelayMinSeconds = 0;
+inline constexpr int kRestModeDelayMaxSeconds = 255;
+inline constexpr int kRestModeDelayDefaultSeconds = 10;
 inline constexpr int clamp_fan_threshold(int celsius) {
   if (celsius < kFanThresholdMinCelsius)
     return kFanThresholdMinCelsius;
@@ -112,55 +225,56 @@ struct AppJailbreakAllowlist {
 
 struct Settings {
   // [startup]
-  // Page to open after LiteHEN finishes loading.
+  // Page to open after OnionHEN finishes loading.
   int startup_open_after_load = kStartupOpenNone;
 
+  // [rest_mode]
+  // Extra seconds after Rest Mode trophy SPRX are ready, before Toolbox inject.
+  uint64_t rest_mode_delay_seconds = kRestModeDelayDefaultSeconds;
+
   // [cheats], [app_jailbreak]
-  bool libhijacker_cheats = false;
   int cheats_mirror = kCheatsMirrorAuto;
   bool app_jailbreak_enabled = true;
   bool debug_app_jb_msg = false;
   AppJailbreakAllowlist app_jailbreak_allowlist{};
 
   // [home_screen], [game_menu]
-  bool display_tids = true;
-  bool onionhen_game_opts = false;
+  bool display_tids = false;
+  bool onionhen_game_opts = true;
 
   // [cooling]
-  bool enable_fan_speed = true;
+  bool enable_fan_speed = false;
   int fan_threshold = kFanAutomaticThresholdCelsius;
 
   // [overlay]
   /** Master visibility switch for the complete ShellUI game monitor bar. */
   bool overlay_enabled = true;
   /** Show the translucent background panel behind the game monitor bar. */
-  bool overlay_background = false;
-  bool overlay_ram = false;
+  bool overlay_background = true;
+  bool overlay_ram = true;
   bool overlay_cpu = true;
   bool overlay_gpu = true;
-  bool overlay_fps = false;
+  bool overlay_fps = true;
   bool overlay_ip = false;
+  /** Show current fan duty (percent) on the overlay bar. */
+  bool overlay_fan = false;
   /** Per-core CPU usage mode on the overlay (id_all_cpu_usage). */
   bool all_cpu_usage = false;
   int overlay_pos = 0; // 0/1 top edge, 2/3 bottom edge
+  /** 0 left, 1 center, 2 right. Independent of overlay.edge. */
+  int overlay_align = kOverlayAlignCenter;
+  /** 0 small, 1 medium, 2 large. Applies to the whole monitor bar. */
+  int overlay_font_size = kOverlayFontMedium;
+  /** Display order of the six metrics; values are kOverlayMetric*. */
+  std::array<int, kOverlayMetricCount> overlay_order = kOverlayOrderDefault;
 
   // [shortcuts]
-  int cheats_shortcut_opt = 5;
+  int cheats_shortcut_opt = 0;
   int toolbox_shortcut_opt = 0;
 
   // [kstuff]
-  // Load the embedded/override kstuff payload when LiteHEN starts.
-  bool kstuff_autoload = false;
-
-  // [ftp]
-  // Start the built-in FTP server the next time LiteHEN launches.
-  bool ftp_autoload = false;
-  // TCP listen port for the built-in FTP server (1..65535).
-  int ftp_port = kFtpPortDefault;
-
-  // [shadowmount]
-  // Start the built-in ShadowMount+ module the next time LiteHEN launches.
-  bool shadowmount_autoload = false;
+  // Load the embedded/override kstuff payload when OnionHEN starts.
+  bool kstuff_autoload = true;
 
   // [toolbox]
   // 0 = system (default), 1 = zh-Hans, 2 = en, 3 = ar, 4 = zh-Hant,

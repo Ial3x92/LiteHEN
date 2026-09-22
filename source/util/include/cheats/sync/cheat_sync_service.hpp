@@ -1,6 +1,7 @@
 #pragma once
 
-#include "cheats/sync/types.hpp" // Rimosso l'engine mancante per evitare errori di inclusione
+#include "cheats/sync/cheat_sync_engine.hpp"
+#include "cheats/sync/types.hpp"
 
 #include <cstdint>
 #include <mutex>
@@ -29,47 +30,37 @@ struct CheatSyncStatus {
 
 /**
  * Process facade for IPC. Owns the worker thread and last status.
- * MODIFICATO: Versione LITE con stub inlined per evitare errori di linking.
+ * Does not implement flatten or URL construction itself.
  */
 class CheatSyncService {
 public:
   enum class StartResult { Started, AlreadyRunning, Rejected };
 
-  // Ritorna un'istanza fittizia statica locale
-  static CheatSyncService &instance() {
-    static CheatSyncService inst;
-    return inst;
-  }
+  static CheatSyncService &instance();
 
-  // Rifiuta immediatamente qualsiasi richiesta di download online
   StartResult start(const onion::Settings &settings, const char *catalog_id,
-                    const char *mirror_override, uint32_t *task_id = nullptr) {
-    if (task_id) *task_id = 0;
-    return StartResult::Rejected;
-  }
+                    const char *mirror_override, uint32_t *task_id = nullptr);
+  bool cancel(uint32_t task_id);
+  bool cancellationRequested() const;
 
-  // Ritorna falso poiché non ci sono task attivi da annullare
-  bool cancel(uint32_t task_id) { return false; }
-  bool cancellationRequested() const { return false; }
+  CheatSyncStatus status() const;
 
-  // Restituisce sempre uno stato Idle vuoto
-  CheatSyncStatus status() const { return CheatSyncStatus{}; }
-
-  void setHttpTransportForTest(IHttpTransport *http) {}
+  void setHttpTransportForTest(IHttpTransport *http);
 
   void worker(onion::Settings settings, std::string catalog_id,
-              std::string mirror_override, uint32_t task_id) {}
+              std::string mirror_override, uint32_t task_id);
 
   void noteProgress(const char *phase, int percent, size_t completed,
-                    size_t total) {}
+                    size_t total);
 
   CheatSyncService(const CheatSyncService &) = delete;
   CheatSyncService &operator=(const CheatSyncService &) = delete;
 
 private:
-  // Costruttore e distruttore vuoti inlined per non richiedere il file .cpp
-  CheatSyncService() : running_(false), cancel_requested_(false), next_task_id_(0), test_http_(nullptr) {}
-  ~CheatSyncService() {}
+  CheatSyncService();
+  ~CheatSyncService();
+
+  IHttpTransport &httpTransport();
 
   mutable std::mutex mu_;
   CheatSyncStatus status_{};
