@@ -642,7 +642,7 @@ void append_toolbox_about_group(ps5ui::Group& g) {
   g.label("id_credit_OnionHEN", "OnionLiteHEN is a fork of OnionHEN", ps5ui::Style::Center)
    .label("id_credits_r1", "Ial3x92 - aydencharles - kvnhrt - LightningMods - SiSTR0", ps5ui::Style::Center)
    .label("id_credits_r2", "EchoStretch - sleirsgoevy - itsplk - TeeKay87 - ArkSama", ps5ui::Style::Center)
-   .label("id_credits_r3", "drakmor - astrelsky - buzzer-re - cJSON - miniz", ps5ui::Style::Center);
+   .label("id_credits_r3", "drakmor - astrelsky - buzzer-re - cJSON - miniz - sharks", ps5ui::Style::Center);
 }
 
 } // namespace
