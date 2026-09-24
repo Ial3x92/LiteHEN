@@ -15,7 +15,7 @@
 
 #include <dlfcn.h>
 
-// INCLUSIONE DEL NUOVO ARRAY BINARIO FAST DI KSTUFF
+// 1. INCLUSIONE DEL NUOVO ARRAY BINARIO FAST DI KSTUFF
 #include "a53_embedded.h" 
 
 bool Inject_Toolbox(int pid, uint8_t * elf)
@@ -41,19 +41,22 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// Questa funzione viene chiamata dal thread parallelo DOPO che LiteHEN si è stabilizzato
+// 2. ENTRY POINT DI LIBRERIA RICHIAMATO ASINCRONAMENTE DA MAIN.CPP
 int init_nineS(void)
 {
-    notify_send("LiteHEN pronto! Caricamento A53 KStuff nel Kernel...");
-    usleep(1500000); // Piccola pausa di sicurezza dopo la notifica
+    // ⏱️ LA PAUSA DI 5 SECONDI (5000000 microsecondi)
+    // Questo permette a LiteHEN di completare l'avvio, applicare i settaggi e mostrare il benvenuto
+    usleep(5000000);
 
-    // 🚀 INIEZIONE DIRETTA NEL KERNEL (PID 0) 🚀
-    // Passiamo NULL come struct proc. La funzione inject_elf, vedendo il puntatore nullo,
-    // applicherà l'array a53_ppr_install_fast_elf direttamente sulle tabelle di memoria globale del Kernel.
+    notify_send("LiteHEN pronto! Caricamento A53 KStuff nel Kernel...");
+    usleep(1500000); // Piccola pausa di respiro grafica dopo la notifica
+
+    // 🚀 INIEZIONE DIRETTA NEL KERNEL (PID 0) VIA PUNTATORE NULLO 🚀
+    // Iniettiamo i byte dell'array FAST direttamente nella memoria globale del Kernel
     if (inject_elf(NULL, (uint8_t *)a53_ppr_install_fast_elf)) {
         notify_send("LiteHEN: Modulo A53 FAST attivato nel Kernel con successo!");
     } else {
-        // Fallback usando la Toolbox standard nel caso l'SDK richieda una inizializzazione esplicita
+        // Fallback usando la Toolbox standard nel caso l'SDK richieda l'ancoraggio esplicito al PID 0
         if (Inject_Toolbox(0, (uint8_t *)a53_ppr_install_fast_elf)) {
             notify_send("LiteHEN: Modulo A53 FAST agganciato via Toolbox.");
         } else {
