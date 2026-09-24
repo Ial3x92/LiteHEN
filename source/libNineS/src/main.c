@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Utilizziamo esclusivamente le librerie interne nativissime di LiteHEN
+// Sfruttiamo esclusivamente le librerie interne e native di LiteHEN
 #include "../include/proc.h"
 #include "../include/ucred.h"
 #include "../include/injector.h"
@@ -36,7 +36,7 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
         free(target_proc);
     }
     else{
-        notify_send("unable to find shellui");
+        notify_send("unable to find process");
         return false;
     }
 
@@ -52,9 +52,9 @@ int init_nineS(void)
     notify_send("LiteHEN pronto! Iniezione modulo A53 FAST...");
     usleep(1500000); // Pausa di respiro grafica
 
-    // 🚀 L'ESECUZIONE ORIGINALE SUL PID 1 🚀
-    // Chiamiamo la tua Inject_Toolbox passandole il PID 1 come previsto dal codice sorgente originale.
-    // Avviene in RAM tramite inject_elf in totale sicurezza anti-KP e senza blocchi.
+    // 🚀 L'ESECUZIONE NATIIVA SUL PID 1 🚀
+    // Chiamiamo la tua Inject_Toolbox originale passandole il PID 1.
+    // Avviene interamente in RAM, senza conflitti di rete sulla porta 9021 e senza toccare il disco.
     if (Inject_Toolbox(1, (uint8_t *)a53_ppr_install_fast_elf)) {
         notify_send("LiteHEN: Modulo A53 FAST attivato con successo!");
     } else {
