@@ -228,20 +228,6 @@ void sig_handler(int signo) {
 
 bool is_800 = false;
 
-// =================================================================
-// 1. DICHIARAZIONE: Comunica al C++ l'esistenza della funzione C
-// =================================================================
-extern "C" {
-    int init_nineS(void);
-}
-
-// Funzione thread parallela che lancia immediatamente init_nineS 
-// (sarà poi main.c a gestire i suoi 5 secondi di pausa in background)
-void* async_a53_loader(void* arg) {
-    init_nineS();
-    return nullptr;
-}
-
 int main() {
   /* Raw elfldr uploads default to "payload.elf"; publish our stable name. */
   (void)syscall(SYS_thr_set_name, -1, "onion_daemon.elf");
@@ -252,7 +238,6 @@ int main() {
   onion_notify_set_send(reinterpret_cast<onion_notify_send_fn>(
       sceKernelSendNotificationRequest));
 
-  // 🏁 RIPRISTINATO: Dichiarazione delle variabili locali indispensabili
   char buz[255];
   pthread_t fifo_thr = nullptr;
   pthread_t msg_thr = nullptr;
@@ -278,8 +263,6 @@ int main() {
 
   LOG_INFO("=========== starting OnionHEN (0x%X) ... ===========", fw_ver);
   (void)sceKernelMprotect(&buz[0], 100, 0x7); // probe mprotect / kstuff state
-  
-  // 🏁 RIPRISTINATO: Inizializzazione dei flag di versione firmware
   const bool toolbox_only = (fw_ver >= 0x10000);
   is_800 = (fw_ver >= 0x800);
 
@@ -316,17 +299,7 @@ int main() {
 
   onion::daemon::apply_startup_destination(boot_settings);
 
-  // =================================================================
-  // 2. CHIAMATA: Crea il thread asincrono per l'A53 in background.
-  // In questo modo il daemon entra subito nel ciclo principale senza congelarsi.
-  // =================================================================
-  pthread_t a53_thread;
-  pthread_create(&a53_thread, nullptr, async_a53_loader, nullptr);
-  pthread_detach(a53_thread); 
-
-  // Loop dei comandi principale di OnionHEN/LiteHEN (bloccante)
   ipc_supervisor_loop(&msg_thr);
-  
   // unreachable
   return 0;
 }
