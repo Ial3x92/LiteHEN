@@ -11,11 +11,14 @@
 #include "../include/notify.h"
 #include "../include/server.h"
 
+// Includiamo l'header del loader nativo presente nel tuo repository
+#include "onion/elfldr.h"
+
 #include "ps5/mdbg.h"
 
 #include <dlfcn.h>
 
-// 1. INCLUSIONE DEL NUOVO ARRAY BINARIO FAST DI KSTUFF (Generato dai dati del dump)
+// INCLUSIONE DELL'ARRAY BINARIO FAST DI KSTUFF
 #include "a53_embedded.h" 
 
 bool Inject_Toolbox(int pid, uint8_t * elf)
@@ -40,40 +43,36 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// 2. FUNZIONE DI CARICAMENTO BASATA SUI DATI REALI DEL PAYLOAD
+// 2. FUNZIONE DI CARICAMENTO DIRETTO IN RAM VIA ELFLDR (ANTI-PANIC)
 void Start_ShadowMount_Embedded(void)
 {
-    notify_send("LiteHEN: Esecuzione modulo A53 FAST nel Kernel...");
+    notify_send("LiteHEN: Mappatura A53 FAST in RAM...");
     usleep(1500000); // Pausa grafica di respiro
 
-    // Dati estratti dal binario: il file patcha direttamente le tabelle del Kernel (KERNEL_ADDRESS_TEXT_BASE)
-    // Agisce come estensione del demone stesso sfruttando getpid() per scalare i privilegi utente/kernel.
+    // Otteniamo il PID del processo corrente (il demone di LiteHEN)
     pid_t local_pid = getpid();
-    struct proc* self_proc = get_proc_by_pid(local_pid);
 
-    if (self_proc) {
-        // Iniettiamo i byte FAST direttamente nella memoria RAM dell'ambiente protetto corrente
-        // Il payload eseguirà internamente ppr_patch_run per sbloccare il Kernel Core
-        if (inject_elf(self_proc, (uint8_t *)a53_ppr_install_fast_elf)) {
-            notify_send("LiteHEN: Modulo A53 FAST caricato in RAM!");
-        } else {
-            // Fallback usando la Toolbox nativa sul PID 0 se il sistema richiede l'astrazione
-            if (Inject_Toolbox(0, (uint8_t *)a53_ppr_install_fast_elf)) {
-                notify_send("LiteHEN: Modulo A53 FAST agganciato via Toolbox.");
-            } else {
-                notify_send("Errore: Impossibile mappare le patch KStuff.");
-            }
-        }
-        free(self_proc);
+    // 🚀 CHIAMATA DEFINITIVA: Usiamo l'elfldr nativo passando i 2 argomenti corretti.
+    // Questo mappa l'array a53_ppr_install_fast_elf direttamente nello spazio di esecuzione
+    // senza usare inject_elf o scrivere file su disco, bypassando i blocchi di sicurezza.
+    intptr_t res = elfldr_load(local_pid, (uint8_t *)a53_ppr_install_fast_elf);
+
+    if (res >= 0) {
+        notify_send("LiteHEN: Modulo A53 FAST avviato in memoria!");
     } else {
-        notify_send("Errore: Ambiente di runtime non pronto.");
+        // Fallback estremo sulla Toolbox originale se il loader restituisce un errore
+        if (Inject_Toolbox(0, (uint8_t *)a53_ppr_install_fast_elf)) {
+            notify_send("LiteHEN: Modulo A53 FAST agganciato via Toolbox.");
+        } else {
+            notify_send("Errore: Impossibile mappare le patch KStuff.");
+        }
     }
 }
 
 // 3. INTERRUTTORE DI INIZIALIZZAZIONE (Chiamato dopo i 5 secondi configurati in main.cpp)
 int init_nineS(void)
 {
-    // Avvia l'esecuzione basata sui dati reali dell'array FAST
+    // Avvia il caricamento in-memory sicuro
     Start_ShadowMount_Embedded();
 
     return 0;
