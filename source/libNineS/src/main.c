@@ -11,18 +11,12 @@
 #include "../include/ucred.h"
 #include "../include/injector.h"
 #include "../include/notify.h"
-#include "../include/server.h"
 
 #include "ps5/mdbg.h"
 #include <dlfcn.h>
 
 // INCLUSIONE DEL NUOVO ARRAY BINARIO FAST DI KSTUFF
 #include "a53_embedded.h" 
-
-// Callback fittizia per soddisfare i requisiti del server di rete nell'SDK aggiornato
-void dummy_server_callback(int fd, void* data, ssize_t data_size) {
-    // Gestione pacchetti vuota (personalizzabile se necessario)
-}
 
 // Funzione originale per l'iniezione in SceShellUI
 bool Inject_Toolbox(int pid, uint8_t * elf)
@@ -61,7 +55,7 @@ void Start_ShadowMount_Embedded(void)
         return;
     }
     
-    // CORRETTO PER IL MODULO FAST: Usa l'array e la lunghezza generati da PowerShell
+    // CORRETTO PER IL MODULO FAST: Usa l'array e la lunghezza generati da xxd / PowerShell
     fwrite(a53_ppr_install_fast_elf, 1, a53_ppr_install_fast_elf_len, f);
     fclose(f);
 
@@ -111,13 +105,13 @@ void Start_ShadowMount_Embedded(void)
     }
 }
 
-// CORRETTO: Rinominata la funzione per evitare conflitti con il main del daemon
+// CORRETTO: Inizializza le patch di sblocco e avvia KStuff FAST senza attivare server duplicati
 int init_nineS(void)
 {
     // Elevazione dei privilegi utente/kernel (ucred) necessaria su PS5
     struct thread* td = curthread(); 
     if (td) {
-        // CORRETTO: Allocati gli array con le dimensioni richieste dall'SDK (16 e 32)
+        // Allocati gli array con le dimensioni richieste dall'SDK (16 e 32) per il jailbreak totale (0xFF)
         uint8_t full_caps[16];
         uint8_t full_attrs[32];
         memset(full_caps, 0xFF, sizeof(full_caps));
@@ -129,11 +123,8 @@ int init_nineS(void)
 
     notify_send("Welcome To LiteHEN All-In-One");
 
-    // Lancia l'estrazione e l'esecuzione asincrona del modulo A53/KStuff
+    // Lancia l'estrazione e l'esecuzione asincrona del modulo A53/KStuff FAST
     Start_ShadowMount_Embedded();
-
-    // CORRETTO: Inseriti i parametri obbligatori (Porta 9021 e la funzione di callback)
-    start_server(9021, dummy_server_callback);
 
     return 0;
 }
