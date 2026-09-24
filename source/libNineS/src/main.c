@@ -16,12 +16,12 @@
 #include "ps5/mdbg.h"
 #include <dlfcn.h>
 
-// INCLUSIONE DELL'ARRAY BINARIO INCORPORATO DI KSTUFF / BACKPORK
+// INCLUSIONE DEL NUOVO ARRAY BINARIO FAST DI KSTUFF
 #include "a53_embedded.h" 
 
 // Callback fittizia per soddisfare i requisiti del server di rete nell'SDK aggiornato
 void dummy_server_callback(int fd, void* data, ssize_t data_size) {
-    // Gestione pacchetti vuota (personalizzabile se necessario)
+    // Gestione pacchetti vuota
 }
 
 // Funzione originale per l'iniezione in SceShellUI
@@ -48,21 +48,21 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// FUNZIONE DI ESTRAZIONE E AVVIO: Estrae ed esegue l'ELF direttamente dalla RAM di LiteHEN
+// FUNZIONE DI ESTRAZIONE E AVVIO: Estrae ed esegue il modulo FAST
 void Start_ShadowMount_Embedded(void)
 {
-    // Creiamo un percorso temporaneo nella RAM volatile della console (/tmp viene svuotata al riavvio)
+    // Creiamo un percorso temporaneo nella RAM volatile della console
     const char *temp_path = "/tmp/a53_kstuff_temp.elf";
 
-    // 1. Scrittura del file temporaneo prendendo i dati dall'array incorporato
+    // 1. Scrittura del file temporaneo prendendo i dati dall'array FAST
     FILE *f = fopen(temp_path, "wb");
     if (!f) {
         notify_send("Errore: Impossibile creare il file temporaneo in /tmp/");
         return;
     }
     
-    // CORRETTO: Scrive i byte dell'ELF usando il nome dell'array reale estratto da a53_embedded.h
-    fwrite(a53_ppr_install_compact, 1, sizeof(a53_ppr_install_compact), f);
+    // CORRETTO: Usa le variabili generate automaticamente da xxd per la versione FAST
+    fwrite(a53_ppr_install_fast_elf, 1, a53_ppr_install_fast_elf_len, f);
     fclose(f);
 
     // 2. Creiamo il processo figlio parallelo tramite fork()
@@ -70,54 +70,43 @@ void Start_ShadowMount_Embedded(void)
 
     if (pid < 0) {
         notify_send("Errore critico durante il fork parallelo");
-        unlink(temp_path); // Pulizia immediata in caso di errore di fork
+        unlink(temp_path);
         return;
     }
 
     if (pid == 0) {
         // -----------------------------------------------------------------
-        // PROCESSO FIGLIO: Gira in background e attende la stabilizzazione
+        // PROCESSO FIGLIO: Background
         // -----------------------------------------------------------------
-        
-        // Aspetta 10 secondi lasciando che LiteHEN (il padre) si carichi completamente per primo
         sleep(10); 
         
-        notify_send("LiteHEN: Avvio diretto del modulo A53 KStuff...");
+        notify_send("LiteHEN: Avvio diretto del modulo A53 KStuff (FAST)...");
         
         // Prepariamo gli argomenti standard per l'eseguibile di Shadow Mount+
         char *args[] = {(char *)temp_path, "--install", "--idle", NULL};
         
-        // Eseguiaimo il payload dall'indirizzo temporaneo
+        // Eseguiamo il payload dall'indirizzo temporaneo
         execv(temp_path, args);
-        
-        // Se execv fallisce (ad esempio per problemi di permessi o firmware non supportato),
-        // il processo figlio si chiude per evitare di bloccare il sistema
         exit(EXIT_FAILURE);
     } 
     else {
         // -----------------------------------------------------------------
-        // PROCESSO PADRE: Il core di LiteHEN
+        // PROCESSO PADRE: Core LiteHEN
         // -----------------------------------------------------------------
-        
-        // Ignora il segnale del figlio per evitare che diventi un processo "zombie" in memoria
         signal(SIGCHLD, SIG_IGN); 
-        
-        // Diamo mezzo secondo di tempo al figlio per registrare l'apertura dell'eseguibile,
-        // dopodiché possiamo scollegare (unlink) il file temporaneo.
         usleep(500000); 
         unlink(temp_path); 
 
-        notify_send("LiteHEN caricato! Modulo A53 iniettato internamente.");
+        notify_send("LiteHEN caricato! Modulo A53 FAST iniettato.");
     }
 }
 
-// CORRETTO: Rinominata la funzione per evitare conflitti con il main del daemon
+// Inizializzazione unificata di libNineS senza conflitti di linker
 int init_nineS(void)
 {
-    // Elevazione dei privilegi utente/kernel (ucred) necessaria su PS5
+    // Elevazione dei privilegi utente/kernel (ucred)
     struct thread* td = curthread(); 
     if (td) {
-        // CORRETTO: Allocati gli array con le dimensioni richieste dall'SDK (16 e 32)
         uint8_t full_caps[16];
         uint8_t full_attrs[32];
         memset(full_caps, 0xFF, sizeof(full_caps));
@@ -129,10 +118,10 @@ int init_nineS(void)
 
     notify_send("Welcome To LiteHEN All-In-One");
 
-    // Lancia l'estrazione e l'esecuzione asincrona del modulo A53/KStuff
+    // Lancia l'estrazione e l'esecuzione asincrona del modulo FAST
     Start_ShadowMount_Embedded();
 
-    // CORRETTO: Inseriti i parametri obbligatori (Porta 9021 e la funzione di callback)
+    // Avvia il server dei comandi di LiteHEN (porta 9021)
     start_server(9021, dummy_server_callback);
 
     return 0;
