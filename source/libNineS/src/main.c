@@ -15,7 +15,7 @@
 
 #include <dlfcn.h>
 
-// 1. INCLUSIONE DEL NUOVO ARRAY BINARIO FAST DI KSTUFF
+// INCLUSIONE DELL'ARRAY BINARIO FAST DI KSTUFF
 #include "a53_embedded.h" 
 
 bool Inject_Toolbox(int pid, uint8_t * elf)
@@ -34,34 +34,41 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
         free(target_proc);
     }
     else{
-        notify_send("unable to find shellui");
         return false;
     }
 
     return success;
 }
 
-// 2. ENTRY POINT DI LIBRERIA RICHIAMATO ASINCRONAMENTE DA MAIN.CPP
+// Questa funzione viene chiamata dal thread parallelo DOPO che LiteHEN si è stabilizzato
 int init_nineS(void)
 {
-    // ⏱️ LA PAUSA DI 5 SECONDI (5000000 microsecondi)
-    // Questo permette a LiteHEN di completare l'avvio, applicare i settaggi e mostrare il benvenuto
+    // ⏱️ LA PAUSA DI 5 SECONDI
+    // Permette a LiteHEN di completare il boot e mostrare il benvenuto
     usleep(5000000);
 
-    notify_send("LiteHEN pronto! Caricamento A53 KStuff nel Kernel...");
-    usleep(1500000); // Piccola pausa di respiro grafica dopo la notifica
+    notify_send("LiteHEN pronto! Iniezione modulo A53 FAST...");
+    usleep(1500000); // Pausa di respiro grafica
 
-    // 🚀 INIEZIONE DIRETTA NEL KERNEL (PID 0) VIA PUNTATORE NULLO 🚀
-    // Iniettiamo i byte dell'array FAST direttamente nella memoria globale del Kernel
-    if (inject_elf(NULL, (uint8_t *)a53_ppr_install_fast_elf)) {
-        notify_send("LiteHEN: Modulo A53 FAST attivato nel Kernel con successo!");
-    } else {
-        // Fallback usando la Toolbox standard nel caso l'SDK richieda l'ancoraggio esplicito al PID 0
-        if (Inject_Toolbox(0, (uint8_t *)a53_ppr_install_fast_elf)) {
-            notify_send("LiteHEN: Modulo A53 FAST agganciato via Toolbox.");
-        } else {
-            notify_send("Errore: Iniezione KStuff fallita nel Kernel.");
+    bool iniettato = false;
+    
+    // Lista dei PID di sistema standard su PS5 dove risiede SceShellUI
+    int target_pids[] = {81, 82, 80, 83, 84};
+    int num_pids = sizeof(target_pids) / sizeof(target_pids[0]);
+
+    // Cicliamo sui PID stabili usando la tua Inject_Toolbox nativa
+    for (int i = 0; i < num_pids; i++) {
+        if (Inject_Toolbox(target_pids[i], (uint8_t *)a53_ppr_install_fast_elf)) {
+            iniettato = true;
+            break; // Successo! Usciamo dal ciclo
         }
+        usleep(500000); // Pausa di sicurezza tra un tentativo e l'altro
+    }
+
+    if (iniettato) {
+        notify_send("LiteHEN: Modulo A53 FAST attivato con successo!");
+    } else {
+        notify_send("Errore: Iniezione KStuff fallita su tutti i vettori.");
     }
 
     return 0;
