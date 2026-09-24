@@ -105,22 +105,9 @@ void Start_ShadowMount_Embedded(void)
     }
 }
 
-// CORRETTO: Inizializza le patch di sblocco e avvia KStuff FAST senza attivare server duplicati
+// CORRETTO: Inizializzazione pulita senza interferenze sui privilegi ucred
 int init_nineS(void)
 {
-    // Elevazione dei privilegi utente/kernel (ucred) necessaria su PS5
-    struct thread* td = curthread(); 
-    if (td) {
-        // Allocati gli array con le dimensioni richieste dall'SDK (16 e 32) per il jailbreak totale (0xFF)
-        uint8_t full_caps[16];
-        uint8_t full_attrs[32];
-        memset(full_caps, 0xFF, sizeof(full_caps));
-        memset(full_attrs, 0xFF, sizeof(full_attrs));
-
-        kernel_set_ucred_caps(0, full_caps);
-        kernel_set_ucred_attrs(0, full_attrs);
-    }
-
     notify_send("Welcome To LiteHEN All-In-One");
 
     // Lancia l'estrazione e l'esecuzione asincrona del modulo A53/KStuff FAST
