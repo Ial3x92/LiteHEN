@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <sys/stat.h> // 🏁 AGGIUNTO: Necessario per la funzione chmod
 #include <unistd.h>
 #include <elf.h>
 #include <signal.h>
@@ -56,7 +57,7 @@ void Start_ShadowMount_Embedded(void)
             return;
         }
         
-        // Scrive i byte dell'ELF FAST generati da PowerShell
+        // Scrive i byte dell'ELF FAST generati da PowerShell / xxd
         fwrite(a53_ppr_install_fast_elf, 1, a53_ppr_install_fast_elf_len, f);
         fclose(f);
         
