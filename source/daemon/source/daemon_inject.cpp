@@ -101,6 +101,7 @@ bool toolbox_wait_one_sprx(pid_t pid, uint32_t gen, const char *name) {
 }
 
 
+
 bool toolbox_wait_shellui_sprx(pid_t pid, uint32_t gen) {
   for (const char *name : kShellUiReadySprx) {
     if (!toolbox_wait_one_sprx(pid, gen, name)) {
@@ -163,23 +164,30 @@ bool toolbox_inject_immediate(pid_t expected_pid = 0) {
   }
 
   toolbox_wait_kstuff();
-  
-  // ⏱️ LA PAUSA DI 5 SECONDI: Lascia caricare l'ambiente OnionHEN stabilmente prima di procedere
-  LOG_INFO("OnionHEN avviato. Attesa 5 secondi prima di attivare il modulo A53 FAST...");
-  usleep(5000000); 
-
   LOG_INFO("Activating toolbox...");
 
+  // 1️⃣ PRIMA INIEZIONE: Carica l'interfaccia grafica originale ereditata di OnionHEN
   const onion::ToolboxInjectionOutcome outcome = g_toolbox_inject.inject(
       []() -> pid_t { return toolbox_live_pid(); },
       [](pid_t pid) -> bool {
-        LOG_DEBUG("Injecting toolbox into SceShellUI pid=%d",
+        LOG_DEBUG("Injecting toolbox UI into SceShellUI pid=%d",
                   static_cast<int>(pid));
-        
-        // 🚀 INIEZIONE PERSONALIZZATA CON CAST DEL PAYLOAD A53 ORIGINALE
-        return Inject_Toolbox(static_cast<int>(pid), reinterpret_cast<uint8_t*>(a53_ppr_install_fast_elf));
+        return Inject_Toolbox(static_cast<int>(pid), shellui_elf_start);
       },
       /*timeout_ms=*/45 * 1000, /*poll_ms=*/250, expected_pid);
+
+  // 2️⃣ SECONDA INIEZIONE SEQUENZIALE: Se la UI nativa è andata a buon fine, carichiamo l'A53 FAST
+  if (outcome.ready()) {
+      // 1.5 secondi di pausa permettono al primo ELF di allocare le sue hook grafiche in sicurezza
+      usleep(1500000); 
+      LOG_INFO("OnionHEN UI agganciata. Caricamento modulo A53 FAST nello stesso processo...");
+      
+      if (!Inject_Toolbox(static_cast<int>(outcome.pid), reinterpret_cast<uint8_t*>(a53_ppr_install_fast_elf))) {
+          LOG_ERROR("Errore: Iniezione parallela di A53 FAST fallita!");
+      } else {
+          LOG_INFO("OnionHEN: Interfaccia di LiteHEN e Modulo A53 FAST caricati insieme!");
+      }
+  }
 
   toolbox_remember_pid(outcome.pid);
   toolbox_notify_outcome(outcome);
