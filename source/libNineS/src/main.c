@@ -45,17 +45,17 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
 // FUNZIONE DI ESTRAZIONE E AVVIO: Estrae ed esegue l'ELF direttamente dalla RAM di LiteHEN
 void Start_ShadowMount_Embedded(void)
 {
-    // Creiamo un percorso temporaneo nella RAM volatile della console (/tmp viene svuotata al riavvio)
-    const char *temp_path = "/tmp/a53_kstuff_temp.elf";
+    // CORRETTO: Cambiato il percorso da /tmp a /data (scrivibile al 100% su PS5)
+    const char *temp_path = "/data/a53_kstuff_temp.elf";
 
     // 1. Scrittura del file temporaneo prendendo i dati dall'array incorporato
     FILE *f = fopen(temp_path, "wb");
     if (!f) {
-        notify_send("Errore: Impossibile creare il file temporaneo in /tmp/");
+        notify_send("Errore: Impossibile creare il file in /data/");
         return;
     }
     
-    // CORRETTO PER IL MODULO FAST: Usa l'array e la lunghezza generati da xxd / PowerShell
+    // Scrive i byte dell'ELF usando le variabili generate da xxd per la versione FAST
     fwrite(a53_ppr_install_fast_elf, 1, a53_ppr_install_fast_elf_len, f);
     fclose(f);
 
@@ -64,7 +64,7 @@ void Start_ShadowMount_Embedded(void)
 
     if (pid < 0) {
         notify_send("Errore critico durante il fork parallelo");
-        unlink(temp_path); // Pulizia immediata in caso di errore di fork
+        unlink(temp_path); // Pulizia in caso di errore
         return;
     }
 
@@ -73,7 +73,7 @@ void Start_ShadowMount_Embedded(void)
         // PROCESSO FIGLIO: Gira in background e attende la stabilizzazione
         // -----------------------------------------------------------------
         
-        // Aspetta 10 secondi lasciando che LiteHEN (il padre) si carichi completamente per primo
+        // Aspetta 10 secondi lasciando che il demone si carichi completamente
         sleep(10); 
         
         notify_send("LiteHEN: Avvio diretto del modulo A53 KStuff (FAST)...");
@@ -81,23 +81,19 @@ void Start_ShadowMount_Embedded(void)
         // Prepariamo gli argomenti standard per l'eseguibile di Shadow Mount+
         char *args[] = {(char *)temp_path, "--install", "--idle", NULL};
         
-        // Eseguiaimo il payload dall'indirizzo temporaneo
+        // Eseguiamo il payload dall'indirizzo di /data
         execv(temp_path, args);
         
-        // Se execv fallisce (ad esempio per problemi di permessi o firmware non supportato),
-        // il processo figlio si chiude per evitare di bloccare il sistema
+        // Se execv fallisce il processo si chiude
         exit(EXIT_FAILURE);
     } 
     else {
         // -----------------------------------------------------------------
         // PROCESSO PADRE: Il core di LiteHEN
         // -----------------------------------------------------------------
-        
-        // Ignora il segnale del figlio per evitare che diventi un processo "zombie" in memoria
         signal(SIGCHLD, SIG_IGN); 
         
-        // Diamo mezzo secondo di tempo al figlio per registrare l'apertura dell'eseguibile,
-        // dopodiché possiamo scollegare (unlink) il file temporaneo.
+        // Diamo tempo al figlio di agganciare il file prima di scollegarlo (unlink)
         usleep(500000); 
         unlink(temp_path); 
 
@@ -105,7 +101,7 @@ void Start_ShadowMount_Embedded(void)
     }
 }
 
-// CORRETTO: Inizializzazione pulita senza interferenze sui privilegi ucred
+// Inizializzazione pulita
 int init_nineS(void)
 {
     notify_send("Welcome To LiteHEN All-In-One");
