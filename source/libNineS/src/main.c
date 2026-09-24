@@ -52,11 +52,14 @@ int init_nineS(void)
     notify_send("LiteHEN: Sincronizzazione Toolbox con modulo FAST...");
     usleep(1500000);
 
-    // 🚀 INTEGRAZIONE NATIVA NELLA TOOLBOX 🚀
-    // Passiamo 0 alla tua Inject_Toolbox originale. Questo aggancia l'A53 FAST
-    // al gestore dei payload di LiteHEN. Il demone principale lo avvierà
-    // passandogli i parametri giusti ed evitando che rimanga congelato in RAM.
-    if (Inject_Toolbox(0, (uint8_t *)a53_ppr_install_fast_elf)) {
+    // 🚀 INTEGRAZIONE NATIVA NELLA TOOLBOX SUL PROCESSO LOCALE (ANTI-FALLIMENTO) 🚀
+    // Otteniamo il PID reale del nostro demone tramite getpid(). 
+    // Passando questo valore a Inject_Toolbox, la funzione troverà una 'struct proc' valida.
+    // L'A53 FAST verrà iniettato in RAM sfruttando l'ambiente già jailbreakato dal main.cpp,
+    // eseguendo ppr_patch_run e attivando KStuff senza subire rifiuti dal Kernel.
+    pid_t local_pid = getpid();
+
+    if (Inject_Toolbox((int)local_pid, (uint8_t *)a53_ppr_install_fast_elf)) {
         notify_send("LiteHEN: Modulo A53 FAST integrato nella Toolbox!");
     } else {
         notify_send("Errore: Registrazione modulo FAST fallita.");
