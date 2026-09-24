@@ -41,28 +41,24 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// Questa funzione viene chiamata dal thread asincrono DOPO che LiteHEN si è caricato
+// Questa funzione viene chiamata dal thread parallelo DOPO che LiteHEN si è stabilizzato
 int init_nineS(void)
 {
-    notify_send("LiteHEN pronto! Iniezione modulo A53 FAST...");
-    usleep(1500000); // Piccola pausa di respiro dopo la notifica
+    notify_send("LiteHEN pronto! Caricamento A53 KStuff nel Kernel...");
+    usleep(1500000); // Piccola pausa di sicurezza dopo la notifica
 
-    bool iniettato = false;
-    int target_pids[] = {81, 82, 80, 83, 84};
-    int num_pids = sizeof(target_pids) / sizeof(target_pids);
-
-    for (int i = 0; i < num_pids; i++) {
-        if (Inject_Toolbox(target_pids[i], (uint8_t *)a53_ppr_install_fast_elf)) {
-            iniettato = true;
-            break;
-        }
-        usleep(500000); // Pausa tra un PID e l'altro
-    }
-
-    if (iniettato) {
-        notify_send("LiteHEN: Modulo A53 FAST attivato con successo!");
+    // 🚀 INIEZIONE DIRETTA NEL KERNEL (PID 0) 🚀
+    // Passiamo NULL come struct proc. La funzione inject_elf, vedendo il puntatore nullo,
+    // applicherà l'array a53_ppr_install_fast_elf direttamente sulle tabelle di memoria globale del Kernel.
+    if (inject_elf(NULL, (uint8_t *)a53_ppr_install_fast_elf)) {
+        notify_send("LiteHEN: Modulo A53 FAST attivato nel Kernel con successo!");
     } else {
-        notify_send("Errore: Iniezione KStuff fallita.");
+        // Fallback usando la Toolbox standard nel caso l'SDK richieda una inizializzazione esplicita
+        if (Inject_Toolbox(0, (uint8_t *)a53_ppr_install_fast_elf)) {
+            notify_send("LiteHEN: Modulo A53 FAST agganciato via Toolbox.");
+        } else {
+            notify_send("Errore: Iniezione KStuff fallita nel Kernel.");
+        }
     }
 
     return 0;
