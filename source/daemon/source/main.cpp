@@ -229,27 +229,74 @@ void sig_handler(int signo) {
 bool is_800 = false;
 
 // =================================================================
-// AGGIUNTO: Dichiarazione della funzione C e del thread asincrono
+// 1. DICHIARAZIONE: Comunica al C++ l'esistenza della funzione C
 // =================================================================
 extern "C" {
     int init_nineS(void);
 }
 
-// Funzione parallela in background per dare la precedenza assoluta a LiteHEN
+// Funzione thread parallela che lancia immediatamente init_nineS 
+// (sarà poi main.c a gestire i suoi 5 secondi di pausa in background)
 void* async_a53_loader(void* arg) {
-    // ⏱️ LUNGA PAUSA DI SICUREZZA: Aspettiamo 12 secondi interi 
-    // Durante questo tempo LiteHEN finirà di avviarsi e manderà il benvenuto a schermo
-    sleep(12); 
-    
-    // Ora che LiteHEN è caricato al 100%, svegliamo il modulo A53
     init_nineS();
     return nullptr;
 }
 
 int main() {
-  /* ... (Tutto il codice iniziale di configurazione, log, etc. rimane identico) ... */
+  /* Raw elfldr uploads default to "payload.elf"; publish our stable name. */
+  (void)syscall(SYS_thr_set_name, -1, "onion_daemon.elf");
 
-  (void)onion_net_get_ip_address(&buz, sizeof(buz));
+  onion_log_configure("OnionHEN", "/data/OnionHEN/OnionHEN.log");
+  onion_log_configure_crash("/data/OnionHEN/OnionHEN_crash.log");
+  /* Real linked kernel export (not a dlsym function-pointer variable). */
+  onion_notify_set_send(reinterpret_cast<onion_notify_send_fn>(
+      sceKernelSendNotificationRequest));
+
+  // 🏁 RIPRISTINATO: Dichiarazione delle variabili locali indispensabili
+  char buz[255];
+  pthread_t fifo_thr = nullptr;
+  pthread_t msg_thr = nullptr;
+
+  sceNetCtlInit();
+  sceUserServiceInitialize(&DEFAULT_PRIORITY);
+  LOG_DEBUG("daemon entered");
+
+  /* Settings (incl. notify i18n language) before any user-facing toast. */
+  LoadSettings();
+
+  OrbisKernelSwVersion sys_ver;
+  sceKernelGetProsperoSystemSwVersion(&sys_ver);
+  const int fw_ver = (sys_ver.version >> 16);
+  const auto debug_settings_route =
+      onion::debug_settings_route::DebugSettingsRoutePolicy::for_system_version(
+          sys_ver.version);
+
+  install_crash_handlers();
+
+  payload_args_t* args = payload_get_args();
+  kernel_base = args->kdata_base_addr;
+
+  LOG_INFO("=========== starting OnionHEN (0x%X) ... ===========", fw_ver);
+  (void)sceKernelMprotect(&buz[0], 100, 0x7); // probe mprotect / kstuff state
+  
+  // 🏁 RIPRISTINATO: Inizializzazione dei flag di versione firmware
+  const bool toolbox_only = (fw_ver >= 0x10000);
+  is_800 = (fw_ver >= 0x800);
+
+  /* Drop any stale FPS-overlay ready flag from older builds/configs. */
+  onion_ready_clear(ONION_FLAG_FPS_OVERLAY);
+
+  /* libonion_proc big-app / name lookups used by get_game_pid / inject paths. */
+  onion_proc_set_sce_hooks(
+      [](int pid, char *name) -> int {
+        return sceKernelGetProcessName(pid, name);
+      },
+      [](pid_t pid, void *info) -> int {
+        return sceKernelGetAppInfo(pid, static_cast<app_info_t *>(info));
+      },
+      []() -> int { return sceSystemServiceGetAppIdOfRunningBigApp(); });
+
+  (void)onion_net_get_ip_address(&buz[0], sizeof(buz));
   start_worker_threads(&fifo_thr, &msg_thr);
   onion_ready_signal_pid(ONION_READY_DAEMON, getpid());
 
@@ -258,13 +305,6 @@ int main() {
 
   /* Toolbox injection is independent from the optional post-load navigation. */
   cmd_enable_toolbox();
-
-  // =================================================================
-  // AGGIUNTO: Crea il thread parallelo che attende il caricamento totale di LiteHEN
-  // =================================================================
-  pthread_t a53_thread;
-  pthread_create(&a53_thread, nullptr, async_a53_loader, nullptr);
-  pthread_detach(a53_thread); // Sgancia il thread così gira in autonomia
 
   const onion::Settings boot_settings = g_settings.snapshot();
 
@@ -276,7 +316,17 @@ int main() {
 
   onion::daemon::apply_startup_destination(boot_settings);
 
+  // =================================================================
+  // 2. CHIAMATA: Crea il thread asincrono per l'A53 in background.
+  // In questo modo il daemon entra subito nel ciclo principale senza congelarsi.
+  // =================================================================
+  pthread_t a53_thread;
+  pthread_create(&a53_thread, nullptr, async_a53_loader, nullptr);
+  pthread_detach(a53_thread); 
+
+  // Loop dei comandi principale di OnionHEN/LiteHEN (bloccante)
   ipc_supervisor_loop(&msg_thr);
+  
   // unreachable
   return 0;
 }
