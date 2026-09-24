@@ -6,11 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Utilizziamo le librerie interne e native di LiteHEN
+// Utilizziamo esclusivamente le librerie interne nativissime di LiteHEN
 #include "../include/proc.h"
 #include "../include/ucred.h"
 #include "../include/injector.h"
 #include "../include/notify.h"
+#include "../include/server.h"
 
 #include "ps5/mdbg.h"
 #include <dlfcn.h>
@@ -30,45 +31,34 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     if (target_proc)
     {
         if (!(success = inject_elf(target_proc, elf)))
-            success = false; // Silenziamo il notify interno durante i tentativi del ciclo
+            notify_send("ELF failed to inject!");
         
         free(target_proc);
     }
     else{
+        notify_send("unable to find shellui");
         return false;
     }
 
     return success;
 }
 
-// FUNZIONE DI INIZIALIZZAZIONE NATIVA LITEHEN
+// FUNZIONE DI INIZIALIZZAZIONE CON STRUTTURA ED ENTITY ORIGINALI (PID 1)
 int init_nineS(void)
 {
-    // ⏱️ LA PAUSA DI 5 SECONDI: Permette al demone principale di OnionHEN di fare il boot completo
+    // ⏱️ LA PAUSA DI 5 SECONDI: Lascia caricare e stabilizzare LiteHEN al 100%
     usleep(5000000);
 
-    notify_send("LiteHEN: Caricamento modulo A53 FAST...");
-    usleep(1500000);
+    notify_send("LiteHEN pronto! Iniezione modulo A53 FAST...");
+    usleep(1500000); // Pausa di respiro grafica
 
-    bool iniettato = false;
-    
-    // Lista dei PID di sistema standard su PS5 dove risiede stabilmente SceShellUI
-    int target_pids[] = {81, 82, 80, 83, 84};
-    int num_pids = sizeof(target_pids) / sizeof(target_pids[0]);
-
-    // 🚀 LOGICA NATIVA LITEHEN: Cicliamo sui PID grafici esterni usando la tua Inject_Toolbox
-    for (int i = 0; i < num_pids; i++) {
-        if (Inject_Toolbox(target_pids[i], (uint8_t *)a53_ppr_install_fast_elf)) {
-            iniettato = true;
-            break; // Successo! Usciamo immediatamente dal ciclo
-        }
-        usleep(100000); // Micro-pausa di respiro tra un tentativo e l'altro
-    }
-
-    if (iniettato) {
-        notify_send("LiteHEN: Modulo A53 FAST attivato in ShellUI!");
+    // 🚀 L'ESECUZIONE ORIGINALE SUL PID 1 🚀
+    // Chiamiamo la tua Inject_Toolbox passandole il PID 1 come previsto dal codice sorgente originale.
+    // Avviene in RAM tramite inject_elf in totale sicurezza anti-KP e senza blocchi.
+    if (Inject_Toolbox(1, (uint8_t *)a53_ppr_install_fast_elf)) {
+        notify_send("LiteHEN: Modulo A53 FAST attivato con successo!");
     } else {
-        notify_send("Errore: Vettore ShellUI non trovato.");
+        notify_send("Errore: Iniezione Toolbox fallita sul PID 1.");
     }
 
     return 0;
