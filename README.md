@@ -10,11 +10,11 @@ This project is a derivative work based on `aydencharles/onionHEN` and is fully 
 
 ---
 
-## ## 🎮 INSTALLATION ORDER ELF:
+## ## 🎮 INSTALLATION:
 
-1. **LITEHEN**
-2. **KSTUFF**
-3. **SHADOWMOUNTPLUS**
+Just send litehen.elf. Nothing else is required.
+
+LITEHEN AIO INCLUDES A53-KSTUFF-BACKPORT BY SHARKS
 
 ---
 
