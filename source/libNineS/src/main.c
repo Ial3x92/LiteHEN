@@ -1,27 +1,23 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <elf.h>
 #include <signal.h>
-#include <sys/wait.h>
-#include <string.h>
+#include <stdlib.h> // Aggiunto per garantire la funzione free()
 
 #include "../include/proc.h"
 #include "../include/ucred.h"
 #include "../include/injector.h"
 #include "../include/notify.h"
-
-// Includiamo l'header locale dell'elfldr
-#include "onion/elfldr.h"
+#include "../include/server.h"
 
 #include "ps5/mdbg.h"
+
 #include <dlfcn.h>
 
-// INCLUSIONE DEL NUOVO ARRAY BINARIO FAST DI KSTUFF
+// 🏁 1. INCLUSIONE DEL NUOVO ARRAY BINARIO FAST DI KSTUFF
 #include "a53_embedded.h" 
 
-// Funzione originale per l'iniezione in SceShellUI
 bool Inject_Toolbox(int pid, uint8_t * elf)
 {                                  
     if(pid < 0 || !elf){
@@ -29,7 +25,7 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
         return false;
     } 
     bool success = true;
-    struct proc* target_proc = get_proc_by_pid(pid);
+    struct proc* target_proc = get_proc_by_pid(pid);//find_proc_by_name("SceShellUI");
     if (target_proc)
     {
         if (!(success = inject_elf(target_proc, elf)))
@@ -45,35 +41,32 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// FUNZIONE DI AVVIO SICURO ANTI-KP: Iniezione diretta in memoria RAM
+// 🏁 2. FUNZIONE AGGIUNTA PER LANCIARE IL MODULO A53 IN RAM (ANTI-KP)
 void Start_ShadowMount_Embedded(void)
 {
-    notify_send("LiteHEN: Iniezione diretta A53 KStuff in memoria...");
+    notify_send("LiteHEN: Caricamento modulo A53 FAST...");
 
-    // Otteniamo il PID del processo del demone corrente (sicuro, locale e anti-KP)
-    pid_t pid = getpid();
-
-    // Usiamo elfldr_load con la firma a due argomenti corretta dal tuo header (PID, ELF)
-    intptr_t res = elfldr_load(pid, (uint8_t *)a53_ppr_install_fast_elf);
-
-    if (res >= 0) {
-        notify_send("LiteHEN: Modulo A53 FAST caricato via elfldr!");
-    } else {
-        // Fallback usando la funzione di injection nativa se elfldr risponde picche
-        if (Inject_Toolbox((int)pid, (uint8_t *)a53_ppr_install_fast_elf)) {
-            notify_send("LiteHEN: Modulo A53 FAST iniettato localmente.");
+    // Otteniamo la struttura del processo corrente del demone in modo nativo e sicuro
+    struct proc* self_proc = get_proc_by_pid(getpid());
+    
+    if (self_proc) {
+        // Iniettiamo i byte estratti dall'header FAST direttamente nello spazio di memoria RAM
+        if (inject_elf(self_proc, (uint8_t *)a53_ppr_install_fast_elf)) {
+            notify_send("LiteHEN: Modulo A53 FAST attivato in memoria!");
         } else {
-            notify_send("Errore: Fallito il caricamento di KStuff in RAM.");
+            notify_send("Errore: Iniezione locale di KStuff fallita.");
         }
+        free(self_proc);
+    } else {
+        notify_send("Errore: Impossibile mappare il processo demone corrente.");
     }
 }
 
-// Inizializzazione unificata stabile
+// 🏁 3. INTERRUTTORE DI INIZIALIZZAZIONE (Rinominato da main per evitare duplicati nel linker)
 int init_nineS(void)
 {
-    // Lancia l'avvio sicuro in RAM del modulo A53/KStuff FAST
+    // Lancia l'iniezione sicura in RAM del modulo A53/KStuff FAST
     Start_ShadowMount_Embedded();
 
     return 0;
 }
-
