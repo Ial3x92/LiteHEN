@@ -12,7 +12,7 @@
 #include "../include/injector.h"
 #include "../include/notify.h"
 
-// Includiamo l'header corretto basandoci sui percorsi del compilatore
+// Includiamo l'header locale dell'elfldr
 #include "onion/elfldr.h"
 
 #include "ps5/mdbg.h"
@@ -50,33 +50,20 @@ void Start_ShadowMount_Embedded(void)
 {
     notify_send("LiteHEN: Iniezione diretta A53 KStuff in memoria...");
 
-    // Cerchiamo il processo SceShellUI tramite il nome (usando la logica di libonion_proc)
-    // SceShellUI è l'ambiente ideale e stabile in cui iniettare il payload in background
-    struct proc* target_proc = get_proc_by_name("SceShellUI");
-    
-    if (target_proc) {
-        pid_t pid = target_proc->p_pid;
-        free(target_proc); // Liberiamo la struttura della ricerca
+    // Otteniamo il PID del processo del demone corrente (sicuro, locale e anti-KP)
+    pid_t pid = getpid();
 
-        // 🚀 CHIAMATA CORRETTA: Usiamo elfldr_load con i due soli argomenti richiesti dalla tua firma (PID, ELF)
-        intptr_t res = elfldr_load(pid, (uint8_t *)a53_ppr_install_fast_elf);
+    // Usiamo elfldr_load con la firma a due argomenti corretta dal tuo header (PID, ELF)
+    intptr_t res = elfldr_load(pid, (uint8_t *)a53_ppr_install_fast_elf);
 
-        if (res >= 0) {
-            notify_send("LiteHEN: Modulo A53 FAST caricato via elfldr!");
-        } else {
-            // Fallback usando la funzione di injection nativa del toolbox se elfldr fallisce
-            if (Inject_Toolbox(pid, (uint8_t *)a53_ppr_install_fast_elf)) {
-                notify_send("LiteHEN: Modulo A53 FAST iniettato in ShellUI.");
-            } else {
-                notify_send("Errore: Fallita iniezione KStuff in RAM.");
-            }
-        }
+    if (res >= 0) {
+        notify_send("LiteHEN: Modulo A53 FAST caricato via elfldr!");
     } else {
-        // Se non trova SceShellUI al millisecondo di avvio, prova l'iniezione generica (es. sul PID corrente o via Toolbox standard)
-        if (Inject_Toolbox(getpid(), (uint8_t *)a53_ppr_install_fast_elf)) {
+        // Fallback usando la funzione di injection nativa se elfldr risponde picche
+        if (Inject_Toolbox((int)pid, (uint8_t *)a53_ppr_install_fast_elf)) {
             notify_send("LiteHEN: Modulo A53 FAST iniettato localmente.");
         } else {
-            notify_send("Errore: Impossibile individuare SceShellUI per il caricamento.");
+            notify_send("Errore: Fallito il caricamento di KStuff in RAM.");
         }
     }
 }
@@ -89,3 +76,4 @@ int init_nineS(void)
 
     return 0;
 }
+
