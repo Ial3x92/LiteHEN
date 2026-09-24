@@ -111,14 +111,13 @@ void Start_ShadowMount_Embedded(void)
     }
 }
 
-// ENTRY POINT PRINCIPALE DI LITEHEN UNIFICATO
-int main(int argc, char *argv[])
+// CORRETTO: Rinominata la funzione per evitare conflitti con il main del daemon
+int init_nineS(void)
 {
     // Elevazione dei privilegi utente/kernel (ucred) necessaria su PS5
     struct thread* td = curthread(); 
     if (td) {
-        // CORRETTO: Adattato alle nuove firme dell'SDK. 
-        // Passiamo 0 (processo corrente) e array con privilegi massimi impostati a 0xFF.
+        // CORRETTO: Allocati gli array con le dimensioni richieste dall'SDK (16 e 32)
         uint8_t full_caps[16];
         uint8_t full_attrs[32];
         memset(full_caps, 0xFF, sizeof(full_caps));
