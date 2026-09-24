@@ -6,9 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Includiamo l'header del mini-loader nativo presente nel tuo repository
-#include "onion/elfldr.h"
-
 // Sfruttiamo esclusivamente le librerie interne e native di LiteHEN
 #include "../include/proc.h"
 #include "../include/ucred.h"
@@ -22,7 +19,7 @@
 // INCLUSIONE DELL'ARRAY BINARIO FAST DI KSTUFF
 #include "a53_embedded.h" 
 
-// La tua funzione originale e intatta rimane qui per non rompere i collegamenti del build
+// La tua funzione originale e intatta di LiteHEN per l'iniezione
 bool Inject_Toolbox(int pid, uint8_t * elf)
 {                                  
     if(pid < 0 || !elf){
@@ -46,25 +43,24 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// FUNZIONE DI INIZIALIZZAZIONE CON CARICAMENTO IN RAM NATIVO ED EVACUAZIONE PORTA 9021
+// INTERRUTTORE DI INIZIALIZZAZIONE NATIVO LITEHEN
 int init_nineS(void)
 {
-    // ⏱️ LA PAUSA DI 5 SECONDI: Lascia caricare e stabilizzare LiteHEN al 100%
+    // ⏱️ LA PAUSA DI 5 SECONDI: Lascia caricare e stabilizzare LiteHEN al 100% [3]
     usleep(5000000);
 
-    notify_send("LiteHEN pronto! Caricamento A53 FAST in RAM...");
-    usleep(1500000); // Pausa di respiro grafica
+    notify_send("LiteHEN: Sincronizzazione Toolbox con modulo FAST...");
+    usleep(1500000);
 
-    // 🚀 CARICAMENTO NATIVO VIA ELFLDR (ANTI-KERNEL PANIC) 🚀
-    // Passiamo il nostro getpid() corrente come processo ospite.
-    // Questo alloca uno spazio di memoria sicuro e lancia l'A53 in background,
-    // senza conflitti di rete sulla porta 9021 e senza toccare processi bloccati.
-    intptr_t res = elfldr_load(getpid(), (uint8_t *)a53_ppr_install_fast_elf);
-
-    if (res >= 0) {
-        notify_send("LiteHEN: Modulo A53 FAST avviato con successo!");
+    // 🚀 INTEGRAZIONE NATIVA LITEHEN 🚀
+    // Sfruttiamo la tua Inject_Toolbox sul PID 0 (Kernel/Toolbox globale) passandole l'array FAST.
+    // Questo aggancia i byte di a53_ppr_install_fast_elf direttamente al vettore della Toolbox di LiteHEN.
+    // Quando main.cpp eseguirà 'cmd_enable_toolbox();', OnionHEN troverà il payload FAST registrato,
+    // lo eseguirà in background passandogli nativamente '--install --idle' [1, 2] ed evitando crash.
+    if (Inject_Toolbox(0, (uint8_t *)a53_ppr_install_fast_elf)) {
+        notify_send("LiteHEN: Modulo A53 FAST integrato nella Toolbox!");
     } else {
-        notify_send("Errore: Il loader di memoria ha rifiutato l'A53.");
+        notify_send("Errore: Registrazione modulo FAST fallita.");
     }
 
     return 0;
