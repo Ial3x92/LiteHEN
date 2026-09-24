@@ -249,7 +249,7 @@ void* async_a53_loader(void* arg) {
 int main() {
   /* ... (Tutto il codice iniziale di configurazione, log, etc. rimane identico) ... */
 
-  (void)onion_net_get_ip_address(&buz[0], sizeof(buz));
+  (void)onion_net_get_ip_address(&buz, sizeof(buz));
   start_worker_threads(&fifo_thr, &msg_thr);
   onion_ready_signal_pid(ONION_READY_DAEMON, getpid());
 
