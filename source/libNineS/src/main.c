@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <sys/types.h>
-#include <sys/stat.h> // Necessario per la funzione chmod
 #include <unistd.h>
 #include <elf.h>
 #include <signal.h>
@@ -41,50 +40,45 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// 2. FUNZIONE DI CARICAMENTO STABILE IN /data/ CON ARGOMENTI PASSED
+// FUNZIONE DI CARICAMENTO IN MEMORIA ANTI-KERNEL PANIC
 void Start_ShadowMount_Embedded(void)
 {
-    // Percorso fisso e persistente nella memoria della console
-    const char *temp_path = "/data/a53_kstuff_fast.elf";
+    notify_send("LiteHEN: Caricamento modulo A53 FAST...");
+    usleep(1500000); // Pausa grafica di respiro
 
-    // CONTROLLO: Se il file non esiste, lo installiamo solo la prima volta
-    if (access(temp_path, F_OK) != 0) {
-        FILE *f = fopen(temp_path, "wb");
-        if (!f) {
-            notify_send("Errore: Cartella /data/ non accessibile.");
-            return;
+    bool success = false;
+
+    // 🚀 APPROCCIO ANTI-KP: Iniezione nel processo di sistema primario PID 1 (init) 🚀
+    // Il PID 1 gestisce i moduli di sicurezza ed è l'ambiente protetto ideale 
+    // per permettere all'A53 di eseguire ppr_patch_run senza far sfasare la sincronizzazione dei thread del Kernel.
+    struct proc* system_proc = get_proc_by_pid(1);
+    
+    if (system_proc) {
+        if (inject_elf(system_proc, (uint8_t *)a53_ppr_install_fast_elf)) {
+            success = true;
+            notify_send("LiteHEN: Modulo A53 FAST agganciato nel sistema!");
         }
-        fwrite(a53_ppr_install_fast_elf, 1, a53_ppr_install_fast_elf_len, f);
-        fclose(f);
-        
-        // Assegniamo i permessi di esecuzione completi (0777)
-        chmod(temp_path, 0777);
-        notify_send("LiteHEN: Prima installazione modulo A53 completata.");
-        usleep(1000000);
-    } else {
-        notify_send("LiteHEN: Modulo A53 già presente in /data.");
-        usleep(1000000);
+        free(system_proc);
     }
 
-    notify_send("LiteHEN: Attivazione KStuff nel Kernel...");
-    usleep(1500000);
-
-    // 🚀 AVVIO CON ARGOMENTI COMPLETI IN BACKGROUND 🚀
-    // Passiamo gli argomenti estratti dall'analisi dell'ELF originale.
-    // Il simbolo '&' finale lancia il processo in background evitando blocchi al demone.
-    system("/data/a53_kstuff_fast.elf --install --idle &");
-
-    notify_send("LiteHEN: Modulo A53 FAST attivato!");
+    // Fallback sulla Toolbox standard se il processo primario rifiuta l'aggancio
+    if (!success) {
+        if (Inject_Toolbox(1, (uint8_t *)a53_ppr_install_fast_elf)) {
+            success = true;
+        } else {
+            notify_send("Errore: Iniezione KStuff fallita.");
+        }
+    }
 }
 
-// 3. INTERRUTTORE DI INIZIALIZZAZIONE (Viene chiamato dopo i 5 secondi di attesa asincrona)
+// INTERRUTTORE DI INIZIALIZZAZIONE (Viene chiamato dopo i 5 secondi di attesa asincrona)
 int init_nineS(void)
 {
     // ⏱️ LA PAUSA DI 5 SECONDI
-    // Permette a LiteHEN di completare l'avvio, applicare i settaggi e mostrare il benvenuto
+    // Permette a LiteHEN di completare l'avvio e mostrare il benvenuto
     usleep(5000000);
 
-    // Avvia il caricamento definitivo con i parametri passati
+    // Avvia il caricamento in-memory puro basato sulle API native del tuo SDK
     Start_ShadowMount_Embedded();
 
     return 0;
