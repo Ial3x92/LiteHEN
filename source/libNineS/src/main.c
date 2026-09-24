@@ -46,7 +46,7 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// FUNZIONE DI INIZIALIZZAZIONE CON ELEVAZIONE DI SICUREZZA NATIVA LITEHEN
+// FUNZIONE DI INIZIALIZZAZIONE CON ELEVAZIONE DI SICUREZZA ED ESECUZIONE ATTIVA
 int init_nineS(void)
 {
     // ⏱️ LA PAUSA DI 5 SECONDI: Lascia caricare OnionHEN al 100%
@@ -58,27 +58,37 @@ int init_nineS(void)
     // Backup dell'AuthID corrente (Logica nativa copiata dall'injector)
     uint64_t original_authid = kernel_get_ucred_authid(getpid());
     
-    // 🚀 ELEVAZIONE DI SICUREZZA DI LITEHEN 🚀
-    // Cambiamo l'AuthID per sbloccare i permessi di mappatura ptrace
+    // ELEVAZIONE DI SICUREZZA DI LITEHEN (Sblocca la mappatura ptrace)
     set_ucred_to_ptrace();
 
-    notify_send("LiteHEN: Avvio modulo A53 FAST in RAM...");
+    notify_send("LiteHEN: Mappatura A53 FAST in memoria...");
     
-    // Ora che siamo autorizzati da set_ucred_to_ptrace(), eseguiamo elfldr_load
-    // sul nostro processo locale (getpid()). Verrà accettato istantaneamente.
-    intptr_t res = elfldr_load(getpid(), (uint8_t *)a53_ppr_install_fast_elf);
+    // Mappiamo l'array dei byte FAST in RAM sul processo locale ereditando la stabilità
+    intptr_t entry = elfldr_load(getpid(), (uint8_t *)a53_ppr_install_fast_elf);
 
-    // 🚀 RIPRISTINO DI SICUREZZA DI LITEHEN 🚀
-    // Rimettiamo l'AuthID originale per blindare nuovamente il Kernel ed evitare Kernel Panic
+    // RIPRISTINO DI SICUREZZA DI LITEHEN (Blinda nuovamente il Kernel)
     if (original_authid != 0) {
         kernel_set_ucred_authid(getpid(), original_authid);
     }
 
-    // Verdetto finale a schermo
-    if (res >= 0) {
-        notify_send("LiteHEN: Modulo A53 FAST attivato stabilmente!");
+    // Se l'indirizzo restituito è valido, eseguiamo attivamente il codice passandogli i comandi
+    if (entry > 0) {
+        notify_send("LiteHEN: Risveglio modulo A53 FAST...");
+        usleep(1000000);
+
+        // Prepariamo l'array degli argomenti richiesti dall'architettura FAST (install e idle)
+        char *payload_args[] = {"a53_kstuff", "--install", "--idle", NULL};
+
+        // Convertiamo l'entrypoint restituito da elfldr_load in una funzione eseguibile
+        int (*run_payload)(int argc, char **argv) = (int (*)(int, char **))entry;
+
+        // Eseguiamo attivamente l'A53 passandogli argc (3) e gli argomenti esatti.
+        // Il modulo uscirà dallo stato dormiente e applicherà ppr_patch_run al Kernel Core!
+        run_payload(3, payload_args);
+
+        notify_send("LiteHEN: Modulo A53 FAST operativo al 100%!");
     } else {
-        notify_send("Errore: Il Kernel ha rifiutato la mappatura.");
+        notify_send("Errore: Mappatura in RAM fallita.");
     }
 
     return 0;
