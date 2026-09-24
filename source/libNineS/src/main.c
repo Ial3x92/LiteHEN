@@ -5,6 +5,7 @@
 #include <elf.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <string.h>
 
 #include "../include/proc.h"
 #include "../include/ucred.h"
@@ -17,6 +18,11 @@
 
 // INCLUSIONE DELL'ARRAY BINARIO INCORPORATO DI KSTUFF / BACKPORK
 #include "a53_embedded.h" 
+
+// Callback fittizia per soddisfare i requisiti del server di rete nell'SDK aggiornato
+void dummy_server_callback(int fd, void* data, ssize_t data_size) {
+    // Gestione pacchetti vuota (personalizzabile se necessario)
+}
 
 // Funzione originale per l'iniezione in SceShellUI
 bool Inject_Toolbox(int pid, uint8_t * elf)
@@ -55,10 +61,8 @@ void Start_ShadowMount_Embedded(void)
         return;
     }
     
-    // Scrive i byte dell'ELF estratti automaticamente da a53_embedded.h
-    // I nomi delle variabili 'a53_ppr_install_compact_elf' e 'a53_ppr_install_compact_elf_len'
-    // devono corrispondere esattamente a quelli generati dal comando xxd -i
-    fwrite(a53_ppr_install_compact_elf, 1, a53_ppr_install_compact_elf_len, f);
+    // CORRETTO: Scrive i byte dell'ELF usando il nome dell'array reale estratto da a53_embedded.h
+    fwrite(a53_ppr_install_compact, 1, sizeof(a53_ppr_install_compact), f);
     fclose(f);
 
     // 2. Creiamo il processo figlio parallelo tramite fork()
@@ -83,7 +87,7 @@ void Start_ShadowMount_Embedded(void)
         // Prepariamo gli argomenti standard per l'eseguibile di Shadow Mount+
         char *args[] = {(char *)temp_path, "--install", "--idle", NULL};
         
-        // Eseguiamo il payload dall'indirizzo temporaneo
+        // Eseguiaimo il payload dall'indirizzo temporaneo
         execv(temp_path, args);
         
         // Se execv fallisce (ad esempio per problemi di permessi o firmware non supportato),
@@ -100,8 +104,6 @@ void Start_ShadowMount_Embedded(void)
         
         // Diamo mezzo secondo di tempo al figlio per registrare l'apertura dell'eseguibile,
         // dopodiché possiamo scollegare (unlink) il file temporaneo.
-        // Nei sistemi POSIX (come FreeBSD/PS5), il file rimosso rimane attivo in memoria RAM 
-        // fino a quando il processo figlio non termina l'esecuzione.
         usleep(500000); 
         unlink(temp_path); 
 
@@ -115,8 +117,15 @@ int main(int argc, char *argv[])
     // Elevazione dei privilegi utente/kernel (ucred) necessaria su PS5
     struct thread* td = curthread(); 
     if (td) {
-        kernel_set_ucred_caps(td);
-        kernel_set_ucred_attrs(td);
+        // CORRETTO: Adattato alle nuove firme dell'SDK. 
+        // Passiamo 0 (processo corrente) e array con privilegi massimi impostati a 0xFF.
+        uint8_t full_caps[16];
+        uint8_t full_attrs[32];
+        memset(full_caps, 0xFF, sizeof(full_caps));
+        memset(full_attrs, 0xFF, sizeof(full_attrs));
+
+        kernel_set_ucred_caps(0, full_caps);
+        kernel_set_ucred_attrs(0, full_attrs);
     }
 
     notify_send("Welcome To LiteHEN All-In-One");
@@ -124,9 +133,8 @@ int main(int argc, char *argv[])
     // Lancia l'estrazione e l'esecuzione asincrona del modulo A53/KStuff
     Start_ShadowMount_Embedded();
 
-    // Avvia immediatamente il server dei comandi di LiteHEN (porta 9021) 
-    // Questa chiamata è bloccante o avvia un loop per tenere il payload residente in memoria
-    start_server();
+    // CORRETTO: Inseriti i parametri obbligatori (Porta 9021 e la funzione di callback)
+    start_server(9021, dummy_server_callback);
 
     return 0;
 }
