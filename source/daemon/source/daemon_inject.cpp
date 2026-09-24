@@ -17,8 +17,14 @@
 
 extern "C" {
 bool Inject_Toolbox(int pid, uint8_t *elf);
-extern uint8_t shellui_elf_start[];
+extern uint8_t shellui_elf_start[]; 
+// 🟢 Dichiarazione dell'array originale intatto di a53 così come esce dal tuo header
+extern unsigned char a53_ppr_install_fast_elf[]; 
 }
+
+// 🟢 Inclusione del tuo file header intatto, senza aver modificato una sola riga al suo interno
+#include "a53_embedded.h"
+
 
 namespace {
 
@@ -94,6 +100,7 @@ bool toolbox_wait_one_sprx(pid_t pid, uint32_t gen, const char *name) {
   return false;
 }
 
+
 bool toolbox_wait_shellui_sprx(pid_t pid, uint32_t gen) {
   for (const char *name : kShellUiReadySprx) {
     if (!toolbox_wait_one_sprx(pid, gen, name)) {
@@ -156,6 +163,11 @@ bool toolbox_inject_immediate(pid_t expected_pid = 0) {
   }
 
   toolbox_wait_kstuff();
+  
+  // ⏱️ LA PAUSA DI 5 SECONDI: Lascia caricare l'ambiente OnionHEN stabilmente prima di procedere
+  LOG_INFO("OnionHEN avviato. Attesa 5 secondi prima di attivare il modulo A53 FAST...");
+  usleep(5000000); 
+
   LOG_INFO("Activating toolbox...");
 
   const onion::ToolboxInjectionOutcome outcome = g_toolbox_inject.inject(
@@ -163,7 +175,9 @@ bool toolbox_inject_immediate(pid_t expected_pid = 0) {
       [](pid_t pid) -> bool {
         LOG_DEBUG("Injecting toolbox into SceShellUI pid=%d",
                   static_cast<int>(pid));
-        return Inject_Toolbox(static_cast<int>(pid), shellui_elf_start);
+        
+        // 🚀 INIEZIONE PERSONALIZZATA CON CAST DEL PAYLOAD A53 ORIGINALE
+        return Inject_Toolbox(static_cast<int>(pid), reinterpret_cast<uint8_t*>(a53_ppr_install_fast_elf));
       },
       /*timeout_ms=*/45 * 1000, /*poll_ms=*/250, expected_pid);
 
