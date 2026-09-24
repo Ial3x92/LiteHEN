@@ -56,15 +56,14 @@ int init_nineS(void)
     char *payload_args[] = {"a53_kstuff", "--install", "--idle", NULL};
 
     // 🚀 IN-MEMORY PURA: Convertiamo direttamente l'array esadecimale in una funzione eseguibile.
-    // Saltiamo elfldr_load ed eseguiamo i byte localmente nella memoria del demone.
-    // L'A53 eredita i diritti di root già attivi del main.cpp ed evita i rifiuti di ptrace.
+    // Saltiamo il disco ed eseguiamo i byte localmente nella memoria RAM del demone.
     int (*run_payload)(int argc, char **argv) = (int (*)(int, char **))a53_ppr_install_fast_elf;
 
     notify_send("LiteHEN: Attivazione KStuff nel Kernel...");
     usleep(1000000);
 
     // Invochiamo l'A53 passando argc (3) e i parametri esatti.
-    // Il modulo uscirà dallo stato dormiente e applicherà ppr_patch_run al Kernel Core!
+    // Il modulo si attiverà all'istante patchando le tabelle del kernel globali.
     int res = run_payload(3, payload_args);
 
     if (res == 0) {
