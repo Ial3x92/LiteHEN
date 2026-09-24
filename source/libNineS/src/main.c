@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <elf.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 #include "../include/proc.h"
 #include "../include/ucred.h"
@@ -11,9 +13,12 @@
 #include "../include/server.h"
 
 #include "ps5/mdbg.h"
-
 #include <dlfcn.h>
 
+// INCLUSIONE DELL'ARRAY BINARIO INCORPORATO DI KSTUFF / BACKPORK
+#include "a53_embedded.h" 
+
+// Funzione originale per l'iniezione in SceShellUI
 bool Inject_Toolbox(int pid, uint8_t * elf)
 {                                  
     if(pid < 0 || !elf){
@@ -21,7 +26,7 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
         return false;
     } 
     bool success = true;
-    struct proc* target_proc = get_proc_by_pid(pid);//find_proc_by_name("SceShellUI");
+    struct proc* target_proc = get_proc_by_pid(pid);
     if (target_proc)
     {
         if (!(success = inject_elf(target_proc, elf)))
@@ -35,4 +40,93 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     }
 
     return success;
+}
+
+// FUNZIONE DI ESTRAZIONE E AVVIO: Estrae ed esegue l'ELF direttamente dalla RAM di LiteHEN
+void Start_ShadowMount_Embedded(void)
+{
+    // Creiamo un percorso temporaneo nella RAM volatile della console (/tmp viene svuotata al riavvio)
+    const char *temp_path = "/tmp/a53_kstuff_temp.elf";
+
+    // 1. Scrittura del file temporaneo prendendo i dati dall'array incorporato
+    FILE *f = fopen(temp_path, "wb");
+    if (!f) {
+        notify_send("Errore: Impossibile creare il file temporaneo in /tmp/");
+        return;
+    }
+    
+    // Scrive i byte dell'ELF estratti automaticamente da a53_embedded.h
+    // I nomi delle variabili 'a53_ppr_install_compact_elf' e 'a53_ppr_install_compact_elf_len'
+    // devono corrispondere esattamente a quelli generati dal comando xxd -i
+    fwrite(a53_ppr_install_compact_elf, 1, a53_ppr_install_compact_elf_len, f);
+    fclose(f);
+
+    // 2. Creiamo il processo figlio parallelo tramite fork()
+    pid_t pid = fork();
+
+    if (pid < 0) {
+        notify_send("Errore critico durante il fork parallelo");
+        unlink(temp_path); // Pulizia immediata in caso di errore di fork
+        return;
+    }
+
+    if (pid == 0) {
+        // -----------------------------------------------------------------
+        // PROCESSO FIGLIO: Gira in background e attende la stabilizzazione
+        // -----------------------------------------------------------------
+        
+        // Aspetta 10 secondi lasciando che LiteHEN (il padre) si carichi completamente per primo
+        sleep(10); 
+        
+        notify_send("LiteHEN: Avvio diretto del modulo A53 KStuff...");
+        
+        // Prepariamo gli argomenti standard per l'eseguibile di Shadow Mount+
+        char *args[] = {(char *)temp_path, "--install", "--idle", NULL};
+        
+        // Eseguiamo il payload dall'indirizzo temporaneo
+        execv(temp_path, args);
+        
+        // Se execv fallisce (ad esempio per problemi di permessi o firmware non supportato),
+        // il processo figlio si chiude per evitare di bloccare il sistema
+        exit(EXIT_FAILURE);
+    } 
+    else {
+        // -----------------------------------------------------------------
+        // PROCESSO PADRE: Il core di LiteHEN
+        // -----------------------------------------------------------------
+        
+        // Ignora il segnale del figlio per evitare che diventi un processo "zombie" in memoria
+        signal(SIGCHLD, SIG_IGN); 
+        
+        // Diamo mezzo secondo di tempo al figlio per registrare l'apertura dell'eseguibile,
+        // dopodiché possiamo scollegare (unlink) il file temporaneo.
+        // Nei sistemi POSIX (come FreeBSD/PS5), il file rimosso rimane attivo in memoria RAM 
+        // fino a quando il processo figlio non termina l'esecuzione.
+        usleep(500000); 
+        unlink(temp_path); 
+
+        notify_send("LiteHEN caricato! Modulo A53 iniettato internamente.");
+    }
+}
+
+// ENTRY POINT PRINCIPALE DI LITEHEN UNIFICATO
+int main(int argc, char *argv[])
+{
+    // Elevazione dei privilegi utente/kernel (ucred) necessaria su PS5
+    struct thread* td = curthread(); 
+    if (td) {
+        kernel_set_ucred_caps(td);
+        kernel_set_ucred_attrs(td);
+    }
+
+    notify_send("Welcome To LiteHEN All-In-One");
+
+    // Lancia l'estrazione e l'esecuzione asincrona del modulo A53/KStuff
+    Start_ShadowMount_Embedded();
+
+    // Avvia immediatamente il server dei comandi di LiteHEN (porta 9021) 
+    // Questa chiamata è bloccante o avvia un loop per tenere il payload residente in memoria
+    start_server();
+
+    return 0;
 }
