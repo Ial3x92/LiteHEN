@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Sfruttiamo esclusivamente le librerie interne e native di LiteHEN
+// Usiamo SOLO le librerie interne stabili di LiteHEN
 #include "../include/proc.h"
 #include "../include/ucred.h"
 #include "../include/injector.h"
@@ -19,7 +19,7 @@
 // INCLUSIONE DELL'ARRAY BINARIO FAST DI KSTUFF
 #include "a53_embedded.h" 
 
-// La tua funzione originale e intatta di LiteHEN per l'iniezione
+// La tua funzione originale e intatta di LiteHEN
 bool Inject_Toolbox(int pid, uint8_t * elf)
 {                                  
     if(pid < 0 || !elf){
@@ -46,17 +46,16 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
 // INTERRUTTORE DI INIZIALIZZAZIONE NATIVO LITEHEN
 int init_nineS(void)
 {
-    // ⏱️ LA PAUSA DI 5 SECONDI: Lascia caricare e stabilizzare LiteHEN al 100% [3]
+    // ⏱️ LA PAUSA DI 5 SECONDI: Lascia caricare OnionHEN al 100%
     usleep(5000000);
 
     notify_send("LiteHEN: Sincronizzazione Toolbox con modulo FAST...");
     usleep(1500000);
 
-    // 🚀 INTEGRAZIONE NATIVA LITEHEN 🚀
-    // Sfruttiamo la tua Inject_Toolbox sul PID 0 (Kernel/Toolbox globale) passandole l'array FAST.
-    // Questo aggancia i byte di a53_ppr_install_fast_elf direttamente al vettore della Toolbox di LiteHEN.
-    // Quando main.cpp eseguirà 'cmd_enable_toolbox();', OnionHEN troverà il payload FAST registrato,
-    // lo eseguirà in background passandogli nativamente '--install --idle' [1, 2] ed evitando crash.
+    // 🚀 INTEGRAZIONE NATIVA NELLA TOOLBOX 🚀
+    // Passiamo 0 alla tua Inject_Toolbox originale. Questo aggancia l'A53 FAST
+    // al gestore dei payload di LiteHEN. Il demone principale lo avvierà
+    // passandogli i parametri giusti ed evitando che rimanga congelato in RAM.
     if (Inject_Toolbox(0, (uint8_t *)a53_ppr_install_fast_elf)) {
         notify_send("LiteHEN: Modulo A53 FAST integrato nella Toolbox!");
     } else {
