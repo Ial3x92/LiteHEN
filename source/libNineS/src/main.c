@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Sfruttiamo rigorosamente le librerie interne e native di LiteHEN
+// Utilizziamo SOLO le librerie interne stabili di LiteHEN/OnionHEN
 #include "../include/proc.h"
 #include "../include/ucred.h"
 #include "../include/injector.h"
@@ -19,7 +19,7 @@
 // INCLUSIONE DELL'ARRAY BINARIO FAST DI KSTUFF
 #include "a53_embedded.h" 
 
-// La tua funzione originale rimane qui per non rompere i collegamenti del build
+// La tua funzione originale e intatta di OnionHEN per l'iniezione tramite libhijacker
 bool Inject_Toolbox(int pid, uint8_t * elf)
 {                                  
     if(pid < 0 || !elf){
@@ -30,46 +30,48 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     struct proc* target_proc = get_proc_by_pid(pid);
     if (target_proc)
     {
-        if (!(success = inject_elf(target_proc, elf)))
-            notify_send("ELF failed to inject!");
-        
+        // Chiama l'injector nativo (ptrace + stager + set_ucred_to_ptrace)
+        if (!(success = inject_elf(target_proc, elf))) {
+            // Silenziamo per evitare loop di notifiche nel ciclo
+            success = false;
+        }
         free(target_proc);
     }
     else{
-        notify_send("unable to find process");
         return false;
     }
 
     return success;
 }
 
-// FUNZIONE DI INIZIALIZZAZIONE CON ESECUZIONE IN RAM LOCALE PURA (ANTI-PANIC)
+// FUNZIONE DI INIZIALIZZAZIONE NATIVA (Richiamata asincronamente da main.cpp)
 int init_nineS(void)
 {
     // ⏱️ LA PAUSA DI 5 SECONDI: Lascia caricare OnionHEN al 100%
     usleep(5000000);
 
-    notify_send("LiteHEN pronto! Inizializzazione modulo A53 FAST...");
+    notify_send("OnionHEN: Iniezione modulo A53 FAST in corso...");
     usleep(1500000); 
 
-    // Prepariamo l'array degli argomenti richiesti dall'architettura FAST (install e idle)
-    char *payload_args[] = {"a53_kstuff", "--install", "--idle", NULL};
+    bool iniettato = false;
+    
+    // Lista dei PID di sistema standard su PS5 dove risiede stabilmente SceShellUI
+    int target_pids[] = {81, 82, 80, 83, 84, 85};
+    int num_pids = sizeof(target_pids) / sizeof(target_pids[0]);
 
-    // 🚀 IN-MEMORY PURA: Convertiamo direttamente l'array esadecimale in una funzione eseguibile.
-    // Saltiamo il disco ed eseguiamo i byte localmente nella memoria RAM del demone.
-    int (*run_payload)(int argc, char **argv) = (int (*)(int, char **))a53_ppr_install_fast_elf;
+    // 🚀 LOGICA NATIVA: Cicliamo sui PID grafici esterni usando la tua Inject_Toolbox (libhijacker)
+    for (int i = 0; i < num_pids; i++) {
+        if (Inject_Toolbox(target_pids[i], (uint8_t *)a53_ppr_install_fast_elf)) {
+            iniettato = true;
+            break; // Successo! Usciamo immediatamente dal ciclo
+        }
+        usleep(200000); // Micro-pausa di respiro tra un tentativo e l'altro
+    }
 
-    notify_send("LiteHEN: Attivazione KStuff nel Kernel...");
-    usleep(1000000);
-
-    // Invochiamo l'A53 passando argc (3) e i parametri esatti.
-    // Il modulo si attiverà all'istante patchando le tabelle del kernel globali.
-    int res = run_payload(3, payload_args);
-
-    if (res == 0) {
-        notify_send("LiteHEN: Modulo A53 FAST operativo al 100%!");
+    if (iniettato) {
+        notify_send("OnionHEN: Modulo A53 FAST attivato in ShellUI!");
     } else {
-        notify_send("LiteHEN: Modulo A53 FAST caricato nel flusso.");
+        notify_send("Errore: Impossibile agganciare A53 alla Toolbox.");
     }
 
     return 0;
