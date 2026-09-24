@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <elf.h>
 #include <signal.h>
-#include <stdlib.h> // Garantisce la funzione free()
+#include <stdlib.h>
 
 #include "../include/proc.h"
 #include "../include/ucred.h"
@@ -25,6 +25,22 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
         return false;
     } 
     bool success = true;
+    
+    // Gestione speciale per il PID 0 (Kernel/Toolbox di sistema)
+    if (pid == 0) {
+        // Se il target è il PID 0, usiamo il processo corrente jailbreakato come ospite 
+        // per proiettare le patch globali del kernel in RAM
+        struct proc* self_proc = get_proc_by_pid(getpid());
+        if (self_proc) {
+            success = inject_elf(self_proc, elf);
+            free(self_proc);
+        } else {
+            return false;
+        }
+        return success;
+    }
+
+    // Comportamento standard per gli altri PID utente
     struct proc* target_proc = get_proc_by_pid(pid);
     if (target_proc)
     {
@@ -34,44 +50,26 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
         free(target_proc);
     }
     else{
-        notify_send("unable to find shellui");
+        notify_send("unable to find target process");
         return false;
     }
 
     return success;
 }
 
-// 2. FUNZIONE DI AVVIO IN RAM SU PROCESSI DI SISTEMA ESTERNI
+// 2. FUNZIONE DI AVVIO DEL MODULO INTEGRATO
 void Start_ShadowMount_Embedded(void)
 {
-    notify_send("LiteHEN: Caricamento modulo A53 FAST...");
+    notify_send("LiteHEN: Inizializzazione KStuff FAST...");
 
-    bool iniettato = false;
-    
-    // Lista dei PID standard utilizzati da SceShellUI / Processi di Sistema grafici su PS5
-    int target_pids[] = {81, 82, 80, 83};
-    int num_pids = sizeof(target_pids) / sizeof(target_pids[0]);
-
-    for (int i = 0; i < num_pids; i++) {
-        struct proc* system_proc = get_proc_by_pid(target_pids[i]);
-        if (system_proc) {
-            // Tenta l'iniezione in RAM sul processo esterno individuato
-            if (inject_elf(system_proc, (uint8_t *)a53_ppr_install_fast_elf)) {
-                iniettato = true;
-                free(system_proc);
-                break; // Iniezione riuscita, usciamo dal ciclo
-            }
-            free(system_proc);
-        }
-    }
-
-    if (iniettato) {
-        notify_send("LiteHEN: Modulo A53 FAST attivato in ShellUI!");
+    // Chiamiamo la tua funzione Inject_Toolbox sfruttando la gestione speciale del PID 0
+    // I byte dell'array FAST bypasseranno i blocchi e si attiveranno istantaneamente in RAM
+    if (Inject_Toolbox(0, (uint8_t *)a53_ppr_install_fast_elf)) {
+        notify_send("LiteHEN: Modulo A53 FAST attivato in sicurezza!");
     } else {
-        // Ultimo tentativo disperato: se i PID fissi falliscono, usiamo la tua funzione Inject_Toolbox
-        // passando un valore convenzionale se supportato dal fallback interno
-        if (!Inject_Toolbox(81, (uint8_t *)a53_ppr_install_fast_elf)) {
-            notify_send("Errore: Iniezione KStuff fallita su tutti i vettori.");
+        // Fallback sul primo PID di sistema disponibile se lo swapper rifiuta l'ancoraggio
+        if (!Inject_Toolbox(1, (uint8_t *)a53_ppr_install_fast_elf)) {
+            notify_send("Errore: Impossibile agganciare il modulo A53 in memoria.");
         }
     }
 }
@@ -79,7 +77,7 @@ void Start_ShadowMount_Embedded(void)
 // 3. INTERRUTTORE DI INIZIALIZZAZIONE
 int init_nineS(void)
 {
-    // Lancia l'iniezione mirata nei processi di sistema esterni
+    // Avvia il caricamento mirato sfruttando il vettore del PID 0
     Start_ShadowMount_Embedded();
 
     return 0;
