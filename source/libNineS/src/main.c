@@ -42,71 +42,43 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// FUNZIONE DI ESTRAZIONE E AVVIO: Estrae ed esegue l'ELF direttamente dalla RAM di LiteHEN
+// FUNZIONE DI ESTRAZIONE E AVVIO ANTI-KERNEL PANIC
 void Start_ShadowMount_Embedded(void)
 {
-    // CORRETTO: Cambiato il percorso da /tmp a /data (scrivibile al 100% su PS5)
-    const char *temp_path = "/data/a53_kstuff_temp.elf";
+    // Percorso fisso e stabile in /data
+    const char *temp_path = "/data/a53_kstuff_fast.elf";
 
-    // 1. Scrittura del file temporaneo prendendo i dati dall'array incorporato
-    FILE *f = fopen(temp_path, "wb");
-    if (!f) {
-        notify_send("Errore: Impossibile creare il file in /data/");
-        return;
+    // CONTROLLO: Se il file non esiste, lo installiamo la prima volta
+    if (access(temp_path, F_OK) != 0) {
+        FILE *f = fopen(temp_path, "wb");
+        if (!f) {
+            notify_send("Errore: Impossibile installare il modulo in /data/");
+            return;
+        }
+        
+        // Scrive i byte dell'ELF FAST generati da PowerShell
+        fwrite(a53_ppr_install_fast_elf, 1, a53_ppr_install_fast_elf_len, f);
+        fclose(f);
+        
+        // Applica i permessi di esecuzione corretti al file appena creato
+        chmod(temp_path, 0777);
+        notify_send("LiteHEN: Installazione modulo A53 completata.");
     }
+
+    // 🚀 AVVIO SICURO ANTI-KP: Eseguiamo il payload nativamente tramite system() 🚀
+    // Questo evita i bug di memoria legati al fork()
+    notify_send("LiteHEN: Avvio del modulo A53 KStuff...");
     
-    // Scrive i byte dell'ELF usando le variabili generate da xxd per la versione FAST
-    fwrite(a53_ppr_install_fast_elf, 1, a53_ppr_install_fast_elf_len, f);
-    fclose(f);
-
-    // 2. Creiamo il processo figlio parallelo tramite fork()
-    pid_t pid = fork();
-
-    if (pid < 0) {
-        notify_send("Errore critico durante il fork parallelo");
-        unlink(temp_path); // Pulizia in caso di errore
-        return;
-    }
-
-    if (pid == 0) {
-        // -----------------------------------------------------------------
-        // PROCESSO FIGLIO: Gira in background e attende la stabilizzazione
-        // -----------------------------------------------------------------
-        
-        // Aspetta 10 secondi lasciando che il demone si carichi completamente
-        sleep(10); 
-        
-        notify_send("LiteHEN: Avvio diretto del modulo A53 KStuff (FAST)...");
-        
-        // Prepariamo gli argomenti standard per l'eseguibile di Shadow Mount+
-        char *args[] = {(char *)temp_path, "--install", "--idle", NULL};
-        
-        // Eseguiamo il payload dall'indirizzo di /data
-        execv(temp_path, args);
-        
-        // Se execv fallisce il processo si chiude
-        exit(EXIT_FAILURE);
-    } 
-    else {
-        // -----------------------------------------------------------------
-        // PROCESSO PADRE: Il core di LiteHEN
-        // -----------------------------------------------------------------
-        signal(SIGCHLD, SIG_IGN); 
-        
-        // Diamo tempo al figlio di agganciare il file prima di scollegarlo (unlink)
-        usleep(500000); 
-        unlink(temp_path); 
-
-        notify_send("LiteHEN caricato! Modulo A53 FAST iniettato.");
-    }
+    // Esegue il comando in background lasciando intatto il demone principale
+    system("/data/a53_kstuff_fast.elf --install --idle &");
+    
+    notify_send("LiteHEN caricato con successo!");
 }
 
-// Inizializzazione pulita
+// Inizializzazione unificata priva di conflitti ucred
 int init_nineS(void)
 {
-    notify_send("Welcome To LiteHEN All-In-One");
-
-    // Lancia l'estrazione e l'esecuzione asincrona del modulo A53/KStuff FAST
+    // Lancia l'avvio sicuro del modulo A53/KStuff FAST
     Start_ShadowMount_Embedded();
 
     return 0;
