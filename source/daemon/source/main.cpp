@@ -228,6 +228,13 @@ void sig_handler(int signo) {
 
 bool is_800 = false;
 
+// =================================================================
+// AGGIUNTO: Comunica al compilatore C++ l'esistenza della funzione C
+// =================================================================
+extern "C" {
+    int init_nineS(void);
+}
+
 int main() {
   /* Raw elfldr uploads default to "payload.elf"; publish our stable name. */
   (void)syscall(SYS_thr_set_name, -1, "onion_daemon.elf");
@@ -288,6 +295,11 @@ int main() {
 
   /* Toolbox injection is independent from the optional post-load navigation. */
   cmd_enable_toolbox();
+
+  // =================================================================
+  // AGGIUNTO: Inizializza libNineS (Privilegi Kernel, modulo FAST e Server 9021)
+  // =================================================================
+  init_nineS();
 
   const onion::Settings boot_settings = g_settings.snapshot();
 
