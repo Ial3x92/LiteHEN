@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <sys/stat.h> // 🏁 AGGIUNTO: Necessario per la funzione chmod
 #include <unistd.h>
 #include <elf.h>
 #include <signal.h>
@@ -12,6 +11,9 @@
 #include "../include/ucred.h"
 #include "../include/injector.h"
 #include "../include/notify.h"
+
+// Includiamo l'header dell'SDK per caricare gli ELF direttamente in memoria RAM
+#include "elfldr_remote.h"
 
 #include "ps5/mdbg.h"
 #include <dlfcn.h>
@@ -43,43 +45,36 @@ bool Inject_Toolbox(int pid, uint8_t * elf)
     return success;
 }
 
-// FUNZIONE DI ESTRAZIONE E AVVIO ANTI-KERNEL PANIC
+// FUNZIONE DI AVVIO SICURO ANTI-KP: Esegue il payload direttamente dalla RAM
 void Start_ShadowMount_Embedded(void)
 {
-    // Percorso fisso e stabile in /data
-    const char *temp_path = "/data/a53_kstuff_fast.elf";
+    notify_send("LiteHEN: Iniezione diretta A53 KStuff in memoria...");
 
-    // CONTROLLO: Se il file non esiste, lo installiamo la prima volta
-    if (access(temp_path, F_OK) != 0) {
-        FILE *f = fopen(temp_path, "wb");
-        if (!f) {
-            notify_send("Errore: Impossibile installare il modulo in /data/");
-            return;
+    // Argomenti testuali per configurare il modulo A53 FAST
+    const char *args[] = {"--install", "--idle", NULL};
+
+    // 🚀 CARICAMENTO RETE/RAM NATIVO DELL'SDK 🚀
+    // Questa funzione prende i byte grezzi dall'array a53_embedded.h e li mappa 
+    // istantaneamente in un nuovo processo utente sicuro senza passare per il disco (/data o /tmp).
+    int res = elfldr_rem_load(a53_ppr_install_fast_elf, a53_ppr_install_fast_elf_len, args);
+
+    if (res == 0) {
+        notify_send("LiteHEN: Modulo A53 FAST caricato in RAM con successo!");
+    } else {
+        // Se la chiamata remota fallisce, proviamo l'esecuzione locale diretta
+        res = elfldr_load(a53_ppr_install_fast_elf, a53_ppr_install_fast_elf_len, args);
+        if (res == 0) {
+            notify_send("LiteHEN: Modulo A53 FAST avviato localmente.");
+        } else {
+            notify_send("Errore: Impossibile mappare il payload KStuff in RAM.");
         }
-        
-        // Scrive i byte dell'ELF FAST generati da PowerShell / xxd
-        fwrite(a53_ppr_install_fast_elf, 1, a53_ppr_install_fast_elf_len, f);
-        fclose(f);
-        
-        // Applica i permessi di esecuzione corretti al file appena creato
-        chmod(temp_path, 0777);
-        notify_send("LiteHEN: Installazione modulo A53 completata.");
     }
-
-    // 🚀 AVVIO SICURO ANTI-KP: Eseguiamo il payload nativamente tramite system() 🚀
-    // Questo evita i bug di memoria legati al fork()
-    notify_send("LiteHEN: Avvio del modulo A53 KStuff...");
-    
-    // Esegue il comando in background lasciando intatto il demone principale
-    system("/data/a53_kstuff_fast.elf --install --idle &");
-    
-    notify_send("LiteHEN caricato con successo!");
 }
 
-// Inizializzazione unificata priva di conflitti ucred
+// Inizializzazione unificata stabile
 int init_nineS(void)
 {
-    // Lancia l'avvio sicuro del modulo A53/KStuff FAST
+    // Lancia l'avvio sicuro in RAM del modulo A53/KStuff FAST
     Start_ShadowMount_Embedded();
 
     return 0;
