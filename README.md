@@ -46,9 +46,9 @@ OnionHEN exists because of the PS5 homebrew and reverse-engineering community.
 
 A special thank you to all the developers, researchers, and contributors of the PS4 and PS5 scene for their amazing work and for releasing open-source tools:
 
-*   **[John Törnblom](https://github.com/john-tornblom)** - Main developer of the PS5 Payload SDK and numerous essential modules.
 *   **[aydencharles](https://github.com/aydencharles)** - Creator of OnionHEN and active contributor for PS5 tweaks.
 *   **[kvnhrt](https://github.com/kvnhrt)** - Contributor of scripts and tools for the community.
+*   **[John Törnblom](https://github.com/john-tornblom)** - Main developer of the PS5 Payload SDK and numerous essential modules.
 *   **[Modmycon](https://github.com/Modmycon)** - Resource and host for exploits and guides dedicated to home consoles.
 *   **[LightningMods](https://github.com/lightningmods)** - Lead developer of etaHEN, ItemzFlow, and the PS4 Homebrew Store.
 *   **[EchoStretch](https://github.com/EchoStretch)** - Creator of PS5 App Dumper and developer of Kstuff/HEN ports.
