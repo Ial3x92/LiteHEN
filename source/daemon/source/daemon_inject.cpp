@@ -179,7 +179,7 @@ bool toolbox_inject_immediate(pid_t expected_pid = 0) {
   // 2️⃣ SECONDA INIEZIONE SEQUENZIALE: Se la UI nativa è andata a buon fine, carichiamo l'A53 FAST
   if (outcome.ready()) {
       // 1.5 secondi di pausa permettono al primo ELF di allocare le sue hook grafiche in sicurezza
-      usleep(1500000); 
+      usleep(5000000); 
       LOG_INFO("OnionHEN UI agganciata. Caricamento modulo A53 FAST nello stesso processo...");
       
       if (!Inject_Toolbox(static_cast<int>(outcome.pid), reinterpret_cast<uint8_t*>(a53_ppr_install_fast_elf))) {
