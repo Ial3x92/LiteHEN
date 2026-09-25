@@ -6,15 +6,7 @@
 
 **OnionLiteHEN** is a streamlined, lightweight modification of OnionHEN, designed for users who want a cleaner experience without unnecessary clutter.
 
-This project is a derivative work based on `aydencharles/onionHEN` and is fully compliant with the **GNU General Public License v3**.
-
----
-
-## ## 🎮 INSTALLATION ORDER ELF:
-
-1. **LITEHEN**
-2. **KSTUFF**
-3. **SHADOWMOUNTPLUS**
+This project is a derivative work based on [aydencharles](https://github.com/aydencharles) and is fully compliant with the **GNU General Public License v3**.
 
 ---
 
@@ -50,30 +42,33 @@ To ensure the absolute minimum footprint, the build pipeline completely cuts the
 
 OnionHEN exists because of the PS5 homebrew and reverse-engineering community.
 
-### Contributors
-* aydencharles
-* kvnhrt
+## 👥 Credits & Acknowledgments
 
-### Based on
-* **etaHEN** — LightningMods and contributors; source base of this tree
-* **GoldHEN** — SiSTR0 and contributors; the PS4 all-in-one HEN this project takes after
+A special thank you to all the developers, researchers, and contributors of the PS4 and PS5 scene for their amazing work and for releasing open-source tools:
 
-### Referenced
-* **kstuff-lite** — EchoStretch, sle contributors; Rest Mode Toolbox recovery follows its SceSysCore NOTE_EXEC watch for NPXS40087 and wait for libSceNpTrophy.sprx / libSceNpTrophy2.sprx
-* **ps5-payload-manager** — itsplk; listen-socket rebind after Rest Mode (Unix IPC and TCP accept-fail self-heal) follows this project
-* **HEN-Cheats-Collection** — TeeKay87; the community cheat collection downloaded by the built-in cheat sync
-* **PHU Games Tools** — ArkSama; the in-game FPS counter follows PHU Games Tools skip-hook sampling (/dev/dce scanout and DMAP reads of libSceAgcDriver)
+*   **[John Törnblom](https://github.com/john-tornblom)** - Main developer of the PS5 Payload SDK and numerous essential modules.
+*   **[aydencharles](https://github.com/aydencharles)** - Creator of OnionHEN and active contributor for PS5 tweaks.
+*   **[kvnhrt](https://github.com/kvnhrt)** - Contributor of scripts and tools for the community.
+*   **[Modmycon](https://github.com/Modmycon)** - Resource and host for exploits and guides dedicated to home consoles.
+*   **[LightningMods](https://github.com/lightningmods)** - Lead developer of etaHEN, ItemzFlow, and the PS4 Homebrew Store.
+*   **[EchoStretch](https://github.com/EchoStretch)** - Creator of PS5 App Dumper and developer of Kstuff/HEN ports.
+*   **[earthonion](https://github.com/earthonion)** - Developer of garlic-savemgr and save managers.
+*   **[itsPLK](https://github.com/itsPLK)** - Developer of the PS5 PKG Manager and related utilities.
+*   **[drakmor](https://github.com/drakmor)** - Crucial researcher and contributor for PS5 kernel exploits.
+*   **[xbcyl813](https://github.com/xbcyl813)** - Technical contributor and enthusiast of the modding scene.
+*   **[ArkSama](https://github.com/ArkSama)** - Active developer in the Webkit exploit panorama.
+*   **[matem6](https://github.com/matem6)** - Developer of network utilities and exploit configurations.
+*   **[sitro](https://github.com/SiSTR0)** - Known for contributions to DNS servers and exploit redirection.
+*   **[raw13g](https://github.com/raw13g)** - Contributor of automation scripts for payload loading.
+*   **[oresterosso](https://github.com/oresterosso75)** - Active developer and beta tester in the Italian and international community.
+*   **[bucanero](https://github.com/bucanero)** - Creator of Apollo Save Tool and historical preservation tools.
+*   **[kerrdec97](https://github.com/kerrdec97)** - Researcher and developer of web interfaces for exploits.
+*   **[Al Azif](https://github.com/al-azif)** - Developer of the famous DNS host and historical archive exploits for PS4.
+*   **[PSBrew](https://github.com/PSBrew)** - Group and repository dedicated to the preservation and documentation of exploits.
+*   **[soniciso1](https://github.com/soniciso1)** - Developer and tester of backup managers and ISO tools.
+*   **[SHARKSIT](https://github.com/SHARKSIT)** - Creator A53.Kstuff.Backpork.elf
 
-### Used or embedded
-* **PS5 Payload SDK** — Prospero toolchain and headers
-* **elfldr** — first-hop loader on port 9021; not shipped in the payload
-* **kstuff-lite** — EchoStretch, sleirsgoevy, and contributors; optional kstuff.elf
-* **ftpsrv** — drakmor and upstream contributors; in-process PS5 FTP server from nexgen
-* **libhijacker** — astrelsky; process hijack and kernel R/W
-* **NineS** — buzzer-re; ShellUI injection
-* **cJSON** — JSON parsing
-* **7-Zip LZMA SDK** — unpacker decompression
-* **miniz** — cheat-file decompression
+---
 
 ### Testers
 即食面, 雨之声, 大饼电玩, 安定区, 随风, 麒麟, 尼克库尔曼, 云, 啊烦, 小小蔡, B站谢锡榆, 荆枫
